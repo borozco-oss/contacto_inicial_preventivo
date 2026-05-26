@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto Inicial Preventivo · Nexu</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f7f6f3;
+  --surface:  #ffffff;
+  --surface2: #f0efe9;
+  --border:   #e2e0d8;
+  --text:     #18170f;
+  --muted:    #7c7868;
+  --muted2:   #b0ae9f;
+  --ink:      #2a2920;
+  --blue:     #1847b8;
+  --blue-bg:  #edf1fd;
+  --green:    #0c7a52;
+  --green-bg: #e8f7f1;
+  --amber:    #8c6000;
+  --amber-bg: #fdf5e0;
+  --red:      #b52424;
+  --red-bg:   #fdf0f0;
+  --gray:     #696860;
+  --gray-bg:  #f0efe9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.page { max-width: 1040px; margin: 0 auto; padding: 48px 28px 96px; }
+
+/* ───── HEADER ───── */
+.header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+  padding-bottom: 24px;
+  border-bottom: 1.5px solid var(--text);
+  margin-bottom: 40px;
+}
+.header-left {}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+.header h1 {
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 700; line-height: 1.1; letter-spacing: -.02em;
+  color: var(--ink); margin-bottom: 6px;
+}
+.header h1 span { color: var(--blue); }
+.header-sub { font-size: 13px; color: var(--muted); max-width: 480px; line-height: 1.55; }
+.header-meta {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+  flex-shrink: 0;
+}
+.chip {
+  display: inline-block;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 3px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  white-space: nowrap;
+}
+.chip b { color: var(--ink); }
+
+/* ───── SECTION LABEL ───── */
+.sec-label {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.sec-label .line { flex: 1; height: 1px; background: var(--border); }
+.sec-label span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+}
+
+/* ───── BATCH CARDS (el corazón del reporte) ───── */
+.batches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.batch {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: box-shadow .2s;
+}
+.batch:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); }
+.batch.pending { border-color: var(--border); opacity: .85; }
+
+.batch-head {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+}
+.batch-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--blue); font-weight: 500;
+}
+.batch-date { font-size: 12.5px; font-weight: 600; color: var(--ink); margin-top: 2px; }
+.batch-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 500; color: var(--ink); line-height: 1;
+  flex-shrink: 0; margin-top: 2px;
+}
+.batch-n-label { font-size: 9.5px; color: var(--muted); text-align: right; margin-top: 2px; }
+
+/* pago central */
+.batch-pago {
+  padding: 20px 18px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.pago-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.pago-big {
+  font-size: 52px; font-weight: 700; line-height: 1;
+  letter-spacing: -.03em;
+}
+.pago-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+.pago-monto { font-size: 11px; color: var(--muted2); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+.pago-pending { font-size: 15px; font-weight: 600; color: var(--muted); margin: 12px 0; }
+.pago-pending-sub { font-size: 11.5px; color: var(--muted2); }
+
+/* metricas de contacto */
+.batch-metrics {
+  padding: 14px 18px;
+  display: flex; flex-direction: column; gap: 7px;
+  flex: 1;
+}
+.m-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+}
+.m-label { font-size: 11.5px; color: var(--muted); }
+.m-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500; color: var(--ink);
+  white-space: nowrap;
+}
+.m-val.green { color: var(--green); }
+.m-val.amber { color: var(--amber); }
+.m-val.red   { color: var(--red); }
+
+.m-bar { display: flex; gap: 2px; margin-top: 2px; }
+.m-seg {
+  height: 4px; border-radius: 2px; flex-shrink: 0;
+  transition: width 1s cubic-bezier(.16,1,.3,1);
+}
+
+/* benchmark strip */
+.batch-bench {
+  padding: 10px 18px 14px;
+  border-top: 1px solid var(--border);
+}
+.bench-row {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px;
+}
+.bench-label { color: var(--muted); }
+.bench-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  padding: 1px 7px; border-radius: 4px;
+}
+.delta-pos { background: var(--green-bg); color: var(--green); }
+.delta-neg { background: var(--red-bg);   color: var(--red); }
+.delta-neu { background: var(--gray-bg);  color: var(--gray); }
+.bench-note {
+  font-size: 10px; color: var(--muted2); margin-top: 4px; line-height: 1.4;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* incidencias tag */
+.batch-inc {
+  margin: 6px 18px 14px;
+  background: var(--amber-bg);
+  border: 1px solid #e8c870;
+  border-radius: 6px;
+  padding: 7px 11px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.inc-label { font-size: 11px; color: var(--amber); }
+.inc-n { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--amber); }
+
+/* ───── SEÑAL PREDICTIVA (highlight) ───── */
+.signal-banner {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.signal-banner-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.signal-banner-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+.signal-banner-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid #a8e4cc; padding: 3px 9px; border-radius: 4px;
+}
+.signal-cols {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px;
+  background: var(--border);
+}
+.signal-col {
+  background: var(--surface); padding: 20px 20px;
+}
+.signal-col-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.signal-col-big {
+  font-size: 38px; font-weight: 700; letter-spacing: -.02em; line-height: 1; margin-bottom: 4px;
+}
+.signal-col-sub { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+.signal-note {
+  padding: 12px 20px;
+  background: var(--blue-bg);
+  border-top: 1px solid #c8d8f8;
+  font-size: 12px; color: #2040a0; line-height: 1.6;
+}
+.signal-note strong { color: var(--blue); }
+
+/* ───── COMPARACIÓN CS ───── */
+.cs-banner {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.cs-banner-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.cs-banner-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+.cs-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  background: var(--blue-bg); color: var(--blue);
+  border: 1px solid #b8ccf8; padding: 3px 9px; border-radius: 4px;
+}
+.cs-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border);
+}
+.cs-col { background: var(--surface); padding: 20px; }
+.cs-col-name {
+  font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 12px;
+}
+.cs-col-pago {
+  font-size: 42px; font-weight: 700; letter-spacing: -.025em; line-height: 1; margin-bottom: 4px;
+}
+.cs-col-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.cs-detail { display: flex; flex-direction: column; gap: 6px; }
+.cs-d-row { display: flex; justify-content: space-between; font-size: 12px; }
+.cs-d-label { color: var(--muted); }
+.cs-d-val { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink); }
+.cs-d-val.g { color: var(--green); }
+.cs-d-val.a { color: var(--amber); }
+.cs-sep { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+.cs-note {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+  background: var(--surface2);
+}
+.cs-note strong { color: var(--ink); }
+
+/* ───── INCIDENCIAS TABLE ───── */
+.detail-block {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.detail-head {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead th {
+  padding: 9px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+th.r, td.r { text-align: right; }
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+td { padding: 10px 16px; vertical-align: middle; }
+td.mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+
+/* ───── BADGES ───── */
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 500;
+}
+.bg { background: var(--green-bg); color: var(--green); border: 1px solid #b0dfcc; }
+.ba { background: var(--amber-bg); color: var(--amber); border: 1px solid #e8d090; }
+.br { background: var(--red-bg);   color: var(--red);   border: 1px solid #f0b0b0; }
+.bb { background: var(--blue-bg);  color: var(--blue);  border: 1px solid #b8ccf8; }
+.bp { background: var(--gray-bg);  color: var(--gray);  border: 1px solid var(--border); }
+
+/* ───── CALLOUT ───── */
+.callout {
+  border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;
+  font-size: 12.5px; line-height: 1.6; display: flex; gap: 10px;
+}
+.c-warn  { background: var(--amber-bg); border: 1px solid #e8d090; color: #6a4800; }
+.c-info  { background: var(--blue-bg);  border: 1px solid #b8ccf8; color: #1838a0; }
+.c-green { background: var(--green-bg); border: 1px solid #a8dfc8; color: #0a5a3c; }
+.callout strong { font-weight: 600; }
+.ci { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* ───── PLAN TABLE ───── */
+.plan-table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.plan-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.plan-table tr:last-child td { border-bottom: none; }
+.plan-table td:first-child {
+  width: 130px; font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; color: var(--muted); padding-right: 12px;
+  white-space: nowrap; vertical-align: top; padding-top: 13px;
+}
+.plan-title { font-weight: 600; margin-bottom: 3px; }
+.plan-sub { color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+/* ───── CRITERIOS ───── */
+.crit-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 16px; }
+.crit-card { border-radius: 8px; padding: 14px 16px; }
+.crit-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+.crit-body { font-size: 11.5px; line-height: 1.55; }
+.cc-g { background: var(--green-bg); border: 1px solid #b0dfcc; }
+.cc-g .crit-head { color: var(--green); }
+.cc-a { background: var(--amber-bg); border: 1px solid #e8d090; }
+.cc-a .crit-head { color: var(--amber); }
+.cc-r { background: var(--red-bg);   border: 1px solid #f0b0b0; }
+.cc-r .crit-head { color: var(--red); }
+
+/* ───── FOOTER ───── */
+footer {
+  margin-top: 64px; padding-top: 20px;
+  border-top: 1.5px solid var(--text);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+}
+.f-left  { font-size: 12px; color: var(--muted); }
+.f-right { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted2); }
+
+/* ───── ANIM ───── */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media(max-width:700px) {
+  .batches { grid-template-columns: 1fr; }
+  .signal-cols, .cs-cols, .crit-grid { grid-template-columns: 1fr; }
+  .header { flex-direction: column; }
+  .header-meta { align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">Nexu · CGC · Experimento activo</div>
+      <h1>Contacto Inicial <span>Preventivo</span></h1>
+      <p class="header-sub">Iniciativa para reducir first-payment default, limpiar datos antes del corte y generar señales tempranas de riesgo.</p>
+    </div>
+    <div class="header-meta">
+      <div class="chip">Corte <b>13 May 2026</b></div>
+      <div class="chip">3 batches · resultado completo</div>
+      <div class="chip">393 clientes WA+IA</div>
+      <div class="chip">439 clientes CS llamada</div>
+    </div>
+  </div>
+
+  <!-- ═══ BATCHES + CS ═══ -->
+  <div class="sec-label reveal">
+    <span>Estado de los 3 batches</span><div class="line"></div>
+  </div>
+
+  <div class="batches reveal">
+
+    <!-- ── COLUMNA 1: Batch 1 + CS Abril ── -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <!-- Batch 1 -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id">Batch 1</div>
+            <div class="batch-date">1 Abril 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">90</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">94.4%</div>
+          <div class="pago-sub">85 de 90 pagaron</div>
+          <div class="pago-monto">$914k de $969k cobrados</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">WA · WA+IA</span></div>
+          <div class="m-row"><span class="m-label">Verificados</span><span class="m-val green">60 · 67%</span></div>
+          <div class="m-row"><span class="m-label">Sin respuesta</span><span class="m-val amber">16 · 18%</span></div>
+          <div class="m-row"><span class="m-label">Falló envío</span><span class="m-val red">14 · 16%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:67%;background:var(--green)"></div>
+            <div class="m-seg" style="width:18%;background:#c89400"></div>
+            <div class="m-seg" style="width:15%;background:var(--red)"></div>
+          </div></div>
+        </div>
+        <div class="batch-inc">
+          <span class="inc-label">Incidencias detectadas</span>
+          <span class="inc-n">2</span>
+        </div>
+        <div class="batch-bench">
+          <div class="bench-row">
+            <span class="bench-label">vs CS mismo mes</span>
+            <span class="bench-delta delta-neg">−3.7 pp</span>
+          </div>
+          <div class="bench-note">p = 0.075 · no significativo</div>
+        </div>
+      </div>
+
+      <!-- CS Abril -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id" style="color:var(--muted)">CS · Llamada manual</div>
+            <div class="batch-date">1 Abril 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">220</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">98.2%</div>
+          <div class="pago-sub">216 de 220 pagaron</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">Llamada humana</span></div>
+          <div class="m-row"><span class="m-label">Atendida</span><span class="m-val amber">85 · 39%</span></div>
+          <div class="m-row"><span class="m-label">Buzón de voz</span><span class="m-val" style="color:var(--muted)">60 · 27%</span></div>
+          <div class="m-row"><span class="m-label">No contesta / otros</span><span class="m-val" style="color:var(--muted)">75 · 34%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:39%;background:var(--green)"></div>
+            <div class="m-seg" style="width:27%;background:#c89400"></div>
+            <div class="m-seg" style="width:34%;background:var(--border)"></div>
+          </div></div>
+        </div>
+        <div class="batch-bench" style="border-top:1px solid var(--border)">
+          <div class="bench-row"><span class="bench-label">Si atendió</span><span class="m-val" style="font-size:11.5px">98.8% pagó</span></div>
+          <div class="bench-row" style="margin-top:4px"><span class="bench-label">Si no atendió</span><span class="m-val" style="font-size:11.5px">97.8% pagó</span></div>
+          <div class="bench-note" style="margin-top:6px">Sin señal predictiva · p = 0.572</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── COLUMNA 2: Batch 2 + CS Mayo ── -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <!-- Batch 2 -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id">Batch 2</div>
+            <div class="batch-date">1 Mayo 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">100</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">95.0%</div>
+          <div class="pago-sub">95 de 100 pagaron</div>
+          <div class="pago-monto">$1.02M de $1.11M cobrados</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">WA · WA+IA</span></div>
+          <div class="m-row"><span class="m-label">Verificados</span><span class="m-val green">77 · 77%</span></div>
+          <div class="m-row"><span class="m-label">Sin respuesta</span><span class="m-val amber">20 · 20%</span></div>
+          <div class="m-row"><span class="m-label">Necesita revisión</span><span class="m-val amber">3 · 3%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:77%;background:var(--green)"></div>
+            <div class="m-seg" style="width:20%;background:#c89400"></div>
+            <div class="m-seg" style="width:3%;background:var(--red)"></div>
+          </div></div>
+        </div>
+        <div class="batch-inc">
+          <span class="inc-label">Incidencias detectadas</span>
+          <span class="inc-n">3</span>
+        </div>
+        <div class="batch-bench">
+          <div class="bench-row">
+            <span class="bench-label">vs control sin intervención</span>
+            <span class="bench-delta delta-pos">+4.3 pp</span>
+          </div>
+          <div class="bench-note">vs 90.7% (n=54) · p = 0.306 · no significativo</div>
+        </div>
+      </div>
+
+      <!-- CS Mayo — datos reales -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id" style="color:var(--muted)">CS · Llamada manual</div>
+            <div class="batch-date">1 Mayo 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">199</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">95.5%</div>
+          <div class="pago-sub">190 de 199 pagaron</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">Llamada humana</span></div>
+          <div class="m-row"><span class="m-label">Atendida</span><span class="m-val amber">60 · 30%</span></div>
+          <div class="m-row"><span class="m-label">Buzón de voz</span><span class="m-val" style="color:var(--muted)">65 · 33%</span></div>
+          <div class="m-row"><span class="m-label">No contesta / otros</span><span class="m-val" style="color:var(--muted)">74 · 37%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:30%;background:var(--green)"></div>
+            <div class="m-seg" style="width:33%;background:#c89400"></div>
+            <div class="m-seg" style="width:37%;background:var(--border)"></div>
+          </div></div>
+        </div>
+        <div class="batch-bench" style="border-top:1px solid var(--border)">
+          <div class="bench-row"><span class="bench-label">Si atendió</span><span class="m-val" style="font-size:11.5px">95.0% pagó</span></div>
+          <div class="bench-row" style="margin-top:4px"><span class="bench-label">Si no atendió</span><span class="m-val" style="font-size:11.5px">95.7% pagó</span></div>
+          <div class="bench-note" style="margin-top:6px">Sin señal predictiva · p = 0.831</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── COLUMNA 3: Batch 3 + CS 15 Mayo ── -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <!-- Batch 3 -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id">Batch 3</div>
+            <div class="batch-date">15 Mayo 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">203</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">95.6%</div>
+          <div class="pago-sub">194 de 203 pagaron</div>
+          <div class="pago-monto">$2.23M de $2.33M cobrados</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">WA · WA+IA</span></div>
+          <div class="m-row"><span class="m-label">Verificados</span><span class="m-val green">172 · 85%</span></div>
+          <div class="m-row"><span class="m-label">Sin respuesta</span><span class="m-val amber">27 · 13%</span></div>
+          <div class="m-row"><span class="m-label">Necesita revisión</span><span class="m-val amber">4 · 2%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:85%;background:var(--green)"></div>
+            <div class="m-seg" style="width:13%;background:#c89400"></div>
+            <div class="m-seg" style="width:2%;background:var(--red)"></div>
+          </div></div>
+        </div>
+        <div class="batch-inc">
+          <span class="inc-label">Incidencias detectadas</span>
+          <span class="inc-n">4</span>
+        </div>
+        <div class="batch-bench">
+          <div class="bench-row">
+            <span class="bench-label">vs CS mismo mes</span>
+            <span class="bench-delta delta-pos">+5.6 pp</span>
+          </div>
+          <div class="bench-note">95.6% WA+IA vs 90.0% CS · p = 0.376 · no significativo</div>
+        </div>
+      </div>
+
+      <!-- CS 15 Mayo — datos reales -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id" style="color:var(--muted)">CS · Llamada manual</div>
+            <div class="batch-date">15 Mayo 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">20</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · 4° corte</div>
+          <div class="pago-big" style="color:var(--ink)">90.0%</div>
+          <div class="pago-sub">18 de 20 pagaron</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">Llamada humana</span></div>
+          <div class="m-row"><span class="m-label">Atendida</span><span class="m-val green">14 · 70%</span></div>
+          <div class="m-row"><span class="m-label">Buzón de voz</span><span class="m-val" style="color:var(--muted)">3 · 15%</span></div>
+          <div class="m-row"><span class="m-label">No contesta / otros</span><span class="m-val" style="color:var(--muted)">3 · 15%</span></div>
+          <div style="margin-top:4px"><div class="m-bar">
+            <div class="m-seg" style="width:70%;background:var(--green)"></div>
+            <div class="m-seg" style="width:15%;background:#c89400"></div>
+            <div class="m-seg" style="width:15%;background:var(--border)"></div>
+          </div></div>
+        </div>
+        <div class="batch-bench" style="border-top:1px solid var(--border)">
+          <div class="bench-row"><span class="bench-label">Si atendió</span><span class="m-val" style="font-size:11.5px">92.9% pagó</span></div>
+          <div class="bench-row" style="margin-top:4px"><span class="bench-label">Si no atendió</span><span class="m-val" style="font-size:11.5px">83.3% pagó</span></div>
+          <div class="bench-note" style="margin-top:6px">Sin señal predictiva · p = 0.515</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /batches -->
+
+  <!-- NOTA GENERAL -->
+  <div class="callout c-green reveal" style="margin-bottom:40px">
+    <span class="ci">✅</span>
+    <div><strong>Reporte completo — los 3 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva consistente en WA+IA: B1 94.4% · B2 95.0% · B3 95.6%. En la comparativa por mes, CS supera a WA+IA en abril (−3.7 pp) y mayo 1 (−0.5 pp), mientras WA+IA supera a CS en mayo 15 (+5.6 pp). Ningún delta es estadísticamente significativo aún. El hallazgo más sólido y diferenciador sigue siendo la señal predictiva de WA+IA — quien no responde tiene 2× más probabilidad de no pagar a tiempo — que CS no genera.</div>
+  </div>
+
+  <!-- ═══ SEÑAL PREDICTIVA ═══ -->
+  <div class="sec-label reveal"><span>Señal predictiva — B1 + B2 + B3 combinados</span><div class="line"></div></div>
+
+  <div class="signal-banner reveal">
+    <div class="signal-banner-head">
+      <span class="signal-banner-title">Respuesta al contacto como predictor de pago a tiempo</span>
+      <span class="signal-banner-tag">p = 0.024 · significativo · se refuerza con B3</span>
+    </div>
+    <div class="signal-cols">
+      <div class="signal-col">
+        <div class="signal-col-label">Respondió y verificó</div>
+        <div class="signal-col-big" style="color:var(--green)">96.4%</div>
+        <div class="signal-col-sub">298 de 309 pagaron a tiempo<br><span style="color:var(--muted2);font-size:11px">B1: 96.7% · B2: 97.4% · B3: 95.9%</span></div>
+      </div>
+      <div class="signal-col">
+        <div class="signal-col-label">No respondió al contacto</div>
+        <div class="signal-col-big" style="color:#c89400">90.5%</div>
+        <div class="signal-col-sub">76 de 84 pagaron a tiempo<br><span style="color:var(--muted2);font-size:11px">B1: 90.0% · B2: 87.0% · B3: 93.5%</span></div>
+      </div>
+      <div class="signal-col">
+        <div class="signal-col-label">Delta acumulado</div>
+        <div class="signal-col-big" style="color:var(--blue)">+6 pp</div>
+        <div class="signal-col-sub">Consistente en los 3 batches. Quienes no responden tienen ~2× más probabilidad de no pagar a tiempo</div>
+      </div>
+    </div>
+    <div class="signal-note">
+      <strong>La señal se confirma y se refuerza con B3.</strong> Con B1+B2 el p-valor era 0.045; al agregar B3 mejora a 0.024 con 393 clientes totales. La no-respuesta es una señal disponible 5–10 días antes del corte — en los 3 batches hubiera generado una lista de ~84 clientes en alerta, de los cuales 8 efectivamente no pagaron a tiempo (precisión ~10%). CS no genera esta señal: su tasa de pago no varía si el cliente atendió o no la llamada.
+    </div>
+  </div>
+
+  <!-- ═══ CANALES ═══ -->
+  <div class="sec-label reveal" style="margin-top:40px"><span>Desempeño por canal — WhatsApp vs Agente de Voz IA</span><div class="line"></div></div>
+
+  <div class="callout c-info reveal">
+    <span class="ci">💡</span>
+    <div><strong>Cómo se combinan los canales:</strong> WhatsApp es el primer toque para todos los clientes. El Agente de Voz IA se activa únicamente para quienes <em>no respondieron</em> al WA — opera sobre la población más resistente al contacto. Esto es clave para leer sus números correctamente.</div>
+  </div>
+
+  <div class="detail-block reveal">
+    <div class="detail-head">Cobertura y verificación por canal — 3 batches completos</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Batch</th>
+          <th>Canal</th>
+          <th class="r">Clientes</th>
+          <th class="r">Verificados</th>
+          <th class="r">Nec. revisión</th>
+          <th class="r">Sin respuesta</th>
+          <th class="r">Tasa verif.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- B1 -->
+        <tr>
+          <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
+            <span class="badge bb">B1</span>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">1 Abr</div>
+          </td>
+          <td>WhatsApp</td>
+          <td class="r mono">60</td>
+          <td class="r mono" style="color:var(--green)">58</td>
+          <td class="r mono" style="color:var(--amber)">2</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r"><span class="badge bg">97%</span></td>
+        </tr>
+        <tr style="background:var(--surface2)">
+          <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
+          <td class="r mono" style="color:var(--muted)">30</td>
+          <td class="r mono" style="color:var(--green)">5</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r mono" style="color:var(--amber)">25</td>
+          <td class="r"><span class="badge ba">17%</span></td>
+        </tr>
+        <!-- B2 -->
+        <tr style="border-top:1.5px solid var(--border)">
+          <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
+            <span class="badge bb">B2</span>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">1 May</div>
+          </td>
+          <td>WhatsApp</td>
+          <td class="r mono">77</td>
+          <td class="r mono" style="color:var(--green)">75</td>
+          <td class="r mono" style="color:var(--amber)">2</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r"><span class="badge bg">97%</span></td>
+        </tr>
+        <tr style="background:var(--surface2)">
+          <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
+          <td class="r mono" style="color:var(--muted)">23</td>
+          <td class="r mono" style="color:var(--green)">3</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r mono" style="color:var(--amber)">20</td>
+          <td class="r"><span class="badge ba">13%</span></td>
+        </tr>
+        <!-- B3 -->
+        <tr style="border-top:1.5px solid var(--border)">
+          <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
+            <span class="badge bp">B3</span>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">15 May</div>
+          </td>
+          <td>WhatsApp</td>
+          <td class="r mono">170</td>
+          <td class="r mono" style="color:var(--green)">166</td>
+          <td class="r mono" style="color:var(--amber)">4</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r"><span class="badge bg">98%</span></td>
+        </tr>
+        <tr style="background:var(--surface2)">
+          <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
+          <td class="r mono" style="color:var(--muted)">33</td>
+          <td class="r mono" style="color:var(--green)">6</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r mono" style="color:var(--amber)">27</td>
+          <td class="r"><span class="badge ba">18%</span></td>
+        </tr>
+        <!-- TOTALES -->
+        <tr style="border-top:2px solid var(--border);font-weight:600">
+          <td colspan="2" style="font-size:12px;">Total WhatsApp</td>
+          <td class="r mono">307</td>
+          <td class="r mono" style="color:var(--green)">299</td>
+          <td class="r mono" style="color:var(--amber)">8</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r"><span class="badge bg">97%</span></td>
+        </tr>
+        <tr style="background:var(--surface2);font-weight:600">
+          <td colspan="2" style="font-size:12px;">Total Voz IA</td>
+          <td class="r mono">86</td>
+          <td class="r mono" style="color:var(--green)">14</td>
+          <td class="r mono" style="color:var(--muted)">0</td>
+          <td class="r mono" style="color:var(--amber)">72</td>
+          <td class="r"><span class="badge ba">16%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px" class="reveal">
+
+    <div class="detail-block" style="margin-bottom:0">
+      <div class="detail-head"><span style="color:var(--green)">●</span> &nbsp;WhatsApp — canal principal</div>
+      <div style="padding:18px 20px">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--green)">97%</span>
+          <span style="font-size:12px;color:var(--muted);line-height:1.5">verificación promedio<br>3 batches · 299 de 307</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px">Canal de mayor rendimiento. En los 3 batches la tasa de verificación se mantuvo por encima del 97%, con 0 clientes "sin respuesta" una vez depurada la base de teléfonos (B2 y B3). Además es el único canal que genera señal predictiva de riesgo.</p>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--green-bg);border-radius:6px">
+            <span style="color:var(--green)">Evolución B1 → B2 → B3</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:500">97% → 97% → 98%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
+            <span style="color:var(--muted)">Genera señal predictiva</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--green)">Sí · p = 0.045</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
+            <span style="color:var(--muted)">Incidencias de datos detectadas</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">9 en 3 batches</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-block" style="margin-bottom:0">
+      <div class="detail-head"><span style="color:var(--amber)">●</span> &nbsp;Agente de Voz IA — segundo toque</div>
+      <div style="padding:18px 20px">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--amber)">16%</span>
+          <span style="font-size:12px;color:var(--muted);line-height:1.5">verificación promedio<br>3 batches · 14 de 86</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px">Opera exclusivamente sobre quienes <em>ya ignoraron</em> el WA — la población más difícil de contactar. Su 16% no es baja efectividad: son 14 clientes adicionales verificados que sin la llamada habrían quedado sin ningún contacto previo al corte. Consistente en los 3 batches: 17%, 13%, 18%.</p>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--amber-bg);border-radius:6px">
+            <span style="color:var(--amber)">Clientes recuperados (B1+B2+B3)</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:500">14 de 86</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
+            <span style="color:var(--muted)">Evolución B1 → B2 → B3</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">17% → 13% → 18%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
+            <span style="color:var(--muted)">Población recibida</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">Solo no-respondidos WA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout c-warn reveal">
+    <span class="ci">🧪</span>
+    <div><strong>Pregunta abierta para los próximos batches:</strong> actualmente no sabemos si el Agente de Voz tendría mejor conversión si actuara como <em>primer</em> toque en paralelo al WA, en lugar de solo sobre los que ya ignoraron el mensaje. Probar un subgrupo en B4 con voz como primer canal daría una respuesta directa y permitiría comparar ambos canales sobre la misma población virgen.</div>
+  </div>
+
+  <!-- ═══ INCIDENCIAS ═══ -->
+  <div class="sec-label reveal"><span>Incidencias detectadas — WA+IA y CS</span><div class="line"></div></div>
+
+  <!-- Resumen por tipo — ambos canales -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px" class="reveal">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">17</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Teléfono<br>no titular</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">9</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Cuenta bancaria<br>incorrecta (CLABE)</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">7</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Duda monto<br>o fecha de cobro</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
+      <div style="font-size:32px;font-weight:700;color:var(--muted);line-height:1">8</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Quejas, producto<br>y otros</div>
+    </div>
+  </div>
+
+  <!-- Tabla WA+IA -->
+  <div class="detail-block reveal">
+    <div class="detail-head">
+      Canal WA + Voz IA · 9 incidencias de datos · 8 corregidas y pagaron · 1 sin resolver
+    </div>
+    <table>
+      <thead>
+        <tr><th>Batch</th><th>VIN</th><th>Incidencia</th><th>Resolución</th><th class="r">Pagó a tiempo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge bb">B1</span></td><td class="mono">LSJWP4U64SZ104001</td><td>Monto incorrecto en sistema</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B1</span></td><td class="mono">KNAF55AC4P5166355</td><td>Fecha de pago incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B2</span></td><td class="mono">1GNSK9KL1NR348169</td><td>Teléfono no corresponde al titular</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge br">No</span></td></tr>
+        <tr><td><span class="badge bb">B2</span></td><td class="mono">LMGBB1L81T3156829</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B2</span></td><td class="mono">9BWAL5BZ3TT644492</td><td>Año del vehículo incorrecto</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B3</span></td><td class="mono">JN8AT3MT3TW070972</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B3</span></td><td class="mono">VYJFEAFT6T5827130</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B3</span></td><td class="mono">LEFAD3F14STP03825</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">B3</span></td><td class="mono">LJD3BA1D1T0082709</td><td>Monto de pago incorrecto</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla CS -->
+  <div class="detail-block reveal">
+    <div class="detail-head">Canal CS · Llamada manual · 32 incidencias registradas en comentarios</div>
+    <table>
+      <thead>
+        <tr><th>Corte</th><th>VIN</th><th>Tipo</th><th>Comentario del agente</th><th class="r">Pagó a tiempo</th></tr>
+      </thead>
+      <tbody>
+        <!-- TELÉFONO NO TITULAR -->
+        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Teléfono no titular — 17 casos</td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LMGBB1L26T3157387</td><td>Teléfono no titular</td><td>Contesta 2do número — esposo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">MR2K29F33H1088050</td><td>Teléfono no titular</td><td>Contesta 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LGWEE5A57TK608371</td><td>Teléfono no titular</td><td>Contesta 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3KPA34AC4PE553389</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LGXCE4CC3T0007642</td><td>Teléfono no titular</td><td>Contesta tercero</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3GALC122XTM030349</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3VVKP6B25TM042494</td><td>Teléfono no titular</td><td>Contesta tercero</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">93Y9S2NF0SJ311984</td><td>Teléfono no titular</td><td>Contesta 2do — tercero, ocupado</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LVUASF224TD040797</td><td>Teléfono no titular</td><td>1er número es conmutador de hospital</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFA4AG0VE178418</td><td>Teléfono no titular</td><td>Contesta tercero en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">9FB4SR0E5PM368692</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">L6TE21SBXTY005864</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LNBSCUAK5SR198311</td><td>Teléfono no titular</td><td>Contestan en 2do — al pedir por cliente cuelga</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LMGBB1L26T3157874</td><td>Teléfono no titular</td><td>Contesta menor de edad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VWSP6BU9TM010497</td><td>Teléfono no titular</td><td>Contesta tercero en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LMGBB1L8XT3157316</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">JM3KFADL2S0787268</td><td>Teléfono no titular</td><td>Contesta 2do — pide llamar al 1er número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <!-- CLABE -->
+        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Duda cuenta CLABE — 5 casos</td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFE4AD7SE080136</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE y adelantar mensualidad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">MALB25AC1TM733306</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE y adelantar mensualidad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">93CEF76C1PB223473</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">WVG2D4CW6RT036268</td><td>Duda cuenta CLABE</td><td>Dudas con CLABE, aportaciones a capital y atención</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3GALD1546TM001571</td><td>Duda cuenta CLABE</td><td>Dudas con la cuenta CLABE</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <!-- MONTO / FECHA -->
+        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Duda monto / fecha de cobro — 7 casos</td></tr>
+        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LS5A3DKE4TA940132</td><td>Duda monto</td><td>Le informaron que su mensualidad era en marzo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">MNTFP5CP1T6019596</td><td>Duda monto / fecha</td><td>Dudas por las fechas de cobro</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VVKP6RMXTM089950</td><td>Duda monto</td><td>Dudas con cobros, intereses y llave en resguardo</td><td class="r"><span class="badge br">No</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LVTDB21B7SD291209</td><td>Duda monto</td><td>Tercero interesado — no recibe info, no es titular</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VWEP6BU3SM100529</td><td>Duda fecha</td><td>Duda sobre la fecha de pago</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LGXC74C42T0006985</td><td>Duda monto</td><td>No recuerda el monto</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3MVDMCCL2TM141665</td><td>Duda monto</td><td>Dudas sobre el monto</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <!-- QUEJAS / OTROS -->
+        <tr style="background:var(--surface2)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 16px">Quejas, producto y otros — 3 casos</td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFA4AG5VE179015</td><td>Queja llamadas</td><td>Comentó que llamamos mucho para todo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td><span class="badge bp">May 15</span></td><td class="mono">LSGHD52H6PD052814</td><td>Queja llamadas</td><td>No quería más llamadas de Nexu</td><td class="r"><span class="badge br">No</span></td></tr>
+        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LGXCE4CC1T0002021</td><td>Duda producto</td><td>Dudas con facturas y aportaciones a capital</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout c-warn reveal">
+    <span class="ci">🔎</span>
+    <div><strong>Dos patrones dominantes entre ambos canales:</strong> (1) <strong>Teléfono no titular</strong> — 17 casos solo en CS, más 1 en WA+IA. El número registrado no pertenece al cliente o ya no es válido. Problema estructural de captura en originación que impide el contacto directo. (2) <strong>Cuenta CLABE / bancaria incorrecta</strong> — 5 en CS + 4 en WA+IA = 9 casos. Ambos patrones apuntan al mismo origen: errores en los datos capturados al momento del crédito. Recomendación: escalar a Operaciones con esta evidencia para revisar el proceso de validación en onboarding.</div>
+  </div>
+
+  <footer>
+    <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
+    <div class="f-right">v0.6 · 26 May 2026 · 3 batches completos</div>
+  </footer>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.m-seg').forEach(s => {
+      const w = s.style.width; s.style.width = '0';
+      setTimeout(() => { s.style.width = w; }, 400);
+    });
+  });
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.04 }).observe.call(
+    new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+    }, { threshold: 0.04 }),
+    ...document.querySelectorAll('.reveal')
+  );
+  // simpler observer
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.04 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
