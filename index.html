@@ -393,7 +393,7 @@ footer {
       <p class="header-sub">Iniciativa para reducir first-payment default, limpiar datos antes del corte y generar señales tempranas de riesgo.</p>
     </div>
     <div class="header-meta">
-      <div class="chip">Corte <b>26 May 2026</b></div>
+      <div class="chip">Corte <b>13 May 2026</b></div>
       <div class="chip">3 batches · resultado completo</div>
       <div class="chip">393 clientes WA+IA</div>
       <div class="chip">439 clientes CS llamada</div>
@@ -858,106 +858,111 @@ footer {
   </div>
 
   <!-- ═══ INCIDENCIAS ═══ -->
-  <div class="sec-label reveal"><span>Incidencias detectadas — WA+IA y CS</span><div class="line"></div></div>
+  <div class="sec-label reveal"><span>Seguimiento — Clientes sin pago a tiempo</span><div class="line"></div></div>
 
-  <!-- Resumen por tipo — ambos canales -->
+  <!-- Resumen por tipo -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px" class="reveal">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">17</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Teléfono<br>no titular</div>
+      <div style="font-size:32px;font-weight:700;color:var(--red);line-height:1">39</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Total sin pago<br>a tiempo</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">9</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Cuenta bancaria<br>incorrecta (CLABE)</div>
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">19</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Contactados<br>WA + IA</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">7</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Duda monto<br>o fecha de cobro</div>
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">15</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Contactados<br>CS llamada</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--muted);line-height:1">8</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Quejas, producto<br>y otros</div>
+      <div style="font-size:32px;font-weight:700;color:var(--muted);line-height:1">5</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Sin ningún<br>contacto previo</div>
     </div>
   </div>
 
-  <!-- Tabla WA+IA -->
+  <div class="callout c-info reveal">
+    <span class="ci">💡</span>
+    <div><strong>Lectura importante:</strong> de los 19 que no pagaron tras ser contactados por WA+IA, <strong>12 habían verificado su información</strong> — pagaron a tiempo el proceso de verificación, pero aun así no pagaron. Esto sugiere que la intención de pago no siempre se traduce en pago efectivo, y que estos casos necesitan un segundo toque de cobranza incluso después de verificar.</div>
+  </div>
+
+  <!-- Tabla Abril -->
   <div class="detail-block reveal">
-    <div class="detail-head">
-      Canal WA + Voz IA · 9 incidencias de datos · 8 corregidas y pagaron · 1 sin resolver
-    </div>
+    <div class="detail-head">Abril 2026 · 9 sin pago a tiempo</div>
     <table>
       <thead>
-        <tr><th>Batch</th><th>VIN</th><th>Incidencia</th><th>Resolución</th><th class="r">Pagó a tiempo</th></tr>
+        <tr><th>VIN</th><th>Cliente</th><th>Canal</th><th>Resultado contacto</th><th>Incidencia detectada</th><th class="r">Monto</th></tr>
       </thead>
       <tbody>
-        <tr><td><span class="badge bb">B1</span></td><td class="mono">LSJWP4U64SZ104001</td><td>Monto incorrecto en sistema</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B1</span></td><td class="mono">KNAF55AC4P5166355</td><td>Fecha de pago incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B2</span></td><td class="mono">1GNSK9KL1NR348169</td><td>Teléfono no corresponde al titular</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge br">No</span></td></tr>
-        <tr><td><span class="badge bb">B2</span></td><td class="mono">LMGBB1L81T3156829</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B2</span></td><td class="mono">9BWAL5BZ3TT644492</td><td>Año del vehículo incorrecto</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B3</span></td><td class="mono">JN8AT3MT3TW070972</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B3</span></td><td class="mono">VYJFEAFT6T5827130</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B3</span></td><td class="mono">LEFAD3F14STP03825</td><td>Cuenta bancaria incorrecta</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">B3</span></td><td class="mono">LJD3BA1D1T0082709</td><td>Monto de pago incorrecto</td><td><span class="badge bp">Sin resolver</span></td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td class="mono">3N1CN8AE1SL901412</td><td>Mayte Alejandra Orozco Muñoz</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$8,823</td></tr>
+        <tr><td class="mono">LJ11PAB52RC098020</td><td>Cynthia Hernandez Gama</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$13,018</td></tr>
+        <tr><td class="mono">3VVKP6RM8TM073987</td><td>Marco Vinicio Rivera Chacon</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$18,775</td></tr>
+        <tr><td class="mono">3N1CN7AD0FK397710</td><td>Marcolino Urrutia Montaño</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$3,467</td></tr>
+        <tr><td class="mono">3N1AB8AE3NY273540</td><td>Juan Angel Luzanilla Rodriguez</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado llamada</td><td>—</td><td class="r mono">$10,338</td></tr>
+        <tr><td class="mono">WVW3A4D24TT017075</td><td>Jose Alberto Hernandez Barcenas</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$9,542</td></tr>
+        <tr><td class="mono">LGWEEUA53SK618579</td><td>Armando Hernandez Velazquez</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$12,919</td></tr>
+        <tr><td class="mono">LVVDC21B0TD969675</td><td>Mayra Alejandra Estrada Gonzalez</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$12,941</td></tr>
+        <tr><td class="mono">LS6A2E0Z0TA962171</td><td>David Eduardo Herrera Gutierrez</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$14,046</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Tabla CS -->
+  <!-- Tabla Mayo 1 -->
   <div class="detail-block reveal">
-    <div class="detail-head">Canal CS · Llamada manual · 32 incidencias registradas en comentarios</div>
+    <div class="detail-head">Mayo 1, 2026 · 19 sin pago a tiempo</div>
     <table>
       <thead>
-        <tr><th>Corte</th><th>VIN</th><th>Tipo</th><th>Comentario del agente</th><th class="r">Pagó a tiempo</th></tr>
+        <tr><th>VIN</th><th>Cliente</th><th>Canal</th><th>Resultado contacto</th><th>Incidencia detectada</th><th class="r">Monto</th></tr>
       </thead>
       <tbody>
-        <!-- TELÉFONO NO TITULAR -->
-        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Teléfono no titular — 17 casos</td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LMGBB1L26T3157387</td><td>Teléfono no titular</td><td>Contesta 2do número — esposo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">MR2K29F33H1088050</td><td>Teléfono no titular</td><td>Contesta 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LGWEE5A57TK608371</td><td>Teléfono no titular</td><td>Contesta 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3KPA34AC4PE553389</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LGXCE4CC3T0007642</td><td>Teléfono no titular</td><td>Contesta tercero</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3GALC122XTM030349</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">3VVKP6B25TM042494</td><td>Teléfono no titular</td><td>Contesta tercero</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">93Y9S2NF0SJ311984</td><td>Teléfono no titular</td><td>Contesta 2do — tercero, ocupado</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LVUASF224TD040797</td><td>Teléfono no titular</td><td>1er número es conmutador de hospital</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFA4AG0VE178418</td><td>Teléfono no titular</td><td>Contesta tercero en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">9FB4SR0E5PM368692</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">L6TE21SBXTY005864</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LNBSCUAK5SR198311</td><td>Teléfono no titular</td><td>Contestan en 2do — al pedir por cliente cuelga</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LMGBB1L26T3157874</td><td>Teléfono no titular</td><td>Contesta menor de edad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VWSP6BU9TM010497</td><td>Teléfono no titular</td><td>Contesta tercero en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LMGBB1L8XT3157316</td><td>Teléfono no titular</td><td>Contesta en 2do número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">JM3KFADL2S0787268</td><td>Teléfono no titular</td><td>Contesta 2do — pide llamar al 1er número</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <!-- CLABE -->
-        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Duda cuenta CLABE — 5 casos</td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFE4AD7SE080136</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE y adelantar mensualidad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">MALB25AC1TM733306</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE y adelantar mensualidad</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">93CEF76C1PB223473</td><td>Duda cuenta CLABE</td><td>Dudas con cuenta CLABE</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">WVG2D4CW6RT036268</td><td>Duda cuenta CLABE</td><td>Dudas con CLABE, aportaciones a capital y atención</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3GALD1546TM001571</td><td>Duda cuenta CLABE</td><td>Dudas con la cuenta CLABE</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <!-- MONTO / FECHA -->
-        <tr style="background:var(--amber-bg)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);padding:7px 16px">Duda monto / fecha de cobro — 7 casos</td></tr>
-        <tr><td><span class="badge ba">Abr</span></td><td class="mono">LS5A3DKE4TA940132</td><td>Duda monto</td><td>Le informaron que su mensualidad era en marzo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">MNTFP5CP1T6019596</td><td>Duda monto / fecha</td><td>Dudas por las fechas de cobro</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VVKP6RMXTM089950</td><td>Duda monto</td><td>Dudas con cobros, intereses y llave en resguardo</td><td class="r"><span class="badge br">No</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LVTDB21B7SD291209</td><td>Duda monto</td><td>Tercero interesado — no recibe info, no es titular</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3VWEP6BU3SM100529</td><td>Duda fecha</td><td>Duda sobre la fecha de pago</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LGXC74C42T0006985</td><td>Duda monto</td><td>No recuerda el monto</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3MVDMCCL2TM141665</td><td>Duda monto</td><td>Dudas sobre el monto</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <!-- QUEJAS / OTROS -->
-        <tr style="background:var(--surface2)"><td colspan="5" style="font-size:10.5px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 16px">Quejas, producto y otros — 3 casos</td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">3KPFA4AG5VE179015</td><td>Queja llamadas</td><td>Comentó que llamamos mucho para todo</td><td class="r"><span class="badge bg">Sí</span></td></tr>
-        <tr><td><span class="badge bp">May 15</span></td><td class="mono">LSGHD52H6PD052814</td><td>Queja llamadas</td><td>No quería más llamadas de Nexu</td><td class="r"><span class="badge br">No</span></td></tr>
-        <tr><td><span class="badge bb">May 1</span></td><td class="mono">LGXCE4CC1T0002021</td><td>Duda producto</td><td>Dudas con facturas y aportaciones a capital</td><td class="r"><span class="badge bg">Sí</span></td></tr>
+        <tr><td class="mono">9BWBL6DF0TT351789</td><td>Edilson Romario Leon Rodriguez</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$10,919</td></tr>
+        <tr><td class="mono">MHFAB1BY5T3183250</td><td>Abner Uribe Sanchez</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$15,627</td></tr>
+        <tr><td class="mono">1GNSK9KL1NR348169</td><td>Roque Manuel Mercado Portillo</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--red)">Necesita revisión</td><td style="color:var(--amber);font-size:12px">Teléfono no titular</td><td class="r mono">$32,423</td></tr>
+        <tr><td class="mono">3MZBPDDY1SM458414</td><td>Eduardo Francisco Melendez Gines</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$16,591</td></tr>
+        <tr><td class="mono">LSJA24U97RS033429</td><td>Hugo Eleazar Almaraz Dominguez</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$15,221</td></tr>
+        <tr><td class="mono">LVSZR0S4XTJ034705</td><td>Teresa Ivonne Castillo Diego</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$12,266</td></tr>
+        <tr><td class="mono">LGFB7A2JXTA607187</td><td>Arnoldo Ramos Medrano</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$23,917</td></tr>
+        <tr><td class="mono">3G1MA5E28ML123326</td><td>Jesus Humberto Medina Rivas</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$10,118</td></tr>
+        <tr><td class="mono">VF1LLLNA3TC551368</td><td>Diana Gloria Romero Moreno</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$14,878</td></tr>
+        <tr><td class="mono">3VVKP6RMXTM089950</td><td>Jonathan Guillermo Carsi Solis</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Dudas cobros e intereses</td><td class="r mono">$26,232</td></tr>
+        <tr><td class="mono">3FMCR9C66PRD57616</td><td>Yonatan Rodriguez Andrade</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$10,145</td></tr>
+        <tr><td class="mono">3PCAJ5M14SF116789</td><td>Porfirio Labrada Cruz</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$20,659</td></tr>
+        <tr><td class="mono">3VV9P6B20TM051165</td><td>Rodrigo Reyes Carranza</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$22,650</td></tr>
+        <tr><td class="mono">3GALD2553TM007410</td><td>Jose Luis Cadena Lopez</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$15,030</td></tr>
+        <tr><td class="mono">1GNSK9KD4MR204784</td><td>Jaime Alonso Cervantes Lazarini</td><td><span class="badge bg" style="color:var(--green)">Sin contacto</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$25,080</td></tr>
+        <tr><td class="mono">3KPFE4AD4TE126863</td><td>Victor Israel Arista Morales</td><td><span class="badge bg" style="color:var(--green)">Sin contacto</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$10,797</td></tr>
+        <tr><td class="mono">LSGHD52H6LD046621</td><td>Xochitl Diaz Bautista</td><td><span class="badge bg" style="color:var(--green)">Sin contacto</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$8,576</td></tr>
+        <tr><td class="mono">LJXBS5A36TYF01736</td><td>Jose De Jesus Arguello Arevalo</td><td><span class="badge bg" style="color:var(--green)">Sin contacto</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$20,644</td></tr>
+        <tr><td class="mono">3MZBPDDY1SM458414</td><td>Eduardo Francisco Melendez Gines</td><td><span class="badge bg" style="color:var(--green)">Sin contacto</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$13,544</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tabla Mayo 15 -->
+  <div class="detail-block reveal">
+    <div class="detail-head">Mayo 15, 2026 · 11 sin pago a tiempo</div>
+    <table>
+      <thead>
+        <tr><th>VIN</th><th>Cliente</th><th>Canal</th><th>Resultado contacto</th><th>Incidencia detectada</th><th class="r">Monto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">MA6CB6CDXKT012599</td><td>Jessica Guadalupe Covarrubias</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$5,319</td></tr>
+        <tr><td class="mono">LMGAT1L84T1361095</td><td>David Aldair Lara Barbosa</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$16,017</td></tr>
+        <tr><td class="mono">3KPA35AC3PE602734</td><td>Ruben Eduardo Rojas Ortega</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$10,113</td></tr>
+        <tr><td class="mono">3VWEP6BUXTM049337</td><td>Ulises Alejandro Ortiz Aranda</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$13,645</td></tr>
+        <tr><td class="mono">WVG2C4CW6RT038752</td><td>Maria Fernanda Ortega Guzman</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$6,487</td></tr>
+        <tr><td class="mono">WMWSY3106GT563061</td><td>Karla Yajaira Romero Medina</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$16,560</td></tr>
+        <tr><td class="mono">3N1CK3CE8TL202434</td><td>Jesus Manuel Gonzalez Alvarez</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$8,872</td></tr>
+        <tr><td class="mono">3N1CN8AE8PL867217</td><td>Oscar Padilla Carmona</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--muted)">Verificado WA</td><td>—</td><td class="r mono">$9,700</td></tr>
+        <tr><td class="mono">9BD281H55PYY19197</td><td>Maria Elisur Fuentes Cruz</td><td><span class="badge bb">WA+IA</span></td><td style="font-size:11.5px;color:var(--amber)">Sin respuesta</td><td>—</td><td class="r mono">$9,491</td></tr>
+        <tr><td class="mono">LSGHD52H6PD052814</td><td>Javier Arias Herrera</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">No quería más llamadas</td><td class="r mono">$10,648</td></tr>
+        <tr><td class="mono">3N6AD31A5TK818237</td><td>Ismael De La Cruz Cordova</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td>—</td><td class="r mono">$6,770</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="callout c-warn reveal">
     <span class="ci">🔎</span>
-    <div><strong>Dos patrones dominantes entre ambos canales:</strong> (1) <strong>Teléfono no titular</strong> — 17 casos solo en CS, más 1 en WA+IA. El número registrado no pertenece al cliente o ya no es válido. Problema estructural de captura en originación que impide el contacto directo. (2) <strong>Cuenta CLABE / bancaria incorrecta</strong> — 5 en CS + 4 en WA+IA = 9 casos. Ambos patrones apuntan al mismo origen: errores en los datos capturados al momento del crédito. Recomendación: escalar a Operaciones con esta evidencia para revisar el proceso de validación en onboarding.</div>
+    <div><strong>Patrón emergente en los datos de originación:</strong> los dos tipos de incidencia más frecuentes — teléfono no titular (17 casos en CS) y cuenta CLABE/bancaria incorrecta (9 casos entre ambos canales) — apuntan a errores de captura en onboarding. Recomendación: escalar a Operaciones con esta evidencia para revisar el proceso de validación al momento del crédito.</div>
   </div>
 
   <footer>
