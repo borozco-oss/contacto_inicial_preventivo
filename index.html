@@ -89,8 +89,8 @@ body {
 /* ───── BATCH CARDS (el corazón del reporte) ───── */
 .batches {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
   margin-bottom: 40px;
 }
 .batch {
@@ -402,7 +402,7 @@ footer {
 .lg-line { width: 18px; height: 0; border-top: 2.5px solid; flex-shrink: 0; }
 .chart-wrap { position: relative; height: 340px; }
 .chart-foot {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
   background: var(--border); border: 1px solid var(--border);
   border-radius: 8px; overflow: hidden; margin-top: 16px;
 }
@@ -434,44 +434,44 @@ footer {
       <p class="header-sub">Iniciativa para reducir first-payment default, limpiar datos antes del corte y generar señales tempranas de riesgo.</p>
     </div>
     <div class="header-meta">
-      <div class="chip">Corte <b>15 Jun 2026</b></div>
-      <div class="chip">5 batches · resultado completo</div>
-      <div class="chip">843 clientes WA+IA</div>
-      <div class="chip">576 clientes CS llamada</div>
+      <div class="chip">Corte <b>1 Jul 2026</b></div>
+      <div class="chip">6 batches · resultado completo</div>
+      <div class="chip">1,033 clientes WA+IA/Email</div>
+      <div class="chip">732 clientes CS llamada</div>
     </div>
   </div>
 
   <!-- ═══ COMPARATIVA GENERAL ═══ -->
   <div class="sec-label reveal">
-    <span>Comparativa general — WA + IA vs CS · 5 batches acumulados</span><div class="line"></div>
+    <span>Comparativa general — WA + IA/Email vs CS · 6 batches acumulados</span><div class="line"></div>
   </div>
 
   <div class="callout c-info reveal">
     <span class="ci">📊</span>
-    <div><strong>¿Cuál iniciativa tiene mejor desempeño?</strong> La respuesta depende de la dimensión. Abajo se comparan los resultados acumulados de las dos iniciativas en los 5 batches (1,419 clientes M1 en total). Los batches comparables con volumen significativo en ambas son B1, B2 y B5 — en B3 y B4 CS tuvo muestras de 20 y 18 clientes, insuficientes para comparar.</div>
+    <div><strong>¿Cuál iniciativa tiene mejor desempeño?</strong> La respuesta depende de la dimensión. Abajo se comparan los resultados acumulados de las dos iniciativas en los 6 batches (1,765 clientes M1 en total). Los batches comparables con volumen significativo en ambas son B1, B2, B5 y B6 — en B3 y B4 CS tuvo muestras de 20 y 18 clientes, insuficientes para comparar. <strong>Nota metodológica:</strong> Batch 6 (1 Jul) llegó en un formato de archivo distinto que no incluye desglose de canal, verificación ni incidencias por cliente — solo contacto y resultado de pago. Las filas de esta tabla que dependen de ese detalle (verificación, señal predictiva, incidencias) permanecen en B1–B5; el resto se actualizó a B1–B6.</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px" class="reveal">
-    <!-- WA+IA card -->
+    <!-- WA+IA/Email card -->
     <div style="background:var(--surface);border:1.5px solid #1847b8;border-radius:12px;padding:18px 20px;position:relative;overflow:hidden">
       <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#1847b8"></div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
-        <div style="font-size:14px;font-weight:700;color:#1847b8;letter-spacing:.5px">WA + VOZ IA</div>
-        <div style="font-size:12px;color:var(--muted)">843 clientes · 5 batches</div>
+        <div style="font-size:14px;font-weight:700;color:#1847b8;letter-spacing:.5px">WA + IA / EMAIL</div>
+        <div style="font-size:12px;color:var(--muted)">1,033 clientes · 6 batches</div>
       </div>
-      <div style="font-size:42px;font-weight:800;color:var(--green);line-height:1;margin:8px 0 2px">96.0%</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">809 de 843 pagaron · FPD 4.0%</div>
+      <div style="font-size:42px;font-weight:800;color:var(--green);line-height:1;margin:8px 0 2px">96.4%</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">996 de 1,033 pagaron · FPD 3.6%</div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--green-bg);border-radius:6px">
-          <span style="color:var(--green)">Verificación</span>
+          <span style="color:var(--green)">Verificación <span style="font-size:9px;color:var(--muted)">(B1–B5)</span></span>
           <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--green)">78.8% · 664 clientes</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:#eef2ff;border-radius:6px">
           <span style="color:#1847b8">Escalabilidad</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:#1847b8">90 → 250 → 200</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:#1847b8">90 → 250 → 200 → 190</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
-          <span style="color:var(--ink)">Señal predictiva</span>
+          <span style="color:var(--ink)">Señal predictiva <span style="font-size:9px;color:var(--muted)">(B1–B5)</span></span>
           <span style="font-family:'JetBrains Mono',monospace;color:var(--green)">Sí</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
@@ -485,18 +485,18 @@ footer {
       <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#b0ae9f"></div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
         <div style="font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.5px">CS · LLAMADA MANUAL</div>
-        <div style="font-size:12px;color:var(--muted)">576 clientes · 5 batches</div>
+        <div style="font-size:12px;color:var(--muted)">732 clientes · 6 batches</div>
       </div>
       <div style="font-size:42px;font-weight:800;color:var(--ink);line-height:1;margin:8px 0 2px">96.7%</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">557 de 576 pagaron · FPD 3.3%</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">708 de 732 pagaron · FPD 3.3%</div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
-          <span style="color:var(--muted)">Contactación (contestó)</span>
+          <span style="color:var(--muted)">Contactación (contestó) <span style="font-size:9px">(B1–B5)</span></span>
           <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--muted)">35.9% · 207 clientes</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
           <span style="color:var(--muted)">Escalabilidad</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--amber)">220 → 18 → 119</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--amber)">220 → 18 → 119 → 156</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
           <span style="color:var(--ink)">Señal predictiva</span>
@@ -516,56 +516,56 @@ footer {
       <thead>
         <tr style="background:var(--surface2)">
           <th style="text-align:left;padding:10px 14px;font-weight:600;color:var(--ink);width:35%">Dimensión</th>
-          <th style="text-align:center;padding:10px 14px;font-weight:700;color:#1847b8;width:25%">WA + IA</th>
+          <th style="text-align:center;padding:10px 14px;font-weight:700;color:#1847b8;width:25%">WA + IA/Email</th>
           <th style="text-align:center;padding:10px 14px;font-weight:700;color:var(--muted);width:25%">CS</th>
           <th style="text-align:center;padding:10px 14px;font-weight:600;color:var(--ink);width:15%">Ventaja</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Recaudación acumulada</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px">96.0%</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Recaudación acumulada <span style="font-size:10px;color:var(--muted)">(B1–B6)</span></td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px">96.4%</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">96.7%</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--muted)">CS +0.7pp</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--muted)">CS +0.3pp</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Recaudación B5 <span style="font-size:10px;color:var(--muted)">(comparable)</span></td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">97.0%</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px">96.6%</td>
-          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green)">WA+IA +0.4pp</td>
+          <td style="padding:9px 14px;font-weight:500">Recaudación B6 <span style="font-size:10px;color:var(--muted)">(más reciente, comparable)</span></td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">98.4%</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px">96.8%</td>
+          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+Email +1.6pp</td>
         </tr>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Tasa de contacto efectivo</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Tasa de contacto efectivo <span style="font-size:10px;color:var(--muted)">(B1–B5)</span></td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">78.8%</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber)">35.9%</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA · 2.2×</td>
         </tr>
         <tr style="background:var(--surface2)">
           <td style="padding:9px 14px;font-weight:500">Clientes contactados (total)</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">843</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px">576</td>
-          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA · 1.5×</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">1,033</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px">732</td>
+          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA/Email · 1.4×</td>
         </tr>
         <tr>
           <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Escalabilidad sostenida</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green)">90 → 250 → 200 ✓</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--amber)">220 → 18 → 119 ⚠</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green)">90→250→200→190 ✓</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--amber)">220→18→119→156 ⚠</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA/Email</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Genera señal predictiva</td>
+          <td style="padding:9px 14px;font-weight:500">Genera señal predictiva <span style="font-size:10px;color:var(--muted)">(B1–B5)</span></td>
           <td style="text-align:center;padding:9px 14px;color:var(--green);font-weight:600">Sí</td>
           <td style="text-align:center;padding:9px 14px;color:var(--muted)">No</td>
           <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
         </tr>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Detecta fraude / identidad</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Detecta fraude / identidad <span style="font-size:10px;color:var(--muted)">(B1–B5)</span></td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);color:var(--green);font-weight:600">Sí · 2 alertas</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);color:var(--muted)">No</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Incidencias de datos detectadas</td>
+          <td style="padding:9px 14px;font-weight:500">Incidencias de datos detectadas <span style="font-size:10px;color:var(--muted)">(B1–B5)</span></td>
           <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">19</td>
           <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">0</td>
           <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
@@ -576,17 +576,17 @@ footer {
 
   <div class="callout c-green reveal" style="margin-bottom:14px">
     <span class="ci">💡</span>
-    <div><strong>Lectura para Abdon:</strong> en recaudación pura, CS es marginalmente mejor (+0.7 pp acumulado), pero la brecha se cerró a cero en B5 — el batch más reciente y con la muestra más comparable (200 vs 119 clientes). La diferencia real entre las dos iniciativas no está en quién cobra más, sino en qué otra cosa genera cada una. WA+IA verifica 2.2× más clientes, escala sin depender de agentes humanos, detecta fraude e incidencias de datos, y genera una señal predictiva de riesgo que CS no puede ofrecer. CS confirmó que no puede sostener el volumen (colapsó a 18 clientes en B4), y su único batch comparable reciente (B5) quedó por debajo de WA+IA. La recomendación es clara: escalar WA+IA como canal primario y usar CS de forma complementaria donde agregue valor (casos complejos, escalamientos).</div>
+    <div><strong>Lectura para Abdon:</strong> en recaudación acumulada la diferencia es prácticamente nula (CS +0.3 pp sobre 1,765 clientes), y en el batch más reciente y comparable (B6, 1 Jul) <strong>WA+Email ya está arriba: 98.4% vs 96.8% de CS (+1.6 pp)</strong> — el mejor resultado del experimento hasta ahora. La diferencia real entre las dos iniciativas sigue sin estar en quién cobra más, sino en qué otra cosa genera cada una: verificación 2.2× mayor, escalabilidad sin depender de agentes humanos (CS colapsó a 18 clientes en B4 y aún en B6 solo alcanza 156 vs 190 de WA+Email), detección de fraude e incidencias, y una señal predictiva de riesgo que CS no ofrece. Nota: B6 llegó en un formato de datos más simple (sin desglose de canal ni verificación por cliente), así que esas filas de la tabla se quedan ancladas a B1–B5 hasta que se confirme si ese nivel de detalle se seguirá capturando.</div>
   </div>
 
   <!-- ═══ APARTADO: RECAUDACIÓN POR INICIATIVA ═══ -->
   <div class="sec-label reveal">
-    <span>Recaudación por iniciativa — los 5 batches</span><div class="line"></div>
+    <span>Recaudación por iniciativa — los 6 batches</span><div class="line"></div>
   </div>
 
   <div class="callout c-info reveal">
     <span class="ci">💡</span>
-    <div><strong>Qué muestra esta gráfica:</strong> las <strong>barras</strong> son el número de clientes contactados en cada batch por cada iniciativa — <em>WhatsApp + Agente de Voz IA</em> (el experimento) frente a <em>Customer Service por llamada manual</em> (el control). Las <strong>líneas</strong> son el % de recaudación logrado en el primer cobro (tasa de pago M1) para los clientes de cada iniciativa. El eje de % arranca en 85% para hacer visibles las diferencias.</div>
+    <div><strong>Qué muestra esta gráfica:</strong> las <strong>barras</strong> son el número de clientes contactados en cada batch por cada iniciativa — <em>WhatsApp + IA/Email</em> (el experimento) frente a <em>Customer Service por llamada manual</em> (el control). Las <strong>líneas</strong> son el % de recaudación logrado en el primer cobro (tasa de pago M1) para los clientes de cada iniciativa. El eje de % arranca en 85% para hacer visibles las diferencias.</div>
   </div>
 
   <div class="chart-card reveal">
@@ -619,21 +619,26 @@ footer {
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">18 · 100%</span></div>
       </div>
       <div class="cf-cell">
-        <div class="cf-b">Batch 5 · nuevo</div><div class="cf-d">15 Jun 2026</div>
+        <div class="cf-b">Batch 5</div><div class="cf-d">15 Jun 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">200 · 97.0%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">119 · 96.6%</span></div>
+      </div>
+      <div class="cf-cell">
+        <div class="cf-b">Batch 6 · nuevo</div><div class="cf-d">1 Jul 2026</div>
+        <div class="cf-row"><span class="cf-k">WA+Email</span><span class="cf-v">190 · 98.4%</span></div>
+        <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">156 · 96.8%</span></div>
       </div>
     </div>
   </div>
 
   <div class="callout c-green reveal" style="margin-bottom:40px">
     <span class="ci">📈</span>
-    <div><strong>WA+IA escala y mejora en paralelo.</strong> El volumen contactado crece de 90 a 250 y se estabiliza en 200, mientras la recaudación sube de forma monotónica: <strong>94.4% → 95.0% → 95.6% → 96.4% → 97.0%</strong>. En B5 CS volvió a tener volumen significativo (119 clientes, 96.6%) y ambas iniciativas se miden por primera vez en condiciones comparables con la diferencia de WA+IA ligeramente arriba (+0.4 pp, no significativo). Las tasas de CS en B3 y B4 (90.0% y 100%) se apoyan en muestras muy chicas (20 y 18 clientes), por lo que no son comparables.</div>
+    <div><strong>WA+IA/Email escala y mejora en paralelo.</strong> El volumen contactado crece de 90 a 250, se estabiliza entre 190 y 200, mientras la recaudación sube de forma prácticamente monotónica: <strong>94.4% → 95.0% → 95.6% → 96.4% → 97.0% → 98.4%</strong>. B6 es el mejor resultado del experimento hasta ahora y la primera vez que supera a CS con volumen comparable en ambos lados (190 vs 156 clientes): 98.4% vs 96.8%, +1.6 pp. Las tasas de CS en B3 y B4 (90.0% y 100%) se apoyan en muestras muy chicas (20 y 18 clientes), por lo que no son comparables.</div>
   </div>
 
   <!-- ═══ BATCHES + CS ═══ -->
   <div class="sec-label reveal">
-    <span>Estado de los 5 batches</span><div class="line"></div>
+    <span>Estado de los 6 batches</span><div class="line"></div>
   </div>
 
   <div class="batches reveal">
@@ -971,7 +976,7 @@ footer {
       <div class="batch" style="border-color:#1847b8">
         <div class="batch-head">
           <div>
-            <div class="batch-id">Batch 5 · nuevo</div>
+            <div class="batch-id">Batch 5</div>
             <div class="batch-date">15 Junio 2026</div>
           </div>
           <div style="text-align:right">
@@ -1051,12 +1056,75 @@ footer {
 
     </div>
 
+    <!-- ── COLUMNA 6: Batch 6 (WA+Email) + CS Jul 1 (NUEVO) ── -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <!-- Batch 6 -->
+      <div class="batch" style="border-color:#1847b8">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id">Batch 6 · nuevo</div>
+            <div class="batch-date">1 Julio 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">190</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · resultado domi</div>
+          <div class="pago-big" style="color:var(--green)">98.4%</div>
+          <div class="pago-sub">187 de 190 pagaron</div>
+          <div class="pago-monto">$2.15M de $2.18M cobrados</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">WhatsApp + Email</span></div>
+          <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--muted);line-height:1.5;margin-top:2px">
+            El archivo fuente de este corte no incluye desglose de canal ni resultado por cliente (verificado / sin respuesta / necesita revisión). Solo se puede reportar contacto y resultado de pago.
+          </div>
+        </div>
+        <div class="batch-bench">
+          <div class="bench-row">
+            <span class="bench-label">vs CS mismo mes</span>
+            <span class="bench-delta delta-pos">+1.6 pp</span>
+          </div>
+          <div class="bench-note">98.4% WA+Email vs 96.8% CS · p = 0.32 · no significativo (mejor resultado del experimento)</div>
+        </div>
+      </div>
+
+      <!-- CS Julio 1 -->
+      <div class="batch">
+        <div class="batch-head">
+          <div>
+            <div class="batch-id" style="color:var(--muted)">CS · Llamada manual</div>
+            <div class="batch-date">1 Julio 2026</div>
+          </div>
+          <div style="text-align:right">
+            <div class="batch-n">156</div>
+            <div class="batch-n-label">clientes</div>
+          </div>
+        </div>
+        <div class="batch-pago">
+          <div class="pago-label">Tasa pago M1 · resultado domi</div>
+          <div class="pago-big" style="color:var(--ink)">96.8%</div>
+          <div class="pago-sub">151 de 156 pagaron</div>
+        </div>
+        <div class="batch-metrics">
+          <div class="m-row"><span class="m-label">Canal</span><span class="m-val">Llamada humana</span></div>
+          <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--muted);line-height:1.5;margin-top:2px">
+            El archivo fuente de este corte no incluye el estatus de llamada (contestó / buzón / no contesta) que sí trajeron los cortes anteriores.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div><!-- /batches -->
 
   <!-- NOTA GENERAL -->
   <div class="callout c-green reveal" style="margin-bottom:40px">
     <span class="ci">✅</span>
-    <div><strong>Reporte completo — los 5 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva consistente y creciente en WA+IA: B1 94.4% · B2 95.0% · B3 95.6% · B4 96.4% · B5 97.0%. CS volvió a tener volumen comparable en B5 (119 clientes, 96.6%). La tasa de FPD de WA+IA bajó de forma monotónica en los 5 batches (5.6% → 5.0% → 4.4% → 3.6% → 3.0%) mientras el volumen creció de 90 a 250 y se estabilizó en 200. El detalle de mora temprana, first-payment default y fraude se analiza en el apartado final.</div>
+    <div><strong>Reporte completo — los 6 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva consistente y creciente en WA+IA/Email: B1 94.4% · B2 95.0% · B3 95.6% · B4 96.4% · B5 97.0% · B6 98.4% — el mejor resultado del experimento hasta ahora. CS también tuvo su mejor batch reciente en B6 (156 clientes, 96.8%), pero WA+Email lo superó por +1.6 pp con volumen comparable en ambos lados. La tasa de FPD de WA+IA/Email bajó de forma prácticamente monotónica en los 6 batches (5.6% → 5.0% → 4.4% → 3.6% → 3.0% → 1.6%) mientras el volumen creció de 90 a 250 y se estabilizó entre 190 y 200. El detalle de mora temprana, first-payment default y fraude se analiza en el apartado final.</div>
   </div>
 
   <!-- ═══ SEÑAL PREDICTIVA ═══ -->
@@ -1294,7 +1362,7 @@ footer {
 
   <div class="callout c-warn reveal">
     <span class="ci">🧪</span>
-    <div><strong>Pregunta abierta para los próximos batches:</strong> en los 5 batches el Agente de Voz operó solo como segundo toque (sobre los no-respondidos de WA), así que aún no sabemos si tendría mejor conversión actuando como <em>primer</em> toque en paralelo al WA. Probar un subgrupo en B6 con voz como primer canal daría una respuesta directa y permitiría comparar ambos canales sobre la misma población virgen.</div>
+    <div><strong>Pregunta abierta para los próximos batches:</strong> en los 5 batches con este detalle disponible (B1–B5) el Agente de Voz operó solo como segundo toque (sobre los no-respondidos de WA), así que aún no sabemos si tendría mejor conversión actuando como <em>primer</em> toque en paralelo al WA. B6 no aportó datos de canal para responder esto. Probar un subgrupo en B7 con voz como primer canal — y asegurar que el archivo de resultado incluya el desglose por cliente — daría una respuesta directa y permitiría comparar ambos canales sobre la misma población virgen.</div>
   </div>
 
   <!-- ═══ INCIDENCIAS ═══ -->
@@ -1303,15 +1371,15 @@ footer {
   <!-- Resumen por tipo -->
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px" class="reveal">
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--red);line-height:1">58</div>
+      <div style="font-size:32px;font-weight:700;color:var(--red);line-height:1">66</div>
       <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Total sin pago<br>a tiempo</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">34</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Contactados<br>WA + IA</div>
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">37</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Contactados<br>WA + IA/Email</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
-      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">19</div>
+      <div style="font-size:32px;font-weight:700;color:var(--amber);line-height:1">24</div>
       <div style="font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4">Contactados<br>CS llamada</div>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px;text-align:center">
@@ -1322,7 +1390,7 @@ footer {
 
   <div class="callout c-info reveal">
     <span class="ci">💡</span>
-    <div><strong>Lectura importante:</strong> de los 34 que no pagaron tras ser contactados por WA+IA, <strong>23 habían verificado su información</strong> — confirmaron sus datos pero aun así no pagaron a tiempo. En B5 (15 Jun), CS volvió a tener volumen significativo (119 clientes, 96.6%) y sus 4 morosos también fueron 100% insuficiencia de fondos — el mismo patrón. Esto refuerza que la intención de pago no siempre se traduce en pago efectivo, y que estos casos necesitan un segundo toque de cobranza incluso después de verificar.</div>
+    <div><strong>Lectura importante:</strong> de los 37 que no pagaron tras ser contactados por WA+IA/Email, al menos <strong>23 habían verificado su información</strong> en B1–B5 (para B6 no se puede confirmar el estatus de verificación por la falta de ese detalle en el archivo fuente). En B6 (1 Jul), CS volvió a tener volumen comparable (156 clientes, 96.8%) y sus 5 morosos fueron 100% insuficiencia de fondos — igual que los 3 de WA+Email. Esto refuerza que la intención de pago no siempre se traduce en pago efectivo, y que estos casos necesitan un segundo toque de cobranza incluso después de verificar.</div>
   </div>
 
   <!-- Tabla Abril -->
@@ -1443,29 +1511,49 @@ footer {
     </table>
   </div>
 
+  <!-- Tabla Julio 1 -->
+  <div class="detail-block reveal">
+    <div class="detail-head">Julio 1, 2026 · 8 sin pago a tiempo <span style="font-weight:400;color:var(--muted);font-size:12px">(3 WA+Email · 5 CS — mejor batch de WA+Email hasta ahora)</span></div>
+    <table>
+      <thead>
+        <tr><th>VIN</th><th>Cliente</th><th>Canal</th><th>Resultado contacto</th><th>Causa de rechazo bancario</th><th class="r">Monto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">MAKGN2660T4301017</td><td>Luis</td><td><span class="badge bb">WA+Email</span></td><td style="font-size:11.5px;color:var(--muted)">Sin dato de canal</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$14,156</td></tr>
+        <tr><td class="mono">3KPC25B51JE024247</td><td>Enrique</td><td><span class="badge bb">WA+Email</span></td><td style="font-size:11.5px;color:var(--muted)">Sin dato de canal</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$6,871</td></tr>
+        <tr><td class="mono">MDHBD0FAXTG021737</td><td>Julio</td><td><span class="badge bb">WA+Email</span></td><td style="font-size:11.5px;color:var(--muted)">Sin dato de canal</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$11,875</td></tr>
+        <tr style="border-top:1.5px solid var(--border)"><td class="mono">3KPA35AC4JE059501</td><td>Erika Yanet</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$7,894</td></tr>
+        <tr><td class="mono">9FB1R4F51SM414715</td><td>Bani Aridai</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$7,310</td></tr>
+        <tr><td class="mono">3VWCP6BU6TM068362</td><td>Adolfo</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$8,829</td></tr>
+        <tr><td class="mono">WAUAYAF39T1021381</td><td>Gabriela</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$23,139</td></tr>
+        <tr><td class="mono">3KPFB4AA9VE185215</td><td>Emisael</td><td><span class="badge bp">CS</span></td><td style="font-size:11.5px;color:var(--muted)">—</td><td style="color:var(--amber);font-size:12px">Cuenta con insuficiencia</td><td class="r mono">$8,761</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="callout c-warn reveal">
     <span class="ci">🔎</span>
-    <div><strong>Patrón emergente en los datos de originación:</strong> los dos tipos de incidencia más frecuentes — teléfono no titular y cuenta CLABE/bancaria incorrecta — apuntan a errores de captura en onboarding. B5 confirma el patrón: los 10 morosos (WA+IA y CS) comparten el mismo problema — insuficiencia de fondos en el 100% de los casos. Recomendación: escalar a Operaciones con esta evidencia para revisar el proceso de validación al momento del crédito.</div>
+    <div><strong>Patrón emergente en los datos de originación:</strong> los dos tipos de incidencia más frecuentes en B1–B5 — teléfono no titular y cuenta CLABE/bancaria incorrecta — apuntan a errores de captura en onboarding. B6 refuerza el hallazgo central del proyecto de forma aún más contundente: <strong>los 8 morosos de este corte (ambos canales) fueron 100% insuficiencia de fondos — cero fraude, cero error operativo</strong>. Es el sexto batch consecutivo donde el FPD se explica casi en su totalidad por liquidez, no por contacto ni por error de datos. Recomendación: escalar a Operaciones con la evidencia acumulada de incidencias de B1–B5 para revisar el proceso de validación al momento del crédito.</div>
   </div>
 
   <!-- ═══ APARTADO: MORA TEMPRANA · FPD · FRAUDE ═══ -->
-  <div class="sec-label reveal" style="margin-top:48px"><span>Mora temprana · First-Payment Default · Fraude — B1 a B5</span><div class="line"></div></div>
+  <div class="sec-label reveal" style="margin-top:48px"><span>Mora temprana · First-Payment Default · Fraude — B1 a B6</span><div class="line"></div></div>
 
   <div class="callout c-warn reveal">
     <span class="ci">🚩</span>
-    <div><strong>34 clientes contactados por WA+IA no pagaron su primera renta (FPD) en los 5 batches</strong>, un monto en riesgo de <strong>$412k</strong>. Cruzando la causa de rechazo bancario del reporte de domiciliación con el resultado del contacto, los FPD se separan en tres tipos de falla muy distintos — que requieren tratamientos distintos: <strong>liquidez</strong> (no había fondos), <strong>fraude / alto riesgo</strong> (identidad o cuenta), y <strong>reverso / sin registro</strong> (operativo). Tratar todo como "mora" mezcla problemas que no se resuelven igual.</div>
+    <div><strong>37 clientes contactados por WA+IA/Email no pagaron su primera renta (FPD) en los 6 batches</strong>, un monto en riesgo de <strong>$445k</strong>. Cruzando la causa de rechazo bancario del reporte de domiciliación con el resultado del contacto, los FPD se separan en tres tipos de falla muy distintos — que requieren tratamientos distintos: <strong>liquidez</strong> (no había fondos), <strong>fraude / alto riesgo</strong> (identidad o cuenta), y <strong>reverso / sin registro</strong> (operativo). Tratar todo como "mora" mezcla problemas que no se resuelven igual. B6 no aportó ningún caso nuevo de fraude u operativo — sus 3 FPD fueron 100% liquidez.</div>
   </div>
 
   <div class="risk-grid reveal">
     <div class="risk-cell">
-      <div class="risk-n" style="color:var(--ink)">28</div>
-      <div class="risk-lbl">FPD totales WA+IA<br>(B1–B4)</div>
-      <div class="risk-amt">$341,105 en riesgo</div>
+      <div class="risk-n" style="color:var(--ink)">37</div>
+      <div class="risk-lbl">FPD totales WA+IA/Email<br>(B1–B6)</div>
+      <div class="risk-amt">$444,637 en riesgo</div>
     </div>
     <div class="risk-cell">
-      <div class="risk-n" style="color:var(--amber)">16</div>
+      <div class="risk-n" style="color:var(--amber)">25</div>
       <div class="risk-lbl">Mora por <strong>liquidez</strong><br>cuenta con insuficiencia</div>
-      <div class="risk-amt">$190,845 · 57% del monto</div>
+      <div class="risk-amt">$284,929 · 64% del monto</div>
     </div>
     <div class="risk-cell">
       <div class="risk-n" style="color:var(--red)">2</div>
@@ -1479,10 +1567,10 @@ footer {
     </div>
   </div>
 
-  <!-- señal predictiva actualizada a B4 -->
+  <!-- señal predictiva actualizada a B5, sin datos de canal en B6 -->
   <div class="signal-banner reveal">
     <div class="signal-banner-head">
-      <span class="signal-banner-title">Resultado del contacto WA+IA como alerta temprana de mora — actualizado con Batch 5</span>
+      <span class="signal-banner-title">Resultado del contacto WA+IA como alerta temprana de mora — B1 a B5 <span style="font-size:11px;color:var(--muted);font-weight:400">(B6 sin datos de verificación por cliente)</span></span>
       <span class="signal-banner-tag" style="background:var(--amber-bg);color:var(--amber);border-color:#e8d090">+3.0 pp · estable en 5 batches</span>
     </div>
     <div class="signal-cols">
@@ -1503,12 +1591,12 @@ footer {
       </div>
     </div>
     <div class="signal-note" style="background:var(--amber-bg);border-color:#e8d090;color:#6a4800">
-      <strong>Lectura honesta con B5:</strong> la señal "no responde → paga menos" se estabiliza en los 5 batches (96.5% verificado vs 93.5% sin respuesta, p ≈ 0.089). El delta se mantiene en +3.0 pp — direccionalmente consistente pero no estadísticamente significativo aún con 843 clientes. B5 reforzó la tendencia: sin-respuesta pagó 94.7% vs 97.4% de verificados. El predictor que se mantiene fuerte es el cruce <strong>"necesita revisión" + incidencia de identidad</strong>, que concentra el FPD más caro.
+      <strong>Lectura honesta con B5:</strong> la señal "no responde → paga menos" se estabiliza en los 5 batches (96.5% verificado vs 93.5% sin respuesta, p ≈ 0.089). El delta se mantiene en +3.0 pp — direccionalmente consistente pero no estadísticamente significativo aún con 843 clientes. B5 reforzó la tendencia: sin-respuesta pagó 94.7% vs 97.4% de verificados. El predictor que se mantiene fuerte es el cruce <strong>"necesita revisión" + incidencia de identidad</strong>, que concentra el FPD más caro. <strong>Batch 6 no se incluye aquí</strong> porque su archivo fuente no trae el resultado de contacto por cliente (verificado / sin respuesta / necesita revisión) — solo contacto y pago. Si el equipo de Datos puede seguir capturando ese detalle, la señal se puede recalcular con B6 incluido en el próximo corte.
     </div>
   </div>
 
   <div class="chart-card reveal" style="margin-top:16px">
-    <div class="detail-head" style="padding:0 0 14px 0;border:none">Monto en riesgo por tipo de falla (FPD WA+IA · B1–B4)</div>
+    <div class="detail-head" style="padding:0 0 14px 0;border:none">Monto en riesgo por tipo de falla (FPD WA+IA/Email · B1–B6)</div>
     <div class="chart-wrap" style="height:260px"><canvas id="causeChart"></canvas></div>
   </div>
 
@@ -1548,12 +1636,12 @@ footer {
 
   <div class="callout c-green reveal">
     <span class="ci">🎯</span>
-    <div><strong>Recomendaciones — separar los tres flujos:</strong> <strong>(1) Fraude / identidad:</strong> el caso Roque es el patrón a vigilar — "necesita revisión" + teléfono que no es del titular, y terminó siendo el FPD de mayor ticket ($32k). Enrutar todo "necesita revisión + incidencia de identidad" a una <strong>retención de verificación antes del primer cargo</strong>. <strong>(2) Liquidez:</strong> los verificados que no pagaron por insuficiencia ($191k, 57%) necesitan recordatorio de fondos / segundo toque pre-corte, no anti-fraude. <strong>(3) Operativo:</strong> reversos y casos sin registro de banco apuntan a fallas de domiciliación / captura — escalar a Operaciones. Estas tres líneas no se resuelven con la misma palanca.</div>
+    <div><strong>Recomendaciones — separar los tres flujos:</strong> <strong>(1) Fraude / identidad:</strong> el caso Roque es el patrón a vigilar — "necesita revisión" + teléfono que no es del titular, y terminó siendo el FPD de mayor ticket ($32k). Enrutar todo "necesita revisión + incidencia de identidad" a una <strong>retención de verificación antes del primer cargo</strong>. <strong>(2) Liquidez:</strong> los verificados que no pagaron por insuficiencia ($285k, 64% del monto en riesgo — la causa dominante y creciente en 6 batches) necesitan recordatorio de fondos / segundo toque pre-corte, no anti-fraude. <strong>(3) Operativo:</strong> reversos y casos sin registro de banco apuntan a fallas de domiciliación / captura — escalar a Operaciones. Estas tres líneas no se resuelven con la misma palanca.</div>
   </div>
 
   <footer>
     <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
-    <div class="f-right">v0.8 · 15 Jun 2026 · 5 batches completos</div>
+    <div class="f-right">v0.9 · 1 Jul 2026 · 6 batches completos</div>
   </footer>
 
 </div>
@@ -1591,12 +1679,12 @@ footer {
     if (recEl) {
       new Chart(recEl, {
         data: {
-          labels: ['Batch 1 · 1 Abr', 'Batch 2 · 1 May', 'Batch 3 · 15 May', 'Batch 4 · 1 Jun', 'Batch 5 · 15 Jun'],
+          labels: ['Batch 1 · 1 Abr', 'Batch 2 · 1 May', 'Batch 3 · 15 May', 'Batch 4 · 1 Jun', 'Batch 5 · 15 Jun', 'Batch 6 · 1 Jul'],
           datasets: [
             {
               type: 'bar',
               label: 'WA + Voz IA · clientes contactados',
-              data: [90, 100, 203, 250, 200],
+              data: [90, 100, 203, 250, 200, 190],
               backgroundColor: 'rgba(24,71,184,0.85)',
               borderColor: '#1847b8',
               borderWidth: 0,
@@ -1607,7 +1695,7 @@ footer {
             {
               type: 'bar',
               label: 'Customer Service · clientes contactados',
-              data: [220, 199, 20, 18, 119],
+              data: [220, 199, 20, 18, 119, 156],
               backgroundColor: 'rgba(176,174,159,0.7)',
               borderColor: '#b0ae9f',
               borderWidth: 0,
@@ -1618,7 +1706,7 @@ footer {
             {
               type: 'line',
               label: '% recaudación WA + Voz IA',
-              data: [94.4, 95.0, 95.6, 96.4, 97.0],
+              data: [94.4, 95.0, 95.6, 96.4, 97.0, 98.4],
               borderColor: '#0c7a52',
               backgroundColor: '#0c7a52',
               borderWidth: 2.5,
@@ -1633,7 +1721,7 @@ footer {
             {
               type: 'line',
               label: '% recaudación Customer Service',
-              data: [98.2, 95.5, 90.0, 100.0, 96.6],
+              data: [98.2, 95.5, 90.0, 100.0, 96.6, 96.8],
               borderColor: '#8c6000',
               backgroundColor: '#8c6000',
               borderWidth: 2.5,
@@ -1712,7 +1800,7 @@ footer {
           labels: ['Mora por liquidez', 'Operativo / sin registro', 'Fraude / alto riesgo'],
           datasets: [{
             label: 'Monto en riesgo (MXN)',
-            data: [252027, 115408, 44300],
+            data: [284929, 115408, 44300],
             backgroundColor: ['rgba(200,148,0,0.85)', 'rgba(176,174,159,0.8)', 'rgba(181,36,36,0.85)'],
             borderColor: ['#8c6000', '#b0ae9f', '#b52424'],
             borderWidth: 0,
