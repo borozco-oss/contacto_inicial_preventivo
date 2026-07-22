@@ -75,6 +75,26 @@ body {
 }
 .chip b { color: var(--ink); }
 
+/* ───── CORTE FILTER ───── */
+.corte-filter-wrap {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 16px;
+  margin-bottom: 28px; flex-wrap: wrap;
+}
+.corte-filter-label { font-size: 13px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+.corte-filter-pills { display: flex; gap: 4px; background: var(--surface2); border-radius: 9px; padding: 3px; }
+.corte-pill {
+  border: none; background: transparent; cursor: pointer;
+  padding: 6px 16px; border-radius: 7px;
+  font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--muted); transition: all .15s ease;
+}
+.corte-pill:hover { color: var(--ink); }
+.corte-pill.active { background: var(--blue); color: #fff; box-shadow: 0 1px 3px rgba(24,71,184,.3); }
+.corte-filter-note { font-size: 11px; color: var(--muted2); margin-left: auto; }
+@media(max-width:600px){ .corte-filter-note{ margin-left:0; width:100%; } }
+
 /* ───── SECTION LABEL ───── */
 .sec-label {
   display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
@@ -426,21 +446,32 @@ footer {
       <p class="header-sub">Iniciativa para reducir first-payment default, limpiar datos antes del corte y generar señales tempranas de riesgo.</p>
     </div>
     <div class="header-meta">
-      <div class="chip">Corte <b>15 Jul 2026</b></div>
-      <div class="chip">7 batches · resultado completo</div>
-      <div class="chip">1,233 clientes WA+ Call IA</div>
-      <div class="chip">829 clientes CS llamada</div>
+      <div class="chip">Corte <b id="chip-corte-label">15 Jul 2026</b></div>
+      <div class="chip"><b id="chip-batches-n">7</b> <span id="chip-batches-word">batches</span> · resultado completo</div>
+      <div class="chip"><b id="chip-wa-total">1,233</b> clientes WA+ Call IA</div>
+      <div class="chip"><b id="chip-cs-total">829</b> clientes CS llamada</div>
     </div>
+  </div>
+
+  <!-- ═══ FILTRO DE CORTE ═══ -->
+  <div class="corte-filter-wrap reveal">
+    <span class="corte-filter-label">Ver cortes:</span>
+    <div class="corte-filter-pills">
+      <button class="corte-pill active" data-corte="todos" onclick="setCorteFilter('todos')">Todos</button>
+      <button class="corte-pill" data-corte="corte1" onclick="setCorteFilter('corte1')">Solo día 1</button>
+      <button class="corte-pill" data-corte="corte15" onclick="setCorteFilter('corte15')">Solo día 15</button>
+    </div>
+    <span class="corte-filter-note" id="corte-filter-note">Mostrando los 7 batches (día 1 y día 15)</span>
   </div>
 
   <!-- ═══ COMPARATIVA GENERAL ═══ -->
   <div class="sec-label reveal">
-    <span>Comparativa general — WA+ Call IA vs CS · 7 batches acumulados</span><div class="line"></div>
+    <span id="sec-comparativa-title">Comparativa general — WA+ Call IA vs CS · 7 batches acumulados</span><div class="line"></div>
   </div>
 
   <div class="callout c-info reveal">
     <span class="ci">📊</span>
-    <div><strong>¿Cuál iniciativa tiene mejor desempeño?</strong> La respuesta depende de la dimensión. Abajo se comparan los resultados acumulados de las dos iniciativas en los 7 batches (2,062 clientes M1 en total). Los batches comparables con volumen significativo en ambas son B1, B2, B5, B6 y B7 — en B3 y B4 CS tuvo muestras de 20 y 18 clientes, insuficientes para comparar.</div>
+    <div id="txt-comparativa-intro"><strong>¿Cuál iniciativa tiene mejor desempeño?</strong> La respuesta depende de la dimensión. Abajo se comparan los resultados acumulados de las dos iniciativas en los 7 batches (2,062 clientes M1 en total). Los batches comparables con volumen significativo en ambas son B1, B2, B5, B6 y B7 — en B3 y B4 CS tuvo muestras de 20 y 18 clientes, insuficientes para comparar.</div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px" class="reveal">
@@ -449,26 +480,26 @@ footer {
       <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#1847b8"></div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
         <div style="font-size:14px;font-weight:700;color:#1847b8;letter-spacing:.5px">WA + IA / EMAIL</div>
-        <div style="font-size:12px;color:var(--muted)">1,233 clientes · 7 batches</div>
+        <div style="font-size:12px;color:var(--muted)" id="wa-card-nbatches">1,233 clientes · 7 batches</div>
       </div>
-      <div style="font-size:42px;font-weight:800;color:var(--green);line-height:1;margin:8px 0 2px">96.6%</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">1,191 de 1,233 pagaron · FPD 3.4%</div>
+      <div style="font-size:42px;font-weight:800;color:var(--green);line-height:1;margin:8px 0 2px" id="wa-card-rate">96.6%</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px" id="wa-card-detail">1,191 de 1,233 pagaron · FPD 3.4%</div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--green-bg);border-radius:6px">
-          <span style="color:var(--green)">Verificación <span style="font-size:9px;color:var(--muted)">(B1–B7)</span></span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--green)">79.9% · 985 clientes</span>
+          <span style="color:var(--green)">Verificación <span style="font-size:9px;color:var(--muted)" id="wa-card-verif-label">(B1–B7)</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--green)" id="wa-card-verif-val">79.9% · 985 clientes</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:#eef2ff;border-radius:6px">
           <span style="color:#1847b8">Escalabilidad</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:#1847b8">90 → 250 → 200 → 190 → 200</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:#1847b8" id="wa-card-escala">90 → 250 → 200 → 190 → 200</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
-          <span style="color:var(--ink)">Señal predictiva <span style="font-size:9px;color:var(--muted)">(B1–B7)</span></span>
-          <span style="font-family:'JetBrains Mono',monospace;color:var(--green)">Sí</span>
+          <span style="color:var(--ink)">Señal predictiva <span style="font-size:9px;color:var(--muted)" id="wa-card-signal-label">(B1–B7)</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;color:var(--green)" id="wa-card-signal-val">Sí</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
           <span style="color:var(--ink)">Detección de fraude</span>
-          <span style="font-family:'JetBrains Mono',monospace;color:var(--green)">Sí · 2 casos</span>
+          <span style="font-family:'JetBrains Mono',monospace;color:var(--green)" id="wa-card-fraude">Sí · 2 casos</span>
         </div>
       </div>
     </div>
@@ -477,18 +508,18 @@ footer {
       <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#b0ae9f"></div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
         <div style="font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.5px">CS · LLAMADA MANUAL</div>
-        <div style="font-size:12px;color:var(--muted)">829 clientes · 7 batches</div>
+        <div style="font-size:12px;color:var(--muted)" id="cs-card-nbatches">829 clientes · 7 batches</div>
       </div>
-      <div style="font-size:42px;font-weight:800;color:var(--ink);line-height:1;margin:8px 0 2px">96.9%</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">803 de 829 pagaron · FPD 3.1%</div>
+      <div style="font-size:42px;font-weight:800;color:var(--ink);line-height:1;margin:8px 0 2px" id="cs-card-rate">96.9%</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px" id="cs-card-detail">803 de 829 pagaron · FPD 3.1%</div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
-          <span style="color:var(--muted)">Contactación (contestó) <span style="font-size:9px">(B1–B7)</span></span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--muted)">35.5% · 294 clientes</span>
+          <span style="color:var(--muted)">Contactación (contestó) <span style="font-size:9px" id="cs-card-contacto-label">(B1–B7)</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--muted)" id="cs-card-contacto-val">35.5% · 294 clientes</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
           <span style="color:var(--muted)">Escalabilidad</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--amber)">220 → 18 → 119 → 156 → 97</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--amber)" id="cs-card-escala">220 → 18 → 119 → 156 → 97</span>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:12px;padding:7px 10px;background:var(--surface2);border-radius:6px">
           <span style="color:var(--ink)">Señal predictiva</span>
@@ -515,50 +546,50 @@ footer {
       </thead>
       <tbody>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Recaudación acumulada <span style="font-size:10px;color:var(--muted)">(B1–B7)</span></td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px">96.6%</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">96.9%</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--muted)">CS +0.3pp</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Recaudación acumulada <span style="font-size:10px;color:var(--muted)" id="tbl-recaud-label">(B1–B7)</span></td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px" id="tbl-recaud-wa">96.6%</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600" id="tbl-recaud-cs">96.9%</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--muted)" id="tbl-recaud-delta">CS +0.3pp</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Recaudación B7 <span style="font-size:10px;color:var(--muted)">(más reciente, comparable)</span></td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">97.5%</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green)">97.9%</td>
-          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--muted);font-weight:600">CS +0.4pp</td>
+          <td style="padding:9px 14px;font-weight:500">Recaudación <span id="tbl-recente-label">B7</span> <span style="font-size:10px;color:var(--muted)">(más reciente, comparable)</span></td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600" id="tbl-recente-wa">97.5%</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px" id="tbl-recente-cs">97.9%</td>
+          <td style="text-align:center;padding:9px 14px;font-size:11px;font-weight:600" id="tbl-recente-delta">CS +0.4pp</td>
         </tr>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Tasa de contacto efectivo <span style="font-size:10px;color:var(--muted)">(B1–B7)</span></td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">79.9%</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber)">35.5%</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA · 2.3×</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Tasa de contacto efectivo <span style="font-size:10px;color:var(--muted)" id="tbl-contacto-label">(B1–B7)</span></td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)" id="tbl-contacto-wa">79.9%</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber)" id="tbl-contacto-cs">35.5%</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600" id="tbl-contacto-ratio">WA+IA · 2.3×</td>
         </tr>
         <tr style="background:var(--surface2)">
           <td style="padding:9px 14px;font-weight:500">Clientes contactados (total)</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)">1,233</td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px">829</td>
-          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+ Call IA · 1.5×</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--green)" id="tbl-clientes-wa">1,233</td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px" id="tbl-clientes-cs">829</td>
+          <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600" id="tbl-clientes-ratio">WA+ Call IA · 1.5×</td>
         </tr>
         <tr>
           <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Escalabilidad sostenida</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green)">90→250→200→190→200 ✓</td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--amber)">220→18→119→156→97 ⚠</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green)" id="tbl-escala-wa">90→250→200→190→200 ✓</td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--amber)" id="tbl-escala-cs">220→18→119→156→97 ⚠</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+ Call IA</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Genera señal predictiva <span style="font-size:10px;color:var(--muted)">(B1–B7)</span></td>
+          <td style="padding:9px 14px;font-weight:500">Genera señal predictiva <span style="font-size:10px;color:var(--muted)" id="tbl-signal-label">(B1–B7)</span></td>
           <td style="text-align:center;padding:9px 14px;color:var(--green);font-weight:600">Sí</td>
           <td style="text-align:center;padding:9px 14px;color:var(--muted)">No</td>
           <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
         </tr>
         <tr>
-          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Detecta fraude / identidad <span style="font-size:10px;color:var(--muted)">(B1–B7)</span></td>
-          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);color:var(--green);font-weight:600">Sí · 2 alertas</td>
+          <td style="padding:9px 14px;border-top:1px solid var(--border2);font-weight:500">Detecta fraude / identidad <span style="font-size:10px;color:var(--muted)" id="tbl-fraude-label">(B1–B7)</span></td>
+          <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);color:var(--green);font-weight:600" id="tbl-fraude-wa">Sí · 2 alertas</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);color:var(--muted)">No</td>
           <td style="text-align:center;padding:9px 14px;border-top:1px solid var(--border2);font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
         </tr>
         <tr style="background:var(--surface2)">
-          <td style="padding:9px 14px;font-weight:500">Incidencias de datos detectadas <span style="font-size:10px;color:var(--muted)">(B1–B7)</span></td>
-          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">27</td>
+          <td style="padding:9px 14px;font-weight:500">Incidencias de datos detectadas <span style="font-size:10px;color:var(--muted)" id="tbl-inc-label">(B1–B7)</span></td>
+          <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600" id="tbl-inc-wa">27</td>
           <td style="text-align:center;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">0</td>
           <td style="text-align:center;padding:9px 14px;font-size:11px;color:var(--green);font-weight:600">WA+IA</td>
         </tr>
@@ -568,12 +599,12 @@ footer {
 
   <div class="callout c-green reveal" style="margin-bottom:14px">
     <span class="ci">💡</span>
-    <div><strong>Lectura para Abdon:</strong> en recaudación acumulada la diferencia sigue siendo prácticamente nula (CS +0.3 pp sobre 2,062 clientes), y en B7 (15 Jul) el patrón se invierte respecto a B6: CS quedó ligeramente arriba (97.9% vs 97.5%, +0.4 pp) — recordatorio de que estas diferencias fluctúan batch a batch dentro de un rango de ruido de ±1-2 pp, no hay una iniciativa que gane de forma consistente en recaudación pura. La diferencia real entre las dos iniciativas sigue sin estar en quién cobra más, sino en qué otra cosa genera cada una: verificación 2.3× mayor, escalabilidad sin depender de agentes humanos (CS colapsó a 18 clientes en B4 y ha oscilado entre 97 y 156 desde entonces), detección de fraude e incidencias, y una señal predictiva de riesgo que CS no ofrece.</div>
+    <div id="txt-abdon-reading"><strong>Lectura para Abdon:</strong> en recaudación acumulada la diferencia sigue siendo prácticamente nula (CS +0.3 pp sobre 2,062 clientes), y en B7 (15 Jul) el patrón se invierte respecto a B6: CS quedó ligeramente arriba (97.9% vs 97.5%, +0.4 pp) — recordatorio de que estas diferencias fluctúan batch a batch dentro de un rango de ruido de ±1-2 pp, no hay una iniciativa que gane de forma consistente en recaudación pura. La diferencia real entre las dos iniciativas sigue sin estar en quién cobra más, sino en qué otra cosa genera cada una: verificación 2.3× mayor, escalabilidad sin depender de agentes humanos (CS colapsó a 18 clientes en B4 y ha oscilado entre 97 y 156 desde entonces), detección de fraude e incidencias, y una señal predictiva de riesgo que CS no ofrece.</div>
   </div>
 
   <!-- ═══ APARTADO: RECAUDACIÓN POR INICIATIVA ═══ -->
   <div class="sec-label reveal">
-    <span>Recaudación por iniciativa — los 7 batches</span><div class="line"></div>
+    <span id="sec-recaud-title">Recaudación por iniciativa — los 7 batches</span><div class="line"></div>
   </div>
 
   <div class="callout c-info reveal">
@@ -592,43 +623,43 @@ footer {
     </div>
     <div class="chart-wrap"><canvas id="recChart"></canvas></div>
     <div class="chart-foot">
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B1">
         <div class="cf-b">Batch 1</div><div class="cf-d">1 Abr 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">90 · 94.4%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">220 · 98.2%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">86.7% · 89.1%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B2">
         <div class="cf-b">Batch 2</div><div class="cf-d">1 May 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">100 · 95.0%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">199 · 95.5%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">89.0% · 88.9%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B3">
         <div class="cf-b">Batch 3</div><div class="cf-d">15 May 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">203 · 95.6%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">20 · 90.0%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">86.7% · 80.0%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B4">
         <div class="cf-b">Batch 4</div><div class="cf-d">1 Jun 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">250 · 96.4%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">18 · 100%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">90.8% · 88.9%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B5">
         <div class="cf-b">Batch 5</div><div class="cf-d">15 Jun 2026</div>
         <div class="cf-row"><span class="cf-k">WA+IA</span><span class="cf-v">200 · 97.0%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">119 · 96.6%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">88.0% · 87.4%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B6">
         <div class="cf-b">Batch 6</div><div class="cf-d">1 Jul 2026</div>
         <div class="cf-row"><span class="cf-k">WA+ Call IA</span><span class="cf-v">190 · 98.4%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">156 · 96.8%</span></div>
         <div class="cf-row" style="opacity:.7"><span class="cf-k" style="font-size:10px">1er intento</span><span class="cf-v" style="font-size:10px">86.8% · 85.9%</span></div>
       </div>
-      <div class="cf-cell">
+      <div class="cf-cell" data-batch="B7">
         <div class="cf-b">Batch 7 · nuevo</div><div class="cf-d">15 Jul 2026</div>
         <div class="cf-row"><span class="cf-k">WA+ Call IA</span><span class="cf-v">200 · 97.5%</span></div>
         <div class="cf-row"><span class="cf-k">CS</span><span class="cf-v">97 · 97.9%</span></div>
@@ -637,14 +668,24 @@ footer {
     </div>
   </div>
 
-  <div class="callout c-green reveal" style="margin-bottom:14px">
+  <div class="callout c-green reveal" style="margin-bottom:14px" id="callout-escala-todos">
     <span class="ci">📈</span>
-    <div><strong>WA+ Call IA escala y mejora en paralelo.</strong> El volumen contactado crece de 90 a 250, se estabiliza entre 190 y 200, mientras la recaudación total se mueve en un rango alto sin una tendencia perfectamente monotónica: <strong>94.4% → 95.0% → 95.6% → 96.4% → 97.0% → 98.4% → 97.5%</strong>. B7 tuvo una ligera baja frente a B6, y en este batch CS quedó arriba por primera vez desde B5 (97.9% vs 97.5%, +0.4 pp) — con volumen comparable en ambos lados (97 vs 200 clientes). Las tasas de CS en B3 y B4 (90.0% y 100%) se apoyan en muestras muy chicas (20 y 18 clientes), por lo que no son comparables.</div>
+    <div id="txt-escala-callout"><strong>WA+ Call IA escala y mejora en paralelo.</strong> El volumen contactado crece de 90 a 250, se estabiliza entre 190 y 200, mientras la recaudación total se mueve en un rango alto sin una tendencia perfectamente monotónica: <strong>94.4% → 95.0% → 95.6% → 96.4% → 97.0% → 98.4% → 97.5%</strong>. B7 tuvo una ligera baja frente a B6, y en este batch CS quedó arriba por primera vez desde B5 (97.9% vs 97.5%, +0.4 pp) — con volumen comparable en ambos lados (97 vs 200 clientes). Las tasas de CS en B3 y B4 (90.0% y 100%) se apoyan en muestras muy chicas (20 y 18 clientes), por lo que no son comparables.</div>
   </div>
 
-  <div class="callout c-warn reveal" style="margin-bottom:40px">
+  <div class="callout c-green reveal" style="margin-bottom:14px;display:none" id="callout-escala-filtrado">
+    <span class="ci">📈</span>
+    <div id="txt-escala-filtrado">—</div>
+  </div>
+
+  <div class="callout c-warn reveal" style="margin-bottom:40px" id="callout-metodologia-todos">
     <span class="ci">⚠️</span>
-    <div><strong>Corrección metodológica importante:</strong> la primera versión de esta gráfica subestimaba el "1er intento" en B1–B3 porque esos archivos de domiciliación no traen un campo directo de intento — se infería cruzando contra listas de reintento, y ese método resultó incompleto. Se volvió a calcular usando el detalle real por cliente y por corte (hojas BBVA/Interbancario/SPEI, columna de adeudo tras el primer cargo), la misma fuente que sustenta el resto del reporte. <strong>El hallazgo corregido: la brecha entre 1er intento y recaudación final ha sido consistentemente amplia en los 7 batches, no algo que empezó en B4.</strong> WA+ Call IA: 86.7% → 89.0% → 86.7% → 90.8% → 88.0% → 86.8% → 88.5% (1er intento), recuperando en promedio +8.3 pp vía reintentos en cada batch. CS: 89.1% → 88.9% → 80.0% → 88.9% → 87.4% → 85.9% → 94.8%, recuperando en promedio +8.6 pp. B7 mostró la brecha de CS más chica hasta ahora (+3.1 pp), señal de que ese batch necesitó menos reintentos. No hay una tendencia clara de deterioro ni de mejora en el 1er intento — fluctúa batch a batch en ambas iniciativas. Lo que esto confirma: la recaudación final siempre ha dependido en buena medida del proceso de reintento, no solo del primer cobro — esto es estructural del negocio, no un cambio reciente. Vale la pena investigar con Rodrigo si hay oportunidad de mover parte de esa recuperación de reintento a un cobro más temprano (día 2–3 en vez de día 4).</div>
+    <div id="txt-metodologia-callout"><strong>Corrección metodológica importante:</strong> la primera versión de esta gráfica subestimaba el "1er intento" en B1–B3 porque esos archivos de domiciliación no traen un campo directo de intento — se infería cruzando contra listas de reintento, y ese método resultó incompleto. Se volvió a calcular usando el detalle real por cliente y por corte (hojas BBVA/Interbancario/SPEI, columna de adeudo tras el primer cargo), la misma fuente que sustenta el resto del reporte. <strong>El hallazgo corregido: la brecha entre 1er intento y recaudación final ha sido consistentemente amplia en los 7 batches, no algo que empezó en B4.</strong> WA+ Call IA: 86.7% → 89.0% → 86.7% → 90.8% → 88.0% → 86.8% → 88.5% (1er intento), recuperando en promedio +8.3 pp vía reintentos en cada batch. CS: 89.1% → 88.9% → 80.0% → 88.9% → 87.4% → 85.9% → 94.8%, recuperando en promedio +8.6 pp. B7 mostró la brecha de CS más chica hasta ahora (+3.1 pp), señal de que ese batch necesitó menos reintentos. No hay una tendencia clara de deterioro ni de mejora en el 1er intento — fluctúa batch a batch en ambas iniciativas. Lo que esto confirma: la recaudación final siempre ha dependido en buena medida del proceso de reintento, no solo del primer cobro — esto es estructural del negocio, no un cambio reciente. Vale la pena investigar con Rodrigo si hay oportunidad de mover parte de esa recuperación de reintento a un cobro más temprano (día 2–3 en vez de día 4).</div>
+  </div>
+
+  <div class="callout c-warn reveal" style="margin-bottom:40px;display:none" id="callout-metodologia-filtrado">
+    <span class="ci">⚠️</span>
+    <div id="txt-metodologia-filtrado">—</div>
   </div>
 
   <div class="callout c-info reveal" style="margin-bottom:40px">
@@ -660,13 +701,13 @@ footer {
             <th style="text-align:center;padding:6px 10px">CS final</th>
           </tr></thead>
           <tbody>
-            <tr><td style="padding:5px 10px;border-top:1px solid var(--border2)">B1 · 1 Abr</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">86.7%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">94.4%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">89.1%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">98.2%</td></tr>
-            <tr style="background:var(--surface2)"><td style="padding:5px 10px">B2 · 1 May</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">89.0%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">95.0%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">88.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">95.5%</td></tr>
-            <tr><td style="padding:5px 10px;border-top:1px solid var(--border2)">B3 · 15 May</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">86.7%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">95.6%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">80.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">90.0%</td></tr>
-            <tr style="background:var(--surface2)"><td style="padding:5px 10px">B4 · 1 Jun</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">90.8%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">96.4%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">88.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">100%</td></tr>
-            <tr><td style="padding:5px 10px;border-top:1px solid var(--border2)">B5 · 15 Jun</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">88.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">87.4%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">96.6%</td></tr>
-            <tr style="background:var(--surface2)"><td style="padding:5px 10px">B6 · 1 Jul</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">86.8%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">98.4%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">85.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">96.8%</td></tr>
-            <tr><td style="padding:5px 10px;border-top:1px solid var(--border2)">B7 · 15 Jul</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">88.5%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.5%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">94.8%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.9%</td></tr>
+            <tr data-batch="B1"><td style="padding:5px 10px;border-top:1px solid var(--border2)">B1 · 1 Abr</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">86.7%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">94.4%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">89.1%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">98.2%</td></tr>
+            <tr data-batch="B2" style="background:var(--surface2)"><td style="padding:5px 10px">B2 · 1 May</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">89.0%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">95.0%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">88.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">95.5%</td></tr>
+            <tr data-batch="B3"><td style="padding:5px 10px;border-top:1px solid var(--border2)">B3 · 15 May</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">86.7%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">95.6%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">80.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">90.0%</td></tr>
+            <tr data-batch="B4" style="background:var(--surface2)"><td style="padding:5px 10px">B4 · 1 Jun</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">90.8%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">96.4%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">88.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">100%</td></tr>
+            <tr data-batch="B5"><td style="padding:5px 10px;border-top:1px solid var(--border2)">B5 · 15 Jun</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">88.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.0%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">87.4%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">96.6%</td></tr>
+            <tr data-batch="B6" style="background:var(--surface2)"><td style="padding:5px 10px">B6 · 1 Jul</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">86.8%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">98.4%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">85.9%</td><td style="text-align:center;padding:5px 10px;font-family:'JetBrains Mono',monospace">96.8%</td></tr>
+            <tr data-batch="B7"><td style="padding:5px 10px;border-top:1px solid var(--border2)">B7 · 15 Jul</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">88.5%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.5%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">94.8%</td><td style="text-align:center;padding:5px 10px;border-top:1px solid var(--border2);font-family:'JetBrains Mono',monospace">97.9%</td></tr>
           </tbody>
         </table>
       </div>
@@ -675,7 +716,7 @@ footer {
 
   <!-- ═══ RECAUDACIÓN POR TIPO DE CONTACTO ═══ -->
   <div class="sec-label reveal">
-    <span>Recaudación según éxito de contacto — por batch (petición de Rodrigo)</span><div class="line"></div>
+    <span id="sec-rodrigo-title">Recaudación según éxito de contacto — por batch (petición de Rodrigo)</span><div class="line"></div>
   </div>
 
   <div class="callout c-info reveal">
@@ -701,31 +742,36 @@ footer {
         <tr><th>Batch</th><th class="r">WA contacto exitoso</th><th class="r">WA sin respuesta</th><th class="r">Delta WA</th><th class="r">Total WA</th><th class="r">CS contestó</th><th class="r">CS no contestó</th><th class="r">Delta CS</th><th class="r">Total CS</th></tr>
       </thead>
       <tbody>
-        <tr><td>B1 · 1 Abr</td><td class="r mono">62/65 · 95.4%</td><td class="r mono">23/25 · 92.0%</td><td class="r" style="color:var(--green)">+3.4pp</td><td class="r mono" style="font-weight:600">90</td><td class="r mono">84/85 · 98.8%</td><td class="r mono">132/135 · 97.8%</td><td class="r" style="color:var(--green)">+1.0pp</td><td class="r mono" style="font-weight:600">220</td></tr>
-        <tr style="background:var(--surface2)"><td>B2 · 1 May</td><td class="r mono">77/80 · 96.2%</td><td class="r mono">18/20 · 90.0%</td><td class="r" style="color:var(--green)">+6.2pp</td><td class="r mono" style="font-weight:600">100</td><td class="r mono">57/60 · 95.0%</td><td class="r mono">133/139 · 95.7%</td><td class="r" style="color:var(--red)">−0.7pp</td><td class="r mono" style="font-weight:600">199</td></tr>
-        <tr><td>B3 · 15 May</td><td class="r mono">169/176 · 96.0%</td><td class="r mono">25/27 · 92.6%</td><td class="r" style="color:var(--green)">+3.4pp</td><td class="r mono" style="font-weight:600">203</td><td class="r mono">6/7 · 85.7%</td><td class="r mono">12/13 · 92.3%</td><td class="r" style="color:var(--red)">−6.6pp <span style="font-size:10px;color:var(--muted)">(n chica)</span></td><td class="r mono" style="font-weight:600">20</td></tr>
-        <tr style="background:var(--surface2)"><td>B4 · 1 Jun</td><td class="r mono">198/205 · 96.6%</td><td class="r mono">43/45 · 95.6%</td><td class="r" style="color:var(--green)">+1.0pp</td><td class="r mono" style="font-weight:600">250</td><td class="r mono">6/6 · 100%</td><td class="r mono">12/12 · 100%</td><td class="r" style="color:var(--muted)">0pp <span style="font-size:10px">(n chica)</span></td><td class="r mono" style="font-weight:600">18</td></tr>
-        <tr><td>B5 · 15 Jun</td><td class="r mono">154/158 · 97.5%</td><td class="r mono">40/42 · 95.2%</td><td class="r" style="color:var(--green)">+2.3pp</td><td class="r mono" style="font-weight:600">200</td><td class="r mono">42/42 · 100%</td><td class="r mono">73/77 · 94.8%</td><td class="r" style="color:var(--green)">+5.2pp</td><td class="r mono" style="font-weight:600">119</td></tr>
-        <tr style="background:var(--surface2)"><td>B6 · 1 Jul</td><td class="r mono">154/156 · 98.7%</td><td class="r mono">33/34 · 97.1%</td><td class="r" style="color:var(--green)">+1.6pp</td><td class="r mono" style="font-weight:600">190</td><td class="r mono">56/57 · 98.2%</td><td class="r mono">95/99 · 96.0%</td><td class="r" style="color:var(--green)">+2.3pp</td><td class="r mono" style="font-weight:600">156</td></tr>
-        <tr><td>B7 · 15 Jul</td><td class="r mono">168/172 · 97.7%</td><td class="r mono">27/28 · 96.4%</td><td class="r" style="color:var(--green)">+1.3pp</td><td class="r mono" style="font-weight:600">200</td><td class="r mono">37/37 · 100%</td><td class="r mono">58/60 · 96.7%</td><td class="r" style="color:var(--green)">+3.3pp</td><td class="r mono" style="font-weight:600">97</td></tr>
+        <tr data-batch="B1"><td>B1 · 1 Abr</td><td class="r mono">62/65 · 95.4%</td><td class="r mono">23/25 · 92.0%</td><td class="r" style="color:var(--green)">+3.4pp</td><td class="r mono" style="font-weight:600">90</td><td class="r mono">84/85 · 98.8%</td><td class="r mono">132/135 · 97.8%</td><td class="r" style="color:var(--green)">+1.0pp</td><td class="r mono" style="font-weight:600">220</td></tr>
+        <tr data-batch="B2" style="background:var(--surface2)"><td>B2 · 1 May</td><td class="r mono">77/80 · 96.2%</td><td class="r mono">18/20 · 90.0%</td><td class="r" style="color:var(--green)">+6.2pp</td><td class="r mono" style="font-weight:600">100</td><td class="r mono">57/60 · 95.0%</td><td class="r mono">133/139 · 95.7%</td><td class="r" style="color:var(--red)">−0.7pp</td><td class="r mono" style="font-weight:600">199</td></tr>
+        <tr data-batch="B3"><td>B3 · 15 May</td><td class="r mono">169/176 · 96.0%</td><td class="r mono">25/27 · 92.6%</td><td class="r" style="color:var(--green)">+3.4pp</td><td class="r mono" style="font-weight:600">203</td><td class="r mono">6/7 · 85.7%</td><td class="r mono">12/13 · 92.3%</td><td class="r" style="color:var(--red)">−6.6pp <span style="font-size:10px;color:var(--muted)">(n chica)</span></td><td class="r mono" style="font-weight:600">20</td></tr>
+        <tr data-batch="B4" style="background:var(--surface2)"><td>B4 · 1 Jun</td><td class="r mono">198/205 · 96.6%</td><td class="r mono">43/45 · 95.6%</td><td class="r" style="color:var(--green)">+1.0pp</td><td class="r mono" style="font-weight:600">250</td><td class="r mono">6/6 · 100%</td><td class="r mono">12/12 · 100%</td><td class="r" style="color:var(--muted)">0pp <span style="font-size:10px">(n chica)</span></td><td class="r mono" style="font-weight:600">18</td></tr>
+        <tr data-batch="B5"><td>B5 · 15 Jun</td><td class="r mono">154/158 · 97.5%</td><td class="r mono">40/42 · 95.2%</td><td class="r" style="color:var(--green)">+2.3pp</td><td class="r mono" style="font-weight:600">200</td><td class="r mono">42/42 · 100%</td><td class="r mono">73/77 · 94.8%</td><td class="r" style="color:var(--green)">+5.2pp</td><td class="r mono" style="font-weight:600">119</td></tr>
+        <tr data-batch="B6" style="background:var(--surface2)"><td>B6 · 1 Jul</td><td class="r mono">154/156 · 98.7%</td><td class="r mono">33/34 · 97.1%</td><td class="r" style="color:var(--green)">+1.6pp</td><td class="r mono" style="font-weight:600">190</td><td class="r mono">56/57 · 98.2%</td><td class="r mono">95/99 · 96.0%</td><td class="r" style="color:var(--green)">+2.3pp</td><td class="r mono" style="font-weight:600">156</td></tr>
+        <tr data-batch="B7"><td>B7 · 15 Jul</td><td class="r mono">168/172 · 97.7%</td><td class="r mono">27/28 · 96.4%</td><td class="r" style="color:var(--green)">+1.3pp</td><td class="r mono" style="font-weight:600">200</td><td class="r mono">37/37 · 100%</td><td class="r mono">58/60 · 96.7%</td><td class="r" style="color:var(--green)">+3.3pp</td><td class="r mono" style="font-weight:600">97</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="callout c-green reveal" style="margin-bottom:40px">
+  <div class="callout c-green reveal" style="margin-bottom:40px" id="callout-rodrigo-todos">
     <span class="ci">✅</span>
-    <div><strong>Para Rodrigo — la respuesta directa a la pregunta:</strong> en WA+ Call IA, el contacto exitoso paga mejor que el sin-respuesta en <strong>los 7 batches sin excepción</strong> — delta de +1.0pp a +6.2pp, siempre positivo. En CS la imagen sigue mejorando: de los 7 batches, <strong>5 muestran delta positivo</strong> (B1 +1.0pp, B5 +5.2pp, B6 +2.3pp, B7 +3.3pp con muestra sana de 37 y 60 clientes) y solo 2 muestran delta plano o negativo (B3 −6.6pp, B4 0pp) — y esos dos son justo los batches con muestras minúsculas de "contestó" (6-7 clientes), donde un par de casos mueven el porcentaje entero. La lectura se mantiene y se refuerza con B7: <strong>cuando CS tiene volumen suficiente para medir, la dirección del efecto es la misma que en WA+ Call IA</strong> — contestar la llamada se asocia con mejor recaudación. La diferencia real entre ambas iniciativas no es que el efecto exista solo en una; es que WA+ Call IA genera esta señal de forma consistente y a mayor escala, mientras que CS la genera de forma más intermitente porque rara vez junta suficiente volumen de "sí contestó" para que el número sea confiable.</div>
+    <div id="txt-rodrigo-callout"><strong>Para Rodrigo — la respuesta directa a la pregunta:</strong> en WA+ Call IA, el contacto exitoso paga mejor que el sin-respuesta en <strong>los 7 batches sin excepción</strong> — delta de +1.0pp a +6.2pp, siempre positivo. En CS la imagen sigue mejorando: de los 7 batches, <strong>5 muestran delta positivo</strong> (B1 +1.0pp, B5 +5.2pp, B6 +2.3pp, B7 +3.3pp con muestra sana de 37 y 60 clientes) y solo 2 muestran delta plano o negativo (B3 −6.6pp, B4 0pp) — y esos dos son justo los batches con muestras minúsculas de "contestó" (6-7 clientes), donde un par de casos mueven el porcentaje entero. La lectura se mantiene y se refuerza con B7: <strong>cuando CS tiene volumen suficiente para medir, la dirección del efecto es la misma que en WA+ Call IA</strong> — contestar la llamada se asocia con mejor recaudación. La diferencia real entre ambas iniciativas no es que el efecto exista solo en una; es que WA+ Call IA genera esta señal de forma consistente y a mayor escala, mientras que CS la genera de forma más intermitente porque rara vez junta suficiente volumen de "sí contestó" para que el número sea confiable.</div>
+  </div>
+
+  <div class="callout c-green reveal" style="margin-bottom:40px;display:none" id="callout-rodrigo-filtrado">
+    <span class="ci">✅</span>
+    <div id="txt-rodrigo-filtrado">—</div>
   </div>
 
   <!-- ═══ BATCHES + CS ═══ -->
   <div class="sec-label reveal">
-    <span>Estado de los 7 batches</span><div class="line"></div>
+    <span id="sec-batches-title">Estado de los 7 batches</span><div class="line"></div>
   </div>
 
-  <div class="batches reveal">
+  <div class="batches reveal" id="batches-grid">
 
     <!-- ── COLUMNA 1: Batch 1 + CS Abril ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B1" data-corte="1">
 
       <!-- Batch 1 -->
       <div class="batch">
@@ -807,7 +853,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 2: Batch 2 + CS Mayo ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B2" data-corte="1">
 
       <!-- Batch 2 -->
       <div class="batch">
@@ -889,7 +935,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 3: Batch 3 + CS 15 Mayo ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B3" data-corte="15">
 
       <!-- Batch 3 -->
       <div class="batch">
@@ -971,7 +1017,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 4: Batch 4 + CS Junio (NUEVO) ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B4" data-corte="1">
 
       <!-- Batch 4 -->
       <div class="batch" style="border-color:#1847b8">
@@ -1051,7 +1097,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 5: Batch 5 + CS Jun 15 (NUEVO) ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B5" data-corte="15">
 
       <!-- Batch 5 -->
       <div class="batch" style="border-color:#1847b8">
@@ -1138,7 +1184,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 6: Batch 6 (WA+ Call IA) + CS Jul 1 ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B6" data-corte="1">
 
       <!-- Batch 6 -->
       <div class="batch" style="border-color:#1847b8">
@@ -1225,7 +1271,7 @@ footer {
     </div>
 
     <!-- ── COLUMNA 7: Batch 7 (WA+ Call IA) + CS Jul 15 (NUEVO) ── -->
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:10px" data-batch-col="B7" data-corte="15">
 
       <!-- Batch 7 -->
       <div class="batch" style="border-color:#1847b8">
@@ -1316,35 +1362,35 @@ footer {
   <!-- NOTA GENERAL -->
   <div class="callout c-green reveal" style="margin-bottom:40px">
     <span class="ci">✅</span>
-    <div><strong>Reporte completo — los 7 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva en WA+ Call IA con una ligera baja en el último batch: B1 94.4% · B2 95.0% · B3 95.6% · B4 96.4% · B5 97.0% · B6 98.4% · B7 97.5%. CS tuvo su segundo mejor batch en B7 (97 clientes, 97.9%), superando a WA+ Call IA por +0.4 pp con volumen comparable en ambos lados — primera vez que esto ocurre desde B5. La tasa de FPD de WA+ Call IA bajó de forma prácticamente monotónica hasta B6 y subió levemente en B7 (5.6% → 5.0% → 4.4% → 3.6% → 3.0% → 1.6% → 2.5%) mientras el volumen creció de 90 a 250 y se estabilizó entre 190 y 200.</div>
+    <div id="txt-reporte-completo-callout"><strong>Reporte completo — los 7 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva en WA+ Call IA con una ligera baja en el último batch: B1 94.4% · B2 95.0% · B3 95.6% · B4 96.4% · B5 97.0% · B6 98.4% · B7 97.5%. CS tuvo su segundo mejor batch en B7 (97 clientes, 97.9%), superando a WA+ Call IA por +0.4 pp con volumen comparable en ambos lados — primera vez que esto ocurre desde B5. La tasa de FPD de WA+ Call IA bajó de forma prácticamente monotónica hasta B6 y subió levemente en B7 (5.6% → 5.0% → 4.4% → 3.6% → 3.0% → 1.6% → 2.5%) mientras el volumen creció de 90 a 250 y se estabilizó entre 190 y 200.</div>
   </div>
 
   <!-- ═══ SEÑAL PREDICTIVA ═══ -->
-  <div class="sec-label reveal"><span>Señal predictiva — B1 a B7 combinados</span><div class="line"></div></div>
+  <div class="sec-label reveal"><span id="sec-signal-title">Señal predictiva — B1 a B7 combinados</span><div class="line"></div></div>
 
   <div class="signal-banner reveal">
     <div class="signal-banner-head">
       <span class="signal-banner-title">Respuesta al contacto como predictor de pago a tiempo</span>
-      <span class="signal-banner-tag" style="background:var(--amber-bg);color:var(--amber);border-color:#e8d090">p = 0.052 · al borde de significancia · tendencia estable</span>
+      <span class="signal-banner-tag" style="background:var(--amber-bg);color:var(--amber);border-color:#e8d090" id="signal-tag">p = 0.052 · al borde de significancia · tendencia estable</span>
     </div>
     <div class="signal-cols">
       <div class="signal-col">
         <div class="signal-col-label">Respondió y verificó</div>
-        <div class="signal-col-big" style="color:var(--green)">97.1%</div>
-        <div class="signal-col-sub">956 de 985 pagaron a tiempo<br><span style="color:var(--muted2);font-size:11px">B1: 95.2% · B2: 97.4% · B3: 95.9% · B4: 96.5% · B5: 97.4% · B6: 98.7% · B7: 97.6%</span></div>
+        <div class="signal-col-big" style="color:var(--green)" id="signal-verif-rate">97.1%</div>
+        <div class="signal-col-sub"><span id="signal-verif-detail">956 de 985 pagaron a tiempo</span><br><span style="color:var(--muted2);font-size:11px" id="signal-verif-perbatch">B1: 95.2% · B2: 97.4% · B3: 95.9% · B4: 96.5% · B5: 97.4% · B6: 98.7% · B7: 97.6%</span></div>
       </div>
       <div class="signal-col">
         <div class="signal-col-label">No respondió al contacto</div>
-        <div class="signal-col-big" style="color:#c89400">94.4%</div>
-        <div class="signal-col-sub">202 de 214 pagaron a tiempo<br><span style="color:var(--muted2);font-size:11px">B1: 92.0% · B2: 90.0% · B3: 92.6% · B4: 95.6% · B5: 94.7% · B6: 97.0% · B7: 96.2%</span></div>
+        <div class="signal-col-big" style="color:#c89400" id="signal-sinr-rate">94.4%</div>
+        <div class="signal-col-sub"><span id="signal-sinr-detail">202 de 214 pagaron a tiempo</span><br><span style="color:var(--muted2);font-size:11px" id="signal-sinr-perbatch">B1: 92.0% · B2: 90.0% · B3: 92.6% · B4: 95.6% · B5: 94.7% · B6: 97.0% · B7: 96.2%</span></div>
       </div>
       <div class="signal-col">
         <div class="signal-col-label">Delta acumulado</div>
-        <div class="signal-col-big" style="color:var(--amber)">+2.7 pp</div>
-        <div class="signal-col-sub">La dirección se mantiene estable en 7 batches: la no-respuesta sigue apuntando más riesgo</div>
+        <div class="signal-col-big" style="color:var(--amber)" id="signal-delta">+2.7 pp</div>
+        <div class="signal-col-sub" id="signal-delta-note">La dirección se mantiene estable en 7 batches: la no-respuesta sigue apuntando más riesgo</div>
       </div>
     </div>
-    <div class="signal-note" style="background:var(--amber-bg);border-color:#e8d090;color:#6a4800">
+    <div class="signal-note" style="background:var(--amber-bg);border-color:#e8d090;color:#6a4800" id="signal-note-text">
       <strong>Con 7 batches y 1,199 clientes, la señal se mantiene en +2.7 pp y ya está prácticamente en el umbral convencional de significancia (p ≈ 0.052).</strong> El p-valor pasó de 0.045 (B1+B2) → 0.024 (B1-B3) → 0.13 (B1-B4) → 0.089 (B1-B5) → 0.062 (B1-B6) → 0.052 (B1-B7). B7 se mantuvo en línea con la tendencia (97.6% verificado vs 96.2% sin respuesta). La no-respuesta sigue siendo la mejor señal disponible para priorización 5–10 días antes del corte: en los 7 batches habría generado una lista de 214 clientes, de los cuales 12 no pagaron (precisión ~5.6%). El predictor que se mantiene más fuerte es el cruce <strong>"necesita revisión" + incidencia de identidad</strong>, que concentra el FPD de mayor ticket. CS no genera esta señal de forma tan consistente: ver el apartado de "Recaudación según éxito de contacto" para el detalle batch por batch.
     </div>
   </div>
@@ -1358,7 +1404,7 @@ footer {
   </div>
 
   <div class="detail-block reveal">
-    <div class="detail-head">Cobertura y verificación por canal — 7 batches completos</div>
+    <div class="detail-head" id="sec-channel-title">Cobertura y verificación por canal — 7 batches completos</div>
     <table>
       <thead>
         <tr>
@@ -1373,7 +1419,7 @@ footer {
       </thead>
       <tbody>
         <!-- B1 -->
-        <tr>
+        <tr data-batch="B1">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B1</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">1 Abr</div>
@@ -1385,7 +1431,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">97%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B1">
           <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">30</td>
           <td class="r mono" style="color:var(--green)">5</td>
@@ -1394,7 +1440,7 @@ footer {
           <td class="r"><span class="badge ba">17%</span></td>
         </tr>
         <!-- B2 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B2">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B2</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">1 May</div>
@@ -1406,7 +1452,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">97%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B2">
           <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">23</td>
           <td class="r mono" style="color:var(--green)">3</td>
@@ -1415,7 +1461,7 @@ footer {
           <td class="r"><span class="badge ba">13%</span></td>
         </tr>
         <!-- B3 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B3">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bp">B3</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">15 May</div>
@@ -1427,7 +1473,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">98%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B3">
           <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">33</td>
           <td class="r mono" style="color:var(--green)">6</td>
@@ -1436,7 +1482,7 @@ footer {
           <td class="r"><span class="badge ba">18%</span></td>
         </tr>
         <!-- B4 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B4">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B4</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">1 Jun</div>
@@ -1448,7 +1494,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">97%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B4">
           <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">58</td>
           <td class="r mono" style="color:var(--green)">13</td>
@@ -1457,7 +1503,7 @@ footer {
           <td class="r"><span class="badge ba">22%</span></td>
         </tr>
         <!-- B5 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B5">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B5</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">15 Jun</div>
@@ -1469,7 +1515,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">97%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B5">
           <td style="font-size:12px;color:var(--muted)">Voz IA <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">56</td>
           <td class="r mono" style="color:var(--green)">12</td>
@@ -1478,7 +1524,7 @@ footer {
           <td class="r"><span class="badge ba">21%</span></td>
         </tr>
         <!-- B6 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B6">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B6</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">1 Jul</div>
@@ -1490,7 +1536,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">100%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B6">
           <td style="font-size:12px;color:var(--muted)">Voz/Email <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">42</td>
           <td class="r mono" style="color:var(--green)">7</td>
@@ -1499,7 +1545,7 @@ footer {
           <td class="r"><span class="badge ba">17%</span></td>
         </tr>
         <!-- B7 -->
-        <tr style="border-top:1.5px solid var(--border)">
+        <tr style="border-top:1.5px solid var(--border)" data-batch="B7">
           <td rowspan="2" style="vertical-align:middle;border-right:1px solid var(--border2)">
             <span class="badge bb">B7</span>
             <div style="font-size:11px;color:var(--muted);margin-top:3px">15 Jul</div>
@@ -1511,7 +1557,7 @@ footer {
           <td class="r mono" style="color:var(--muted)">0</td>
           <td class="r"><span class="badge bg">98%</span></td>
         </tr>
-        <tr style="background:var(--surface2)">
+        <tr style="background:var(--surface2)" data-batch="B7">
           <td style="font-size:12px;color:var(--muted)">Voz/Email <span style="font-size:10px">(2° toque · no-resp. WA)</span></td>
           <td class="r mono" style="color:var(--muted)">36</td>
           <td class="r mono" style="color:var(--green)">6</td>
@@ -1522,19 +1568,19 @@ footer {
         <!-- TOTALES -->
         <tr style="border-top:2px solid var(--border);font-weight:600">
           <td colspan="2" style="font-size:12px;">Total WhatsApp</td>
-          <td class="r mono">955</td>
-          <td class="r mono" style="color:var(--green)">934</td>
-          <td class="r mono" style="color:var(--amber)">21</td>
-          <td class="r mono" style="color:var(--muted)">0</td>
-          <td class="r"><span class="badge bg">98%</span></td>
+          <td class="r mono" id="ch-tot-wa-n">955</td>
+          <td class="r mono" style="color:var(--green)" id="ch-tot-wa-v">934</td>
+          <td class="r mono" style="color:var(--amber)" id="ch-tot-wa-nr">21</td>
+          <td class="r mono" style="color:var(--muted)" id="ch-tot-wa-sr">0</td>
+          <td class="r"><span class="badge bg" id="ch-tot-wa-rate">98%</span></td>
         </tr>
         <tr style="background:var(--surface2);font-weight:600">
           <td colspan="2" style="font-size:12px;">Total Voz/Email</td>
-          <td class="r mono">278</td>
-          <td class="r mono" style="color:var(--green)">51</td>
-          <td class="r mono" style="color:var(--amber)">6</td>
-          <td class="r mono" style="color:var(--amber)">214</td>
-          <td class="r"><span class="badge ba">18%</span></td>
+          <td class="r mono" id="ch-tot-voz-n">278</td>
+          <td class="r mono" style="color:var(--green)" id="ch-tot-voz-v">51</td>
+          <td class="r mono" style="color:var(--amber)" id="ch-tot-voz-nr">6</td>
+          <td class="r mono" style="color:var(--amber)" id="ch-tot-voz-sr">214</td>
+          <td class="r"><span class="badge ba" id="ch-tot-voz-rate">18%</span></td>
         </tr>
       </tbody>
     </table>
@@ -1546,22 +1592,22 @@ footer {
       <div class="detail-head"><span style="color:var(--green)">●</span> &nbsp;WhatsApp — canal principal</div>
       <div style="padding:18px 20px">
         <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
-          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--green)">98%</span>
-          <span style="font-size:12px;color:var(--muted);line-height:1.5">verificación promedio<br>7 batches · 934 de 955</span>
+          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--green)" id="wa-summary-rate">98%</span>
+          <span style="font-size:12px;color:var(--muted);line-height:1.5" id="wa-summary-detail">verificación promedio<br>7 batches · 934 de 955</span>
         </div>
-        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px">Canal de mayor rendimiento. En los 7 batches la tasa de verificación se mantuvo en 97-100%, con 0 clientes "sin respuesta" una vez depurada la base de teléfonos (B2 en adelante). Sigue siendo el único canal que genera una señal de riesgo consistente, que con B7 ya está prácticamente en el umbral convencional de significancia (p≈0.05).</p>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px" id="wa-summary-text">Canal de mayor rendimiento. En los 7 batches la tasa de verificación se mantuvo en 97-100%, con 0 clientes "sin respuesta" una vez depurada la base de teléfonos (B2 en adelante). Sigue siendo el único canal que genera una señal de riesgo consistente, que con B7 ya está prácticamente en el umbral convencional de significancia (p≈0.05).</p>
         <div style="display:flex;flex-direction:column;gap:5px">
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--green-bg);border-radius:6px">
-            <span style="color:var(--green)">Evolución B1 → B2 → B3 → B4 → B5 → B6 → B7</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:500">97% → 97% → 98% → 97% → 97% → 100% → 98%</span>
+            <span style="color:var(--green)" id="wa-summary-evol-label">Evolución B1 → B2 → B3 → B4 → B5 → B6 → B7</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:500" id="wa-summary-evol-val">97% → 97% → 98% → 97% → 97% → 100% → 98%</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
-            <span style="color:var(--muted)">Señal predictiva (B1–B7)</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:var(--amber)">Direccional · p = 0.052</span>
+            <span style="color:var(--muted)" id="wa-summary-signal-label">Señal predictiva (B1–B7)</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--amber)" id="wa-summary-signal-val">Direccional · p = 0.052</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
             <span style="color:var(--muted)">Incidencias de datos detectadas</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">27 en 7 batches</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)" id="wa-summary-inc">27 en 7 batches</span>
           </div>
         </div>
       </div>
@@ -1571,18 +1617,18 @@ footer {
       <div class="detail-head"><span style="color:var(--amber)">●</span> &nbsp;Agente de Voz IA / Email — segundo toque</div>
       <div style="padding:18px 20px">
         <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
-          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--amber)">18%</span>
-          <span style="font-size:12px;color:var(--muted);line-height:1.5">verificación promedio<br>7 batches · 51 de 278</span>
+          <span style="font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--amber)" id="voz-summary-rate">18%</span>
+          <span style="font-size:12px;color:var(--muted);line-height:1.5" id="voz-summary-detail">verificación promedio<br>7 batches · 51 de 278</span>
         </div>
-        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px">Opera exclusivamente sobre quienes <em>ya ignoraron</em> el WA — la población más difícil de contactar. Su 18% no es baja efectividad: son 51 clientes adicionales verificados que sin este segundo toque habrían quedado sin ningún contacto previo al corte. B4 fue su mejor batch (22%, 13 de 58); B7 se ubicó en 17% (6 de 36), en línea con el promedio reciente.</p>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:14px" id="voz-summary-text">Opera exclusivamente sobre quienes <em>ya ignoraron</em> el WA — la población más difícil de contactar. Su 18% no es baja efectividad: son 51 clientes adicionales verificados que sin este segundo toque habrían quedado sin ningún contacto previo al corte. B4 fue su mejor batch (22%, 13 de 58); B7 se ubicó en 17% (6 de 36), en línea con el promedio reciente.</p>
         <div style="display:flex;flex-direction:column;gap:5px">
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--amber-bg);border-radius:6px">
-            <span style="color:var(--amber)">Clientes recuperados (B1–B7)</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:500">51 de 278</span>
+            <span style="color:var(--amber)" id="voz-summary-recup-label">Clientes recuperados (B1–B7)</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:500" id="voz-summary-recup-val">51 de 278</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
-            <span style="color:var(--muted)">Evolución B1 → B2 → B3 → B4 → B5 → B6 → B7</span>
-            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">17% → 9% → 18% → 22% → 21% → 17% → 17%</span>
+            <span style="color:var(--muted)" id="voz-summary-evol-label">Evolución B1 → B2 → B3 → B4 → B5 → B6 → B7</span>
+            <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)" id="voz-summary-evol-val">17% → 9% → 18% → 22% → 21% → 17% → 17%</span>
           </div>
           <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 10px;background:var(--surface2);border-radius:6px">
             <span style="color:var(--muted)">Población recibida</span>
@@ -1601,7 +1647,7 @@ footer {
 
   <footer>
     <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
-    <div class="f-right">v1.4 · 15 Jul 2026 · 7 batches · señal predictiva en umbral (p=0.052)</div>
+    <div class="f-right">v1.5 · 15 Jul 2026 · filtro por corte (día 1 / día 15 / todos)</div>
   </footer>
 
 </div>
@@ -1637,7 +1683,7 @@ footer {
 
     const recEl = document.getElementById('recChart');
     if (recEl) {
-      new Chart(recEl, {
+      window.recChartInstance = new Chart(recEl, {
         data: {
           labels: ['Batch 1 · 1 Abr', 'Batch 2 · 1 May', 'Batch 3 · 15 May', 'Batch 4 · 1 Jun', 'Batch 5 · 15 Jun', 'Batch 6 · 1 Jul', 'Batch 7 · 15 Jul'],
           datasets: [
@@ -1783,7 +1829,7 @@ footer {
     // ═══ Chart.js — Recaudación según éxito de contacto (barras agrupadas) ═══
     const contactEl = document.getElementById('contactChart');
     if (contactEl) {
-      new Chart(contactEl, {
+      window.contactChartInstance = new Chart(contactEl, {
         type: 'bar',
         data: {
           labels: ['Batch 1\n1 Abr', 'Batch 2\n1 May', 'Batch 3\n15 May', 'Batch 4\n1 Jun', 'Batch 5\n15 Jun', 'Batch 6\n1 Jul', 'Batch 7\n15 Jul'],
@@ -1864,5 +1910,350 @@ footer {
     }
   })();
 </script>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CORTE FILTER ENGINE — recalcula todas las secciones del reporte
+// ══════════════════════════════════════════════════════════════
+const BATCH_DATA = {"B1":{"wa_n":90,"wa_paid":85,"wa_ch_wa_n":60,"wa_ch_wa_v":58,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":30,"wa_ch_voz_v":5,"wa_ch_voz_nr":0,"wa_ch_voz_sr":25,"wa_ch_voz_o":0,"verif_n":63,"verif_p":60,"sinr_n":25,"sinr_p":23,"nrev_n":2,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":65,"exitoso_p":62,"sinresp_n":25,"sinresp_p":23,"incidencias":5,"cartera":968775.21,"cobrado":914354.41,"cs_n":220,"cs_paid":216,"cs_contesto_n":85,"cs_contesto_p":84,"cs_nocontesto_n":135,"cs_nocontesto_p":132,"wa_1er":78,"cs_1er":196,"corte":1,"label":"1 Abr","dateLong":"1 Abr 2026"},"B2":{"wa_n":100,"wa_paid":95,"wa_ch_wa_n":77,"wa_ch_wa_v":75,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":23,"wa_ch_voz_v":2,"wa_ch_voz_nr":1,"wa_ch_voz_sr":20,"wa_ch_voz_o":0,"verif_n":77,"verif_p":75,"sinr_n":20,"sinr_p":18,"nrev_n":3,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":80,"exitoso_p":77,"sinresp_n":20,"sinresp_p":18,"incidencias":3,"cartera":1113450.52,"cobrado":1022669.70,"cs_n":199,"cs_paid":190,"cs_contesto_n":60,"cs_contesto_p":57,"cs_nocontesto_n":139,"cs_nocontesto_p":133,"wa_1er":89,"cs_1er":177,"corte":1,"label":"1 May","dateLong":"1 May 2026"},"B3":{"wa_n":203,"wa_paid":194,"wa_ch_wa_n":170,"wa_ch_wa_v":166,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":33,"wa_ch_voz_v":6,"wa_ch_voz_nr":0,"wa_ch_voz_sr":27,"wa_ch_voz_o":0,"verif_n":172,"verif_p":165,"sinr_n":27,"sinr_p":25,"nrev_n":4,"nrev_p":4,"otro_n":0,"otro_p":0,"exitoso_n":176,"exitoso_p":169,"sinresp_n":27,"sinresp_p":25,"incidencias":4,"cartera":2328421.74,"cobrado":2232218.14,"cs_n":20,"cs_paid":18,"cs_contesto_n":7,"cs_contesto_p":6,"cs_nocontesto_n":13,"cs_nocontesto_p":12,"wa_1er":176,"cs_1er":16,"corte":15,"label":"15 May","dateLong":"15 May 2026"},"B4":{"wa_n":250,"wa_paid":241,"wa_ch_wa_n":192,"wa_ch_wa_v":187,"wa_ch_wa_nr":5,"wa_ch_wa_sr":0,"wa_ch_voz_n":58,"wa_ch_voz_v":13,"wa_ch_voz_nr":0,"wa_ch_voz_sr":45,"wa_ch_voz_o":0,"verif_n":200,"verif_p":193,"sinr_n":45,"sinr_p":43,"nrev_n":5,"nrev_p":5,"otro_n":0,"otro_p":0,"exitoso_n":205,"exitoso_p":198,"sinresp_n":45,"sinresp_p":43,"incidencias":5,"cartera":2740689.64,"cobrado":2640990.12,"cs_n":18,"cs_paid":18,"cs_contesto_n":6,"cs_contesto_p":6,"cs_nocontesto_n":12,"cs_nocontesto_p":12,"wa_1er":227,"cs_1er":16,"corte":1,"label":"1 Jun","dateLong":"1 Jun 2026"},"B5":{"wa_n":200,"wa_paid":194,"wa_ch_wa_n":144,"wa_ch_wa_v":140,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":56,"wa_ch_voz_v":12,"wa_ch_voz_nr":2,"wa_ch_voz_sr":38,"wa_ch_voz_o":4,"verif_n":152,"verif_p":148,"sinr_n":38,"sinr_p":36,"nrev_n":6,"nrev_p":6,"otro_n":4,"otro_p":4,"exitoso_n":158,"exitoso_p":154,"sinresp_n":42,"sinresp_p":40,"incidencias":5,"cartera":2419658.32,"cobrado":2349028.08,"cs_n":119,"cs_paid":115,"cs_contesto_n":42,"cs_contesto_p":42,"cs_nocontesto_n":77,"cs_nocontesto_p":73,"wa_1er":176,"cs_1er":104,"corte":15,"label":"15 Jun","dateLong":"15 Jun 2026"},"B6":{"wa_n":190,"wa_paid":187,"wa_ch_wa_n":148,"wa_ch_wa_v":148,"wa_ch_wa_nr":0,"wa_ch_wa_sr":0,"wa_ch_voz_n":42,"wa_ch_voz_v":7,"wa_ch_voz_nr":1,"wa_ch_voz_sr":33,"wa_ch_voz_o":1,"verif_n":155,"verif_p":153,"sinr_n":33,"sinr_p":32,"nrev_n":1,"nrev_p":1,"otro_n":1,"otro_p":1,"exitoso_n":156,"exitoso_p":154,"sinresp_n":34,"sinresp_p":33,"incidencias":1,"cartera":2179492.21,"cobrado":2146590.48,"cs_n":156,"cs_paid":151,"cs_contesto_n":57,"cs_contesto_p":56,"cs_nocontesto_n":99,"cs_nocontesto_p":95,"wa_1er":165,"cs_1er":134,"corte":1,"label":"1 Jul","dateLong":"1 Jul 2026"},"B7":{"wa_n":200,"wa_paid":195,"wa_ch_wa_n":164,"wa_ch_wa_v":160,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":36,"wa_ch_voz_v":6,"wa_ch_voz_nr":2,"wa_ch_voz_sr":26,"wa_ch_voz_o":2,"verif_n":166,"verif_p":162,"sinr_n":26,"sinr_p":25,"nrev_n":6,"nrev_p":6,"otro_n":2,"otro_p":2,"exitoso_n":172,"exitoso_p":168,"sinresp_n":28,"sinresp_p":27,"incidencias":4,"cartera":2311472.62,"cobrado":2258524.58,"cs_n":97,"cs_paid":95,"cs_contesto_n":37,"cs_contesto_p":37,"cs_nocontesto_n":60,"cs_nocontesto_p":58,"wa_1er":177,"cs_1er":92,"corte":15,"label":"15 Jul","dateLong":"15 Jul 2026"}};
+
+const BATCH_ORDER = ['B1','B2','B3','B4','B5','B6','B7'];
+let currentCorteFilter = 'todos';
+
+function getFilteredBatches(filter) {
+  if (filter === 'corte1') return BATCH_ORDER.filter(b => BATCH_DATA[b].corte === 1);
+  if (filter === 'corte15') return BATCH_ORDER.filter(b => BATCH_DATA[b].corte === 15);
+  return BATCH_ORDER.slice();
+}
+
+// ── chi-square (df=1) p-value via normal approximation ──
+function erfc(x) {
+  const sign = x < 0 ? -1 : 1; x = Math.abs(x);
+  const t = 1 / (1 + 0.3275911 * x);
+  const y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592) * t * Math.exp(-x*x);
+  return sign === 1 ? 1 - y : 1 + y;
+}
+function chi2PValue(a, b, c, d) {
+  // 2x2 table: [[a,b],[c,d]]
+  const n = a+b+c+d;
+  if (n === 0) return 1;
+  const row1=a+b, row2=c+d, col1=a+c, col2=b+d;
+  const e11=row1*col1/n, e12=row1*col2/n, e21=row2*col1/n, e22=row2*col2/n;
+  if (e11===0||e12===0||e21===0||e22===0) return 1;
+  const chi2 = Math.pow(a-e11,2)/e11 + Math.pow(b-e12,2)/e12 + Math.pow(c-e21,2)/e21 + Math.pow(d-e22,2)/e22;
+  return erfc(Math.sqrt(chi2/2));
+}
+
+function fmtN(n) { return Math.round(n).toLocaleString('en-US'); }
+function fmtPct(n, dec=1) { return n.toFixed(dec) + '%'; }
+function fmtMoney(n) {
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+  return '$' + fmtN(n);
+}
+
+function aggregate(batches) {
+  const sum = (key) => batches.reduce((s,b) => s + BATCH_DATA[b][key], 0);
+  const keys = ['wa_n','wa_paid','cs_n','cs_paid','wa_ch_wa_n','wa_ch_wa_v','wa_ch_wa_nr','wa_ch_wa_sr',
+    'wa_ch_voz_n','wa_ch_voz_v','wa_ch_voz_nr','wa_ch_voz_sr','wa_ch_voz_o',
+    'verif_n','verif_p','sinr_n','sinr_p','nrev_n','nrev_p','otro_n','otro_p',
+    'exitoso_n','exitoso_p','sinresp_n','sinresp_p',
+    'cs_contesto_n','cs_contesto_p','cs_nocontesto_n','cs_nocontesto_p',
+    'incidencias','cartera','cobrado','wa_1er','cs_1er'];
+  const a = {};
+  keys.forEach(k => a[k] = sum(k));
+  a.batches = batches;
+  a.n_batches = batches.length;
+  a.wa_rate = a.wa_paid/a.wa_n*100;
+  a.cs_rate = a.cs_paid/a.cs_n*100;
+  a.verif_rate = a.verif_p/a.verif_n*100;
+  a.sinr_rate = a.sinr_p/a.sinr_n*100;
+  a.exitoso_rate = a.exitoso_p/a.exitoso_n*100;
+  a.sinresp_rate = a.sinresp_p/a.sinresp_n*100;
+  a.cs_contesto_rate = a.cs_contesto_p/a.cs_contesto_n*100;
+  a.cs_nocontesto_rate = a.cs_nocontesto_p/a.cs_nocontesto_n*100;
+  a.wa_ch_wa_rate = a.wa_ch_wa_v/a.wa_ch_wa_n*100;
+  a.wa_ch_voz_rate = a.wa_ch_voz_v/a.wa_ch_voz_n*100;
+  a.wa_1er_rate = a.wa_1er/a.wa_n*100;
+  a.cs_1er_rate = a.cs_1er/a.cs_n*100;
+  a.wa_fpd = a.wa_n-a.wa_paid;
+  a.cs_fpd = a.cs_n-a.cs_paid;
+  a.wa_fpd_rate = a.wa_fpd/a.wa_n*100;
+  a.cs_fpd_rate = a.cs_fpd/a.cs_n*100;
+  a.wa_verif_pure_n = a.wa_ch_wa_v + a.wa_ch_voz_v;
+  a.wa_verif_pure_rate = a.wa_verif_pure_n/a.wa_n*100;
+  a.signal_pval = chi2PValue(a.verif_p, a.verif_n-a.verif_p, a.sinr_p, a.sinr_n-a.sinr_p);
+  a.signal_delta = a.verif_rate - a.sinr_rate;
+  return a;
+}
+
+function batchLabel(bid) { return bid.replace('B','B'); }
+
+function setText(id, txt) { const el = document.getElementById(id); if (el) el.textContent = txt; }
+function setHTML(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
+
+// ══════════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════════
+function renderFilteredReport(filter) {
+  currentCorteFilter = filter;
+  const batches = getFilteredBatches(filter);
+  const a = aggregate(batches);
+  const nb = batches.length;
+  const bRange = nb === 7 ? 'B1–B7' : (nb === 4 ? 'B1,B2,B4,B6' : 'B3,B5,B7');
+  const corteWord = filter === 'todos' ? `${nb} batches (día 1 y día 15)` : (filter === 'corte1' ? `${nb} batches de corte día 1` : `${nb} batches de corte día 15`);
+
+  // ── filter UI state ──
+  document.querySelectorAll('.corte-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.corte === filter);
+  });
+  setText('corte-filter-note', 'Mostrando ' + corteWord);
+
+  // ── header chips ──
+  const lastBatch = batches[batches.length-1];
+  setText('chip-corte-label', BATCH_DATA[lastBatch].dateLong.replace(/\d{4}$/, '2026'));
+  setText('chip-batches-n', nb);
+  setText('chip-batches-word', nb === 1 ? 'batch' : 'batches');
+  setText('chip-wa-total', fmtN(a.wa_n));
+  setText('chip-cs-total', fmtN(a.cs_n));
+
+  // ── comparativa general title + intro ──
+  setText('sec-comparativa-title', `Comparativa general — WA+ Call IA vs CS · ${nb} batch${nb===1?'':'es'} ${filter==='todos'?'acumulados':'(filtrado)'}`);
+  const totalM1 = a.wa_n + a.cs_n;
+  setHTML('txt-comparativa-intro', `<strong>¿Cuál iniciativa tiene mejor desempeño?</strong> La respuesta depende de la dimensión. Abajo se comparan los resultados acumulados de las dos iniciativas en ${nb} batch${nb===1?'':'es'} (${fmtN(totalM1)} clientes M1 en total)${filter==='todos' ? ', filtrando por corte día 1 o día 15 con los botones de arriba.' : ` — vista filtrada a corte ${filter==='corte1'?'día 1':'día 15'}.`}`);
+
+  // ── WA card ──
+  setText('wa-card-nbatches', `${fmtN(a.wa_n)} clientes · ${nb} batch${nb===1?'':'es'}`);
+  setText('wa-card-rate', fmtPct(a.wa_rate));
+  setText('wa-card-detail', `${fmtN(a.wa_paid)} de ${fmtN(a.wa_n)} pagaron · FPD ${fmtPct(a.wa_fpd_rate)}`);
+  setText('wa-card-verif-label', `(${bRange})`);
+  setText('wa-card-verif-val', `${fmtPct(a.wa_verif_pure_rate)} · ${fmtN(a.wa_verif_pure_n)} clientes`);
+  setText('wa-card-escala', batches.map(b => BATCH_DATA[b].wa_n).join(' → '));
+  setText('wa-card-signal-label', `(${bRange})`);
+  setText('wa-card-signal-val', a.signal_pval < 0.15 ? 'Sí' : 'Direccional');
+
+  // ── CS card ──
+  setText('cs-card-nbatches', `${fmtN(a.cs_n)} clientes · ${nb} batch${nb===1?'':'es'}`);
+  setText('cs-card-rate', fmtPct(a.cs_rate));
+  setText('cs-card-detail', `${fmtN(a.cs_paid)} de ${fmtN(a.cs_n)} pagaron · FPD ${fmtPct(a.cs_fpd_rate)}`);
+  setText('cs-card-contacto-label', `(${bRange})`);
+  setText('cs-card-contacto-val', `${fmtPct(a.cs_contesto_rate)} · ${fmtN(a.cs_contesto_n)} clientes`);
+  setText('cs-card-escala', batches.map(b => BATCH_DATA[b].cs_n).join(' → '));
+
+  // ── comparison table ──
+  setText('tbl-recaud-label', `(${bRange})`);
+  setText('tbl-recaud-wa', fmtPct(a.wa_rate));
+  setText('tbl-recaud-cs', fmtPct(a.cs_rate));
+  const recDelta = a.wa_rate - a.cs_rate;
+  setText('tbl-recaud-delta', recDelta >= 0 ? `WA+IA +${recDelta.toFixed(1)}pp` : `CS +${(-recDelta).toFixed(1)}pp`);
+  document.getElementById('tbl-recaud-delta').style.color = 'var(--muted)';
+
+  const lastB = BATCH_DATA[lastBatch];
+  setText('tbl-recente-label', lastBatch);
+  setText('tbl-recente-wa', fmtPct(lastB.wa_paid/lastB.wa_n*100));
+  setText('tbl-recente-cs', fmtPct(lastB.cs_paid/lastB.cs_n*100));
+  const lastDelta = (lastB.wa_paid/lastB.wa_n*100) - (lastB.cs_paid/lastB.cs_n*100);
+  const recenteEl = document.getElementById('tbl-recente-delta');
+  recenteEl.textContent = lastDelta >= 0 ? `WA+ Call IA +${lastDelta.toFixed(1)}pp` : `CS +${(-lastDelta).toFixed(1)}pp`;
+  recenteEl.style.color = lastDelta >= 0 ? 'var(--green)' : 'var(--muted)';
+
+  setText('tbl-contacto-label', `(${bRange})`);
+  setText('tbl-contacto-wa', fmtPct(a.wa_verif_pure_rate));
+  setText('tbl-contacto-cs', fmtPct(a.cs_contesto_rate));
+  setText('tbl-contacto-ratio', `WA+IA · ${(a.wa_verif_pure_rate/a.cs_contesto_rate).toFixed(1)}×`);
+
+  setText('tbl-clientes-wa', fmtN(a.wa_n));
+  setText('tbl-clientes-cs', fmtN(a.cs_n));
+  setText('tbl-clientes-ratio', `WA+ Call IA · ${(a.wa_n/a.cs_n).toFixed(1)}×`);
+
+  setText('tbl-escala-wa', batches.map(b => BATCH_DATA[b].wa_n).join('→') + ' ✓');
+  setText('tbl-escala-cs', batches.map(b => BATCH_DATA[b].cs_n).join('→') + ' ⚠');
+
+  setText('tbl-signal-label', `(${bRange})`);
+  setText('tbl-fraude-label', `(${bRange})`);
+  setText('tbl-fraude-wa', filter==='corte15' ? 'Sí · 2 alertas' : (filter==='corte1' ? 'Sin casos en este corte' : 'Sí · 2 alertas'));
+  setText('tbl-inc-label', `(${bRange})`);
+  setText('tbl-inc-wa', fmtN(a.incidencias));
+
+  // ── Abdon reading callout ──
+  const deltaAbs = Math.abs(recDelta).toFixed(1);
+  const deltaWinner = recDelta >= 0 ? 'WA+ Call IA' : 'CS';
+  setHTML('txt-abdon-reading', `<strong>Lectura para Abdon${filter!=='todos' ? ' (vista filtrada a corte '+(filter==='corte1'?'día 1':'día 15')+')' : ''}:</strong> en recaudación acumulada la diferencia es de ${deltaAbs}pp a favor de ${deltaWinner} sobre ${fmtN(totalM1)} clientes — dentro del rango de ruido esperado entre batches. La diferencia real entre las dos iniciativas sigue sin estar en quién cobra más, sino en qué otra cosa genera cada una: verificación ${(a.wa_verif_pure_rate/a.cs_contesto_rate).toFixed(1)}× mayor, escalabilidad sin depender de agentes humanos, detección de fraude e incidencias (${fmtN(a.incidencias)} en esta vista), y una señal predictiva de riesgo (p≈${a.signal_pval.toFixed(3)}) que CS no ofrece.`);
+
+  // ── front chart section title ──
+  setText('sec-recaud-title', `Recaudación por iniciativa — ${nb === 7 ? 'los 7 batches' : bRange}`);
+
+  // ── batch grid ──
+  setText('sec-batches-title', `Estado de ${nb === 7 ? 'los 7 batches' : (nb+' batch'+(nb===1?'':'es')+' ('+ (filter==='corte1'?'día 1':'día 15') +')')}`);
+  document.querySelectorAll('[data-batch-col]').forEach(col => {
+    const bcorte = parseInt(col.dataset.corte, 10);
+    const show = filter === 'todos' || (filter === 'corte1' && bcorte === 1) || (filter === 'corte15' && bcorte === 15);
+    col.style.display = show ? '' : 'none';
+  });
+  const gridEl = document.getElementById('batches-grid');
+  if (gridEl) gridEl.style.gridTemplateColumns = `repeat(${nb}, 1fr)`;
+
+  // ── chart-foot cells + 1er-intento table + Rodrigo table + channel table rows: show/hide by batch ──
+  document.querySelectorAll('[data-batch]').forEach(el => {
+    const bid = el.dataset.batch;
+    const show = batches.indexOf(bid) !== -1;
+    el.style.display = show ? '' : 'none';
+  });
+
+  // ── señal predictiva banner ──
+  setText('sec-signal-title', `Señal predictiva — ${bRange} combinados`);
+  const sigTag = document.getElementById('signal-tag');
+  sigTag.textContent = `p = ${a.signal_pval.toFixed(3)} · ${a.signal_pval < 0.05 ? 'significativo' : (a.signal_pval < 0.1 ? 'al borde de significancia' : 'no significativo')} · tendencia estable`;
+  setText('signal-verif-rate', fmtPct(a.verif_rate));
+  setText('signal-verif-detail', `${fmtN(a.verif_p)} de ${fmtN(a.verif_n)} pagaron a tiempo`);
+  setText('signal-verif-perbatch', batches.map(b => `${b}: ${(BATCH_DATA[b].verif_p/BATCH_DATA[b].verif_n*100).toFixed(1)}%`).join(' · '));
+  setText('signal-sinr-rate', fmtPct(a.sinr_rate));
+  setText('signal-sinr-detail', `${fmtN(a.sinr_p)} de ${fmtN(a.sinr_n)} pagaron a tiempo`);
+  setText('signal-sinr-perbatch', batches.map(b => `${b}: ${(BATCH_DATA[b].sinr_p/BATCH_DATA[b].sinr_n*100).toFixed(1)}%`).join(' · '));
+  setText('signal-delta', (a.signal_delta>=0?'+':'') + a.signal_delta.toFixed(1) + ' pp');
+  setText('signal-delta-note', `La dirección se mantiene estable en ${nb} batch${nb===1?'':'es'}: la no-respuesta sigue apuntando más riesgo`);
+  const noPagaronSinr = a.sinr_n - a.sinr_p;
+  setHTML('signal-note-text', `<strong>Con ${nb} batch${nb===1?'':'es'} y ${fmtN(a.verif_n+a.sinr_n)} clientes, la señal ${deltaAbs<0?'se invierte':'se mantiene'} en ${(a.signal_delta>=0?'+':'')+a.signal_delta.toFixed(1)} pp (p ≈ ${a.signal_pval.toFixed(3)}).</strong> La no-respuesta sigue siendo la mejor señal disponible para priorización 5–10 días antes del corte: en esta vista habría generado una lista de ${fmtN(a.sinr_n)} clientes, de los cuales ${fmtN(noPagaronSinr)} no pagaron (precisión ~${(noPagaronSinr/a.sinr_n*100).toFixed(1)}%). El predictor que se mantiene más fuerte es el cruce <strong>"necesita revisión" + incidencia de identidad</strong>. CS no genera esta señal de forma tan consistente: ver el apartado de "Recaudación según éxito de contacto" para el detalle batch por batch.`);
+
+  // ── canales table title + totals ──
+  setText('sec-channel-title', `Cobertura y verificación por canal — ${nb} batch${nb===1?'':'es'}${filter==='todos'?' completos':' (filtrado)'}`);
+  setText('ch-tot-wa-n', fmtN(a.wa_ch_wa_n));
+  setText('ch-tot-wa-v', fmtN(a.wa_ch_wa_v));
+  setText('ch-tot-wa-nr', fmtN(a.wa_ch_wa_nr));
+  setText('ch-tot-wa-sr', fmtN(a.wa_ch_wa_sr));
+  setText('ch-tot-wa-rate', fmtPct(a.wa_ch_wa_rate,0));
+  setText('ch-tot-voz-n', fmtN(a.wa_ch_voz_n));
+  setText('ch-tot-voz-v', fmtN(a.wa_ch_voz_v));
+  setText('ch-tot-voz-nr', fmtN(a.wa_ch_voz_nr));
+  setText('ch-tot-voz-sr', fmtN(a.wa_ch_voz_sr + a.wa_ch_voz_o));
+  setText('ch-tot-voz-rate', fmtPct(a.wa_ch_voz_rate,0));
+
+  // ── WA + Voz summary cards ──
+  setText('wa-summary-rate', fmtPct(a.wa_ch_wa_rate,0));
+  setText('wa-summary-detail', `verificación promedio<br>${nb} batch${nb===1?'':'es'} · ${fmtN(a.wa_ch_wa_v)} de ${fmtN(a.wa_ch_wa_n)}`);
+  document.getElementById('wa-summary-detail').innerHTML = `verificación promedio<br>${nb} batch${nb===1?'':'es'} · ${fmtN(a.wa_ch_wa_v)} de ${fmtN(a.wa_ch_wa_n)}`;
+  setText('wa-summary-evol-label', 'Evolución ' + batches.join(' → '));
+  setText('wa-summary-evol-val', batches.map(b => Math.round(BATCH_DATA[b].wa_ch_wa_v/BATCH_DATA[b].wa_ch_wa_n*100)+'%').join(' → '));
+  setText('wa-summary-signal-label', `Señal predictiva (${bRange})`);
+  setText('wa-summary-signal-val', `Direccional · p = ${a.signal_pval.toFixed(3)}`);
+  setText('wa-summary-inc', `${fmtN(a.incidencias)} en ${nb} batch${nb===1?'':'es'}`);
+
+  setText('voz-summary-rate', fmtPct(a.wa_ch_voz_rate,0));
+  document.getElementById('voz-summary-detail').innerHTML = `verificación promedio<br>${nb} batch${nb===1?'':'es'} · ${fmtN(a.wa_ch_voz_v)} de ${fmtN(a.wa_ch_voz_n)}`;
+  setText('voz-summary-recup-label', `Clientes recuperados (${bRange})`);
+  setText('voz-summary-recup-val', `${fmtN(a.wa_ch_voz_v)} de ${fmtN(a.wa_ch_voz_n)}`);
+  setText('voz-summary-evol-label', 'Evolución ' + batches.join(' → '));
+  setText('voz-summary-evol-val', batches.map(b => Math.round(BATCH_DATA[b].wa_ch_voz_v/BATCH_DATA[b].wa_ch_voz_n*100)+'%').join(' → '));
+
+  // ── Rodrigo section title ──
+  setText('sec-rodrigo-title', `Recaudación según éxito de contacto — por batch${filter!=='todos' ? ' (corte '+(filter==='corte1'?'día 1':'día 15')+')' : ' (petición de Rodrigo)'}`);
+
+  // ── narrative callouts: show rich "todos" version only when unfiltered ──
+  const isFiltered = filter !== 'todos';
+  document.getElementById('callout-escala-todos').style.display = isFiltered ? 'none' : '';
+  document.getElementById('callout-escala-filtrado').style.display = isFiltered ? '' : 'none';
+  document.getElementById('callout-metodologia-todos').style.display = isFiltered ? 'none' : '';
+  document.getElementById('callout-metodologia-filtrado').style.display = isFiltered ? '' : 'none';
+  document.getElementById('callout-rodrigo-todos').style.display = isFiltered ? 'none' : '';
+  document.getElementById('callout-rodrigo-filtrado').style.display = isFiltered ? '' : 'none';
+
+  if (isFiltered) {
+    const corteTxt = filter === 'corte1' ? 'día 1' : 'día 15';
+    setHTML('txt-escala-filtrado', `<strong>Vista filtrada a corte ${corteTxt}.</strong> WA+ Call IA: ${batches.map(b=>fmtPct(BATCH_DATA[b].wa_paid/BATCH_DATA[b].wa_n*100)).join(' → ')} en los batches ${batches.join(', ')}. CS: ${batches.map(b=>fmtPct(BATCH_DATA[b].cs_paid/BATCH_DATA[b].cs_n*100)).join(' → ')}. Acumulado en este corte: WA+ Call IA ${fmtPct(a.wa_rate)} (${fmtN(a.wa_n)} clientes) vs CS ${fmtPct(a.cs_rate)} (${fmtN(a.cs_n)} clientes).`);
+
+    setHTML('txt-metodologia-filtrado', `<strong>1er intento vs recaudación final — vista filtrada a corte ${corteTxt}.</strong> WA+ Call IA 1er intento: ${batches.map(b=>fmtPct(BATCH_DATA[b].wa_1er/BATCH_DATA[b].wa_n*100)).join(' → ')} (promedio ${fmtPct(a.wa_1er_rate)}) vs recaudación final ${fmtPct(a.wa_rate)} — brecha de ${(a.wa_rate-a.wa_1er_rate).toFixed(1)}pp recuperada vía reintentos. CS 1er intento promedio ${fmtPct(a.cs_1er_rate)} vs final ${fmtPct(a.cs_rate)} — brecha de ${(a.cs_rate-a.cs_1er_rate).toFixed(1)}pp. La metodología completa (hojas bancarias BBVA/Interbancario/SPEI para B1-B3, campo Tipo_de_intento para B4-B7) se detalla en la vista "Todos".`);
+
+    setHTML('txt-rodrigo-filtrado', `<strong>Para Rodrigo — vista filtrada a corte ${corteTxt}:</strong> en WA+ Call IA, el contacto exitoso paga ${fmtPct(a.exitoso_rate)} vs ${fmtPct(a.sinresp_rate)} de sin-respuesta (delta ${(a.exitoso_rate-a.sinresp_rate>=0?'+':'')}${(a.exitoso_rate-a.sinresp_rate).toFixed(1)}pp) en los batches ${batches.join(', ')}. En CS: contestó ${fmtPct(a.cs_contesto_rate)} vs no contestó ${fmtPct(a.cs_nocontesto_rate)} (delta ${(a.cs_contesto_rate-a.cs_nocontesto_rate>=0?'+':'')}${(a.cs_contesto_rate-a.cs_nocontesto_rate).toFixed(1)}pp, sobre ${fmtN(a.cs_contesto_n)} y ${fmtN(a.cs_nocontesto_n)} clientes respectivamente). Ver la vista "Todos" para el detalle batch por batch y el contexto de tamaños de muestra.`);
+  }
+
+  // ── WA/Voz summary paragraph texts ──
+  setHTML('wa-summary-text', `Canal de mayor rendimiento. En ${nb === 1 ? 'este batch' : 'estos '+nb+' batches'} la tasa de verificación fue ${fmtPct(a.wa_ch_wa_rate,0)}. ${a.signal_pval < 0.1 ? 'Sigue siendo el único canal que genera una señal de riesgo consistente (p≈'+a.signal_pval.toFixed(3)+').' : 'La señal de riesgo es direccional (p≈'+a.signal_pval.toFixed(3)+').'}`);
+  setHTML('voz-summary-text', `Opera exclusivamente sobre quienes <em>ya ignoraron</em> el WA — la población más difícil de contactar. Su ${fmtPct(a.wa_ch_voz_rate,0)} no es baja efectividad: son ${fmtN(a.wa_ch_voz_v)} clientes adicionales verificados que sin este segundo toque habrían quedado sin ningún contacto previo al corte, sobre ${fmtN(a.wa_ch_voz_n)} contactados en ${nb === 1 ? 'este batch' : 'estos '+nb+' batches'}.`);
+
+  // ── charts ──
+  updateCharts(batches);
+  renderNarrativeCallouts(filter, batches, a);
+}
+
+function updateCharts(batches) {
+  const labels = batches.map(b => `Batch ${b.slice(1)}\n${BATCH_DATA[b].label}`);
+  const labelsRec = batches.map(b => `Batch ${b.slice(1)} · ${BATCH_DATA[b].label}`);
+
+  if (window.recChartInstance) {
+    const c = window.recChartInstance;
+    c.data.labels = labelsRec;
+    c.data.datasets[0].data = batches.map(b => BATCH_DATA[b].wa_n);
+    c.data.datasets[1].data = batches.map(b => BATCH_DATA[b].cs_n);
+    c.data.datasets[2].data = batches.map(b => +(BATCH_DATA[b].wa_paid/BATCH_DATA[b].wa_n*100).toFixed(1));
+    c.data.datasets[3].data = batches.map(b => +(BATCH_DATA[b].cs_paid/BATCH_DATA[b].cs_n*100).toFixed(1));
+    c.data.datasets[4].data = batches.map(b => +(BATCH_DATA[b].wa_1er/BATCH_DATA[b].wa_n*100).toFixed(1));
+    c.data.datasets[5].data = batches.map(b => +(BATCH_DATA[b].cs_1er/BATCH_DATA[b].cs_n*100).toFixed(1));
+    c.update();
+  }
+  if (window.contactChartInstance) {
+    const c = window.contactChartInstance;
+    c.data.labels = labels;
+    c.data.datasets[0].data = batches.map(b => +(BATCH_DATA[b].exitoso_p/BATCH_DATA[b].exitoso_n*100).toFixed(1));
+    c.data.datasets[0].customN = batches.map(b => BATCH_DATA[b].exitoso_n);
+    c.data.datasets[1].data = batches.map(b => +(BATCH_DATA[b].sinresp_p/BATCH_DATA[b].sinresp_n*100).toFixed(1));
+    c.data.datasets[1].customN = batches.map(b => BATCH_DATA[b].sinresp_n);
+    c.data.datasets[2].data = batches.map(b => +(BATCH_DATA[b].cs_contesto_p/BATCH_DATA[b].cs_contesto_n*100).toFixed(1));
+    c.data.datasets[2].customN = batches.map(b => BATCH_DATA[b].cs_contesto_n);
+    c.data.datasets[3].data = batches.map(b => +(BATCH_DATA[b].cs_nocontesto_p/BATCH_DATA[b].cs_nocontesto_n*100).toFixed(1));
+    c.data.datasets[3].customN = batches.map(b => BATCH_DATA[b].cs_nocontesto_n);
+    c.update();
+  }
+}
+
+function setCorteFilter(filter) {
+  renderFilteredReport(filter);
+}
+
+// Initial render once charts exist (charts are built in the earlier inline script on window load)
+window.addEventListener('load', () => {
+  setTimeout(() => { renderFilteredReport('todos'); }, 60);
+});
+</script>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// NARRATIVE CALLOUTS — texto rico completo solo en "Todos";
+// resumen genérico y preciso cuando se filtra por corte.
+// ══════════════════════════════════════════════════════════════
+const NARRATIVE_TODOS = {
+  "txt-escala-callout": "<strong>WA+ Call IA escala y mejora en paralelo.</strong> El volumen contactado crece de 90 a 250, se estabiliza entre 190 y 200, mientras la recaudaci\u00f3n total se mueve en un rango alto sin una tendencia perfectamente monot\u00f3nica: <strong>94.4% \u2192 95.0% \u2192 95.6% \u2192 96.4% \u2192 97.0% \u2192 98.4% \u2192 97.5%</strong>. B7 tuvo una ligera baja frente a B6, y en este batch CS qued\u00f3 arriba por primera vez desde B5 (97.9% vs 97.5%, +0.4 pp) \u2014 con volumen comparable en ambos lados (97 vs 200 clientes). Las tasas de CS en B3 y B4 (90.0% y 100%) se apoyan en muestras muy chicas (20 y 18 clientes), por lo que no son comparables.",
+  "txt-metodologia-callout": "<strong>Correcci\u00f3n metodol\u00f3gica importante:</strong> la primera versi\u00f3n de esta gr\u00e1fica subestimaba el \"1er intento\" en B1\u2013B3 porque esos archivos de domiciliaci\u00f3n no traen un campo directo de intento \u2014 se infer\u00eda cruzando contra listas de reintento, y ese m\u00e9todo result\u00f3 incompleto. Se volvi\u00f3 a calcular usando el detalle real por cliente y por corte (hojas BBVA/Interbancario/SPEI, columna de adeudo tras el primer cargo), la misma fuente que sustenta el resto del reporte. <strong>El hallazgo corregido: la brecha entre 1er intento y recaudaci\u00f3n final ha sido consistentemente amplia en los 7 batches, no algo que empez\u00f3 en B4.</strong> WA+ Call IA: 86.7% \u2192 89.0% \u2192 86.7% \u2192 90.8% \u2192 88.0% \u2192 86.8% \u2192 88.5% (1er intento), recuperando en promedio +8.3 pp v\u00eda reintentos en cada batch. CS: 89.1% \u2192 88.9% \u2192 80.0% \u2192 88.9% \u2192 87.4% \u2192 85.9% \u2192 94.8%, recuperando en promedio +8.6 pp. B7 mostr\u00f3 la brecha de CS m\u00e1s chica hasta ahora (+3.1 pp), se\u00f1al de que ese batch necesit\u00f3 menos reintentos. No hay una tendencia clara de deterioro ni de mejora en el 1er intento \u2014 fluct\u00faa batch a batch en ambas iniciativas. Lo que esto confirma: la recaudaci\u00f3n final siempre ha dependido en buena medida del proceso de reintento, no solo del primer cobro \u2014 esto es estructural del negocio, no un cambio reciente. Vale la pena investigar con Rodrigo si hay oportunidad de mover parte de esa recuperaci\u00f3n de reintento a un cobro m\u00e1s temprano (d\u00eda 2\u20133 en vez de d\u00eda 4).",
+  "txt-rodrigo-callout": "<strong>Para Rodrigo \u2014 la respuesta directa a la pregunta:</strong> en WA+ Call IA, el contacto exitoso paga mejor que el sin-respuesta en <strong>los 7 batches sin excepci\u00f3n</strong> \u2014 delta de +1.0pp a +6.2pp, siempre positivo. En CS la imagen sigue mejorando: de los 7 batches, <strong>5 muestran delta positivo</strong> (B1 +1.0pp, B5 +5.2pp, B6 +2.3pp, B7 +3.3pp con muestra sana de 37 y 60 clientes) y solo 2 muestran delta plano o negativo (B3 \u22126.6pp, B4 0pp) \u2014 y esos dos son justo los batches con muestras min\u00fasculas de \"contest\u00f3\" (6-7 clientes), donde un par de casos mueven el porcentaje entero. La lectura se mantiene y se refuerza con B7: <strong>cuando CS tiene volumen suficiente para medir, la direcci\u00f3n del efecto es la misma que en WA+ Call IA</strong> \u2014 contestar la llamada se asocia con mejor recaudaci\u00f3n. La diferencia real entre ambas iniciativas no es que el efecto exista solo en una; es que WA+ Call IA genera esta se\u00f1al de forma consistente y a mayor escala, mientras que CS la genera de forma m\u00e1s intermitente porque rara vez junta suficiente volumen de \"s\u00ed contest\u00f3\" para que el n\u00famero sea confiable.",
+  "txt-reporte-completo-callout": "<strong>Reporte completo \u2014 los 7 batches y sus contrapartes CS tienen resultado.</strong> Tendencia positiva en WA+ Call IA con una ligera baja en el \u00faltimo batch: B1 94.4% \u00b7 B2 95.0% \u00b7 B3 95.6% \u00b7 B4 96.4% \u00b7 B5 97.0% \u00b7 B6 98.4% \u00b7 B7 97.5%. CS tuvo su segundo mejor batch en B7 (97 clientes, 97.9%), superando a WA+ Call IA por +0.4 pp con volumen comparable en ambos lados \u2014 primera vez que esto ocurre desde B5. La tasa de FPD de WA+ Call IA baj\u00f3 de forma pr\u00e1cticamente monot\u00f3nica hasta B6 y subi\u00f3 levemente en B7 (5.6% \u2192 5.0% \u2192 4.4% \u2192 3.6% \u2192 3.0% \u2192 1.6% \u2192 2.5%) mientras el volumen creci\u00f3 de 90 a 250 y se estabiliz\u00f3 entre 190 y 200.",
+};
+function renderNarrativeCallouts(filter, batches, a) {
+  if (filter === 'todos') {
+    Object.keys(NARRATIVE_TODOS).forEach(id => setHTML(id, NARRATIVE_TODOS[id]));
+    return;
+  }
+  const corteWord = filter === 'corte1' ? 'día 1' : 'día 15';
+  const waSeq = batches.map(b => `${b}: ${(BATCH_DATA[b].wa_paid/BATCH_DATA[b].wa_n*100).toFixed(1)}%`).join(' · ');
+  const csSeq = batches.map(b => `${b}: ${(BATCH_DATA[b].cs_paid/BATCH_DATA[b].cs_n*100).toFixed(1)}%`).join(' · ');
+  const wa1erAvg = batches.reduce((s,b)=>s+BATCH_DATA[b].wa_1er/BATCH_DATA[b].wa_n*100,0)/batches.length;
+  const cs1erAvg = batches.reduce((s,b)=>s+BATCH_DATA[b].cs_1er/BATCH_DATA[b].cs_n*100,0)/batches.length;
+  const waGap = a.wa_rate - wa1erAvg;
+  const csGap = a.cs_rate - cs1erAvg;
+
+  setHTML('txt-escala-callout',
+    `<strong>Vista filtrada a corte ${corteWord}.</strong> WA+ Call IA recaudó ${a.wa_rate.toFixed(1)}% en total (${waSeq}). CS recaudó ${a.cs_rate.toFixed(1)}% en total (${csSeq}). Cambia a "Todos" para ver la tendencia completa de 7 batches con el detalle batch a batch.`);
+
+  setHTML('txt-metodologia-callout',
+    `<strong>1er intento vs recaudación final — vista corte ${corteWord}.</strong> WA+ Call IA: 1er intento promedio ${wa1erAvg.toFixed(1)}%, recaudación final ${a.wa_rate.toFixed(1)}% (recupera +${waGap.toFixed(1)}pp vía reintentos). CS: 1er intento promedio ${cs1erAvg.toFixed(1)}%, final ${a.cs_rate.toFixed(1)}% (recupera +${csGap.toFixed(1)}pp). Cambia a "Todos" para ver el detalle metodológico completo y la evolución batch a batch.`);
+
+  const nPos = batches.filter(b => (BATCH_DATA[b].exitoso_p/BATCH_DATA[b].exitoso_n) > (BATCH_DATA[b].sinresp_p/BATCH_DATA[b].sinresp_n)).length;
+  const nPosCS = batches.filter(b => (BATCH_DATA[b].cs_contesto_p/BATCH_DATA[b].cs_contesto_n) >= (BATCH_DATA[b].cs_nocontesto_p/BATCH_DATA[b].cs_nocontesto_n)).length;
+  setHTML('txt-rodrigo-callout',
+    `<strong>Para Rodrigo — vista corte ${corteWord}.</strong> WA+ Call IA: contacto exitoso ${a.exitoso_rate.toFixed(1)}% vs sin-respuesta ${a.sinresp_rate.toFixed(1)}% (delta +${(a.exitoso_rate-a.sinresp_rate).toFixed(1)}pp) — positivo en ${nPos} de ${batches.length} batches de este corte. CS: contestó ${a.cs_contesto_rate.toFixed(1)}% vs no-contestó ${a.cs_nocontesto_rate.toFixed(1)}% — positivo o igual en ${nPosCS} de ${batches.length}. Cambia a "Todos" para ver el detalle batch a batch de los 7 batches.`);
+
+  setHTML('txt-reporte-completo-callout',
+    `<strong>Vista filtrada a corte ${corteWord} — ${batches.length} batch${batches.length===1?'':'es'} con resultado.</strong> WA+ Call IA: ${waSeq}. CS: ${csSeq}. FPD WA+ Call IA en esta vista: ${a.wa_fpd_rate.toFixed(1)}% (${a.wa_fpd} casos). Cambia a "Todos" para ver la serie completa de 7 batches.`);
+}
+</script>
+
 </body>
 </html>
