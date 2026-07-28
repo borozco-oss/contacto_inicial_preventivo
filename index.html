@@ -609,7 +609,7 @@ footer {
 
   <div class="callout c-info reveal">
     <span class="ci">💡</span>
-    <div><strong>Qué muestra esta gráfica:</strong> las <strong>barras</strong> son el número de clientes contactados en cada batch por cada iniciativa — <em>WhatsApp + IA/Email</em> (el experimento) frente a <em>Customer Service por llamada manual</em> (el control). Hay dos pares de <strong>líneas</strong>: las sólidas/discontinuas gruesas son el % de recaudación <strong>total</strong> (incluye reintentos de domiciliación); las punteadas delgadas son el % que pagó en el <strong>primer intento</strong> de domiciliación, antes de cualquier reintento. La diferencia entre ambas líneas de una misma iniciativa es lo que se recupera vía reintentos. El eje de % arranca en 85% para hacer visibles las diferencias.</div>
+    <div><strong>Qué muestra esta gráfica:</strong> las <strong>barras</strong> son el número de clientes contactados en cada batch por cada iniciativa — <em>WhatsApp + IA/Email</em> (el experimento) frente a <em>Customer Service por llamada manual</em> (el control). Hay dos pares de <strong>líneas</strong>: las sólidas/discontinuas gruesas son el % de recaudación <strong>total</strong> (incluye reintentos de domiciliación); las punteadas delgadas son el % que pagó en el <strong>primer intento</strong> de domiciliación, antes de cualquier reintento. La diferencia entre ambas líneas de una misma iniciativa es lo que se recupera vía reintentos. El eje de % arranca en 80% para hacer visibles las diferencias.</div>
   </div>
 
   <div class="chart-card reveal">
@@ -732,6 +732,70 @@ footer {
       <span class="lg-item"><span class="lg-swatch" style="background:#dcc596"></span> CS · no contestó</span>
     </div>
     <div class="chart-wrap"><canvas id="contactChart"></canvas></div>
+
+    <div style="padding:10px 12px 0;font-size:11px;color:var(--muted);line-height:1.5;border-top:1px solid var(--border);margin-top:14px">
+      <b style="color:var(--ink)">FPD a 30 días (footer):</b> de esos mismos 4 segmentos, % que seguía <b>sin pagar 30 días después</b> de su corte (o antes de su siguiente mensualidad) — cruce VIN por VIN contra el archivo de Cierre de Moratorios <b>del mismo corte del batch</b> (ese archivo ya contempla el cierre a 30 días desde su fecha de inicio), campo <code>ESTATUS DE PAGO</code>.
+    </div>
+
+    <div class="chart-foot" style="grid-template-columns: repeat(7, 1fr)">
+      <div class="cf-cell" data-batch="B1">
+        <div class="cf-b">Batch 1</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row"><span class="cf-k">WA éxito</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">WA s/resp</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS contestó</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS no cont.</span><span class="cf-v" style="color:var(--green)">0.7%</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B2">
+        <div class="cf-b">Batch 2</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row"><span class="cf-k">WA éxito</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">WA s/resp</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS contestó</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS no cont.</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B3">
+        <div class="cf-b">Batch 3</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row"><span class="cf-k">WA éxito</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">WA s/resp</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS contestó</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS no cont.</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B4">
+        <div class="cf-b">Batch 4</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row"><span class="cf-k">WA éxito</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">WA s/resp</span><span class="cf-v" style="color:var(--amber)">2.2%</span></div>
+        <div class="cf-row"><span class="cf-k">CS contestó</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS no cont.</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B5">
+        <div class="cf-b">Batch 5</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row"><span class="cf-k">WA éxito</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">WA s/resp</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS contestó</span><span class="cf-v" style="color:var(--green)">0.0%</span></div>
+        <div class="cf-row"><span class="cf-k">CS no cont.</span><span class="cf-v" style="color:var(--amber)">1.3%</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B6">
+        <div class="cf-b">Batch 6</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">No medible</span></div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">30d vencen</span></div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">1 Ago</span></div>
+      </div>
+      <div class="cf-cell" data-batch="B7">
+        <div class="cf-b">Batch 7</div><div class="cf-d">FPD a 30 días</div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">No medible</span></div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">30d vencen</span></div>
+        <div class="cf-row" style="opacity:.55"><span class="cf-k" style="font-size:10px">15 Ago</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout c-green reveal" style="margin-bottom:14px">
+    <span class="ci">🎯</span>
+    <div><strong>Para Rodrigo:</strong> con los 5 batches ya medibles (B1-B5), el FPD real a 30 días es <strong>0% en 17 de 20 celdas</strong> de segmento×batch. Solo 3 casos residuales en todo el periodo: 1 en B1 (CS no contestó, en consigna), 1 en B4 (WA sin respuesta, no pagado) y 1 en B5 (CS no contestó, no pagado) — ninguno concentrado en un segmento en particular. <strong>"WA éxito" —el segmento más grande— está en 0% en los 5 batches sin excepción</strong>, lo que descarta la hipótesis que discutimos de que ese segmento concentrara más riesgo a 30 días; el patrón que vimos antes era un error de mapeo de archivo, ya corregido. Comparado contra el FPD de la primera semana (ver tabla completa abajo), la ventana de 30 días recupera prácticamente el 100% de los casos que originalmente no habían pagado, en los 4 segmentos por igual.</div>
+  </div>
+
+  <div class="callout c-warn reveal" style="margin-bottom:14px">
+    <span class="ci">🔧</span>
+    <div><strong>Corrección aplicada:</strong> la versión anterior de esta sección usaba el archivo de Cierre de Moratorios de <em>30 días después</em> del corte del batch (ej. B1→archivo de mayo). Rodrigo aclaró que el archivo de Cierre de Moratorios <strong>ya contempla el cierre a 30 días desde su propia fecha de inicio</strong> (ej. el archivo "01_06_26" cubre del 1 al 30 de junio). Verificamos esto cruzando los 9 FPD conocidos de B4 contra el archivo "01_06_26" — los 9 aparecieron con fecha de primer adeudo exactamente "2026-06-01", confirmando que es el archivo correcto para ese batch. Se recalcularon B1, B2 y B3 con el archivo correcto.</div>
   </div>
 
   <!-- Tabla de detalle -->
@@ -1647,7 +1711,7 @@ footer {
 
   <footer>
     <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
-    <div class="f-right">v1.5 · 15 Jul 2026 · filtro por corte (día 1 / día 15 / todos)</div>
+    <div class="f-right">v2.0 · 15 Jul 2026 · FPD a 30 días corregido (B1-B5 completos)</div>
   </footer>
 
 </div>
@@ -1807,7 +1871,7 @@ footer {
             y1: {
               type: 'linear',
               position: 'right',
-              min: 85,
+              min: 78,
               max: 100,
               title: { display: true, text: '% recaudación', color: '#0c7a52', font: { size: 11, weight: '600' } },
               grid: { drawOnChartArea: false },
