@@ -615,11 +615,11 @@ footer {
   <div class="chart-card reveal">
     <div class="chart-legend">
       <span class="lg-item"><span class="lg-swatch" style="background:#1847b8"></span> Contactados · WA+ Call IA</span>
-      <span class="lg-item"><span class="lg-swatch" style="background:#b0ae9f"></span> Contactados · CS llamada</span>
-      <span class="lg-item"><span class="lg-line" style="border-color:#0c7a52"></span> % recaudación total · WA+ Call IA</span>
+      <span class="lg-item"><span class="lg-swatch" style="background:#8c6000"></span> Contactados · CS llamada</span>
+      <span class="lg-item"><span class="lg-line" style="border-color:#1847b8"></span> % recaudación total · WA+ Call IA</span>
       <span class="lg-item"><span class="lg-line" style="border-color:#8c6000"></span> % recaudación total · CS llamada</span>
-      <span class="lg-item"><span class="lg-line" style="border-color:#5b7fd1;border-top-style:dotted"></span> % pagó en 1er intento · WA+ Call IA</span>
-      <span class="lg-item"><span class="lg-line" style="border-color:#b89968;border-top-style:dotted"></span> % pagó en 1er intento · CS llamada</span>
+      <span class="lg-item"><span class="lg-line" style="border-color:#1847b8;border-top-style:dotted"></span> % pagó en 1er intento · WA+ Call IA</span>
+      <span class="lg-item"><span class="lg-line" style="border-color:#8c6000;border-top-style:dotted"></span> % pagó en 1er intento · CS llamada</span>
     </div>
     <div class="chart-wrap"><canvas id="recChart"></canvas></div>
     <div class="chart-foot">
@@ -1711,7 +1711,7 @@ footer {
 
   <footer>
     <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
-    <div class="f-right">v2.0 · 15 Jul 2026 · FPD a 30 días corregido (B1-B5 completos)</div>
+    <div class="f-right">v2.2 · 15 Jul 2026 · CS en ámbar en toda la gráfica (barras + líneas)</div>
   </footer>
 
 </div>
@@ -1766,8 +1766,8 @@ footer {
               type: 'bar',
               label: 'Customer Service · clientes contactados',
               data: [220, 199, 20, 18, 119, 156, 97],
-              backgroundColor: 'rgba(176,174,159,0.7)',
-              borderColor: '#b0ae9f',
+              backgroundColor: 'rgba(140,96,0,0.75)',
+              borderColor: '#8c6000',
               borderWidth: 0,
               borderRadius: 5,
               yAxisID: 'y',
@@ -1777,11 +1777,11 @@ footer {
               type: 'line',
               label: '% recaudación WA+ Call IA',
               data: [94.4, 95.0, 95.6, 96.4, 97.0, 98.4, 97.5],
-              borderColor: '#0c7a52',
-              backgroundColor: '#0c7a52',
+              borderColor: '#1847b8',
+              backgroundColor: '#1847b8',
               borderWidth: 2.5,
               pointRadius: 4,
-              pointBackgroundColor: '#0c7a52',
+              pointBackgroundColor: '#1847b8',
               pointBorderColor: '#fff',
               pointBorderWidth: 1.5,
               tension: 0.3,
@@ -1795,7 +1795,6 @@ footer {
               borderColor: '#8c6000',
               backgroundColor: '#8c6000',
               borderWidth: 2.5,
-              borderDash: [5, 4],
               pointRadius: 4,
               pointBackgroundColor: '#8c6000',
               pointBorderColor: '#fff',
@@ -1808,12 +1807,12 @@ footer {
               type: 'line',
               label: '% pagó en 1er intento · WA+ Call IA',
               data: [86.7, 89.0, 86.7, 90.8, 88.0, 86.8, 88.5],
-              borderColor: '#5b7fd1',
-              backgroundColor: '#5b7fd1',
+              borderColor: '#1847b8',
+              backgroundColor: '#1847b8',
               borderWidth: 2,
               borderDash: [2, 3],
               pointRadius: 3,
-              pointBackgroundColor: '#5b7fd1',
+              pointBackgroundColor: '#1847b8',
               pointBorderColor: '#fff',
               pointBorderWidth: 1.2,
               tension: 0.3,
@@ -1824,12 +1823,12 @@ footer {
               type: 'line',
               label: '% pagó en 1er intento · Customer Service',
               data: [89.1, 88.9, 80.0, 88.9, 87.4, 85.9, 94.8],
-              borderColor: '#b89968',
-              backgroundColor: '#b89968',
+              borderColor: '#8c6000',
+              backgroundColor: '#8c6000',
               borderWidth: 2,
               borderDash: [2, 3],
               pointRadius: 3,
-              pointBackgroundColor: '#b89968',
+              pointBackgroundColor: '#8c6000',
               pointBorderColor: '#fff',
               pointBorderWidth: 1.2,
               tension: 0.3,
@@ -1873,10 +1872,10 @@ footer {
               position: 'right',
               min: 78,
               max: 100,
-              title: { display: true, text: '% recaudación', color: '#0c7a52', font: { size: 11, weight: '600' } },
+              title: { display: true, text: '% recaudación', color: '#7c7868', font: { size: 11, weight: '600' } },
               grid: { drawOnChartArea: false },
               ticks: {
-                color: '#0c7a52',
+                color: '#7c7868',
                 font: { family: "'JetBrains Mono', monospace", size: 11 },
                 callback: function (v) { return v + '%'; }
               }
