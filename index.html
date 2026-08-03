@@ -714,6 +714,31 @@ footer {
     </div>
   </div>
 
+  <!-- ═══ RESUMEN AGREGADO — RECAUDACIÓN POR INICIATIVA ═══ -->
+  <div class="sec-label reveal">
+    <span id="sec-agg1-title">Resumen agregado — WA+ Call IA vs CS (los 7 batches)</span><div class="line"></div>
+  </div>
+
+  <div class="callout c-info reveal">
+    <span class="ci">📐</span>
+    <div>Mismo dato que la gráfica de arriba, pero <strong>sumado en un solo número por iniciativa</strong> en vez de mostrarlo batch por batch — para ver de un vistazo el resumen general sin la variación entre batches. Reacciona al filtro de corte de arriba.</div>
+  </div>
+
+  <div class="chart-card reveal">
+    <div class="chart-legend">
+      <span class="lg-item"><span class="lg-swatch" style="background:#1847b8"></span> WA+ Call IA</span>
+      <span class="lg-item"><span class="lg-swatch" style="background:#8c6000"></span> CS llamada</span>
+    </div>
+    <div id="agg1-caption" style="text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:10px">
+      <b style="color:#1847b8">WA+ Call IA: 1,233 clientes</b> &nbsp;·&nbsp; <b style="color:#8c6000">CS: 829 clientes</b>
+    </div>
+    <div class="chart-wrap" style="height:280px"><canvas id="aggChart1"></canvas></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:center;gap:32px;font-size:12.5px" id="agg1-fpd30">
+      <span style="color:var(--muted)">FPD a 30 días · <b style="color:#1847b8">WA+ Call IA: 0.1%</b></span>
+      <span style="color:var(--muted)">FPD a 30 días · <b style="color:#8c6000">CS: 0.3%</b></span>
+    </div>
+  </div>
+
   <!-- ═══ RECAUDACIÓN POR TIPO DE CONTACTO ═══ -->
   <div class="sec-label reveal">
     <span id="sec-rodrigo-title">Recaudación según éxito de contacto — por batch (petición de Rodrigo)</span><div class="line"></div>
@@ -825,6 +850,35 @@ footer {
   <div class="callout c-green reveal" style="margin-bottom:40px;display:none" id="callout-rodrigo-filtrado">
     <span class="ci">✅</span>
     <div id="txt-rodrigo-filtrado">—</div>
+  </div>
+
+  <!-- ═══ RESUMEN AGREGADO — RECAUDACIÓN SEGÚN ÉXITO DE CONTACTO ═══ -->
+  <div class="sec-label reveal">
+    <span id="sec-agg2-title">Resumen agregado — Recaudación según éxito de contacto (los 7 batches)</span><div class="line"></div>
+  </div>
+
+  <div class="callout c-info reveal">
+    <span class="ci">📐</span>
+    <div>Los mismos 4 segmentos de arriba, <strong>sumados en un solo % por segmento</strong> en vez de por batch. Reacciona al filtro de corte de arriba.</div>
+  </div>
+
+  <div class="chart-card reveal" style="margin-bottom:40px">
+    <div class="chart-legend">
+      <span class="lg-item"><span class="lg-swatch" style="background:#1847b8"></span> WA+ Call IA · contacto exitoso</span>
+      <span class="lg-item"><span class="lg-swatch" style="background:#a9bce8"></span> WA+ Call IA · sin respuesta</span>
+      <span class="lg-item"><span class="lg-swatch" style="background:#8c6000"></span> CS · contestó la llamada</span>
+      <span class="lg-item"><span class="lg-swatch" style="background:#dcc596"></span> CS · no contestó</span>
+    </div>
+    <div class="chart-wrap" style="height:280px"><canvas id="aggChart2"></canvas></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)" id="agg2-fpd30">
+      <div style="text-align:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">FPD a 30 días por segmento</div>
+      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px 28px;font-size:12.5px">
+        <span style="color:var(--muted)">WA éxito: <b style="color:var(--ink)">0.0%</b></span>
+        <span style="color:var(--muted)">WA sin respuesta: <b style="color:var(--ink)">0.6%</b></span>
+        <span style="color:var(--muted)">CS contestó: <b style="color:var(--ink)">0.0%</b></span>
+        <span style="color:var(--muted)">CS no contestó: <b style="color:var(--ink)">0.5%</b></span>
+      </div>
+    </div>
   </div>
 
   <!-- ═══ BATCHES + CS ═══ -->
@@ -1711,7 +1765,7 @@ footer {
 
   <footer>
     <div class="f-left">Nexu · Contacto Inicial Preventivo · CGC</div>
-    <div class="f-right">v2.2 · 15 Jul 2026 · CS en ámbar en toda la gráfica (barras + líneas)</div>
+    <div class="f-right">v2.4 · 15 Jul 2026 · "Recaudación DOMI" + FPD a 30 días en agregados</div>
   </footer>
 
 </div>
@@ -1971,6 +2025,113 @@ footer {
         }
       });
     }
+
+    // ═══ Chart.js — Resumen agregado 1: Recaudación final vs 1er intento (WA vs CS) ═══
+    const agg1El = document.getElementById('aggChart1');
+    if (agg1El) {
+      window.aggChart1Instance = new Chart(agg1El, {
+        type: 'bar',
+        data: {
+          labels: ['Recaudación DOMI', '1er intento'],
+          datasets: [
+            {
+              label: 'WA+ Call IA',
+              data: [96.6, 88.2],
+              backgroundColor: 'rgba(24,71,184,0.85)',
+              borderColor: '#1847b8',
+              borderWidth: 0,
+              borderRadius: 5,
+              maxBarThickness: 90
+            },
+            {
+              label: 'CS llamada',
+              data: [96.9, 88.7],
+              backgroundColor: 'rgba(140,96,0,0.75)',
+              borderColor: '#8c6000',
+              borderWidth: 0,
+              borderRadius: 5,
+              maxBarThickness: 90
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#18170f',
+              padding: 11,
+              titleFont: { family: "'Sora', sans-serif", weight: '600' },
+              bodyFont: { family: "'JetBrains Mono', monospace", size: 12 },
+              callbacks: {
+                label: function (ctx) { return '  ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%'; }
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 75, max: 100,
+              grid: { color: 'rgba(226,224,216,0.6)' },
+              ticks: { color: '#7c7868', font: { family: "'JetBrains Mono', monospace", size: 11 }, callback: v => v + '%' },
+              title: { display: true, text: '% recaudación', color: '#7c7868', font: { size: 11, weight: '600' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#18170f', font: { family: "'Sora', sans-serif", size: 12, weight: '600' } }
+            }
+          }
+        }
+      });
+    }
+
+    // ═══ Chart.js — Resumen agregado 2: Recaudación según éxito de contacto ═══
+    const agg2El = document.getElementById('aggChart2');
+    if (agg2El) {
+      window.aggChart2Instance = new Chart(agg2El, {
+        type: 'bar',
+        data: {
+          labels: ['WA+ Call IA'],
+          datasets: [
+            { label: 'WA+ Call IA · contacto exitoso', data: [97.0], backgroundColor: '#1847b8', borderRadius: 5, maxBarThickness: 70, customN: [1012] },
+            { label: 'WA+ Call IA · sin respuesta', data: [94.6], backgroundColor: '#a9bce8', borderRadius: 5, maxBarThickness: 70, customN: [221] },
+            { label: 'CS · contestó la llamada', data: [98.0], backgroundColor: '#8c6000', borderRadius: 5, maxBarThickness: 70, customN: [294] },
+            { label: 'CS · no contestó', data: [96.3], backgroundColor: '#dcc596', borderRadius: 5, maxBarThickness: 70, customN: [535] }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#18170f',
+              padding: 11,
+              titleFont: { family: "'Sora', sans-serif", weight: '600' },
+              bodyFont: { family: "'JetBrains Mono', monospace", size: 12 },
+              callbacks: {
+                label: function (ctx) {
+                  const n = ctx.dataset.customN[ctx.dataIndex];
+                  return '  ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%  (n=' + n + ')';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 80, max: 100,
+              grid: { color: 'rgba(226,224,216,0.6)' },
+              ticks: { color: '#7c7868', font: { family: "'JetBrains Mono', monospace", size: 11 }, callback: v => v + '%' },
+              title: { display: true, text: '% recaudación', color: '#7c7868', font: { size: 11, weight: '600' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { display: false }
+            }
+          }
+        }
+      });
+    }
   })();
 </script>
 
@@ -1978,7 +2139,7 @@ footer {
 // ══════════════════════════════════════════════════════════════
 // CORTE FILTER ENGINE — recalcula todas las secciones del reporte
 // ══════════════════════════════════════════════════════════════
-const BATCH_DATA = {"B1":{"wa_n":90,"wa_paid":85,"wa_ch_wa_n":60,"wa_ch_wa_v":58,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":30,"wa_ch_voz_v":5,"wa_ch_voz_nr":0,"wa_ch_voz_sr":25,"wa_ch_voz_o":0,"verif_n":63,"verif_p":60,"sinr_n":25,"sinr_p":23,"nrev_n":2,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":65,"exitoso_p":62,"sinresp_n":25,"sinresp_p":23,"incidencias":5,"cartera":968775.21,"cobrado":914354.41,"cs_n":220,"cs_paid":216,"cs_contesto_n":85,"cs_contesto_p":84,"cs_nocontesto_n":135,"cs_nocontesto_p":132,"wa_1er":78,"cs_1er":196,"corte":1,"label":"1 Abr","dateLong":"1 Abr 2026"},"B2":{"wa_n":100,"wa_paid":95,"wa_ch_wa_n":77,"wa_ch_wa_v":75,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":23,"wa_ch_voz_v":2,"wa_ch_voz_nr":1,"wa_ch_voz_sr":20,"wa_ch_voz_o":0,"verif_n":77,"verif_p":75,"sinr_n":20,"sinr_p":18,"nrev_n":3,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":80,"exitoso_p":77,"sinresp_n":20,"sinresp_p":18,"incidencias":3,"cartera":1113450.52,"cobrado":1022669.70,"cs_n":199,"cs_paid":190,"cs_contesto_n":60,"cs_contesto_p":57,"cs_nocontesto_n":139,"cs_nocontesto_p":133,"wa_1er":89,"cs_1er":177,"corte":1,"label":"1 May","dateLong":"1 May 2026"},"B3":{"wa_n":203,"wa_paid":194,"wa_ch_wa_n":170,"wa_ch_wa_v":166,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":33,"wa_ch_voz_v":6,"wa_ch_voz_nr":0,"wa_ch_voz_sr":27,"wa_ch_voz_o":0,"verif_n":172,"verif_p":165,"sinr_n":27,"sinr_p":25,"nrev_n":4,"nrev_p":4,"otro_n":0,"otro_p":0,"exitoso_n":176,"exitoso_p":169,"sinresp_n":27,"sinresp_p":25,"incidencias":4,"cartera":2328421.74,"cobrado":2232218.14,"cs_n":20,"cs_paid":18,"cs_contesto_n":7,"cs_contesto_p":6,"cs_nocontesto_n":13,"cs_nocontesto_p":12,"wa_1er":176,"cs_1er":16,"corte":15,"label":"15 May","dateLong":"15 May 2026"},"B4":{"wa_n":250,"wa_paid":241,"wa_ch_wa_n":192,"wa_ch_wa_v":187,"wa_ch_wa_nr":5,"wa_ch_wa_sr":0,"wa_ch_voz_n":58,"wa_ch_voz_v":13,"wa_ch_voz_nr":0,"wa_ch_voz_sr":45,"wa_ch_voz_o":0,"verif_n":200,"verif_p":193,"sinr_n":45,"sinr_p":43,"nrev_n":5,"nrev_p":5,"otro_n":0,"otro_p":0,"exitoso_n":205,"exitoso_p":198,"sinresp_n":45,"sinresp_p":43,"incidencias":5,"cartera":2740689.64,"cobrado":2640990.12,"cs_n":18,"cs_paid":18,"cs_contesto_n":6,"cs_contesto_p":6,"cs_nocontesto_n":12,"cs_nocontesto_p":12,"wa_1er":227,"cs_1er":16,"corte":1,"label":"1 Jun","dateLong":"1 Jun 2026"},"B5":{"wa_n":200,"wa_paid":194,"wa_ch_wa_n":144,"wa_ch_wa_v":140,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":56,"wa_ch_voz_v":12,"wa_ch_voz_nr":2,"wa_ch_voz_sr":38,"wa_ch_voz_o":4,"verif_n":152,"verif_p":148,"sinr_n":38,"sinr_p":36,"nrev_n":6,"nrev_p":6,"otro_n":4,"otro_p":4,"exitoso_n":158,"exitoso_p":154,"sinresp_n":42,"sinresp_p":40,"incidencias":5,"cartera":2419658.32,"cobrado":2349028.08,"cs_n":119,"cs_paid":115,"cs_contesto_n":42,"cs_contesto_p":42,"cs_nocontesto_n":77,"cs_nocontesto_p":73,"wa_1er":176,"cs_1er":104,"corte":15,"label":"15 Jun","dateLong":"15 Jun 2026"},"B6":{"wa_n":190,"wa_paid":187,"wa_ch_wa_n":148,"wa_ch_wa_v":148,"wa_ch_wa_nr":0,"wa_ch_wa_sr":0,"wa_ch_voz_n":42,"wa_ch_voz_v":7,"wa_ch_voz_nr":1,"wa_ch_voz_sr":33,"wa_ch_voz_o":1,"verif_n":155,"verif_p":153,"sinr_n":33,"sinr_p":32,"nrev_n":1,"nrev_p":1,"otro_n":1,"otro_p":1,"exitoso_n":156,"exitoso_p":154,"sinresp_n":34,"sinresp_p":33,"incidencias":1,"cartera":2179492.21,"cobrado":2146590.48,"cs_n":156,"cs_paid":151,"cs_contesto_n":57,"cs_contesto_p":56,"cs_nocontesto_n":99,"cs_nocontesto_p":95,"wa_1er":165,"cs_1er":134,"corte":1,"label":"1 Jul","dateLong":"1 Jul 2026"},"B7":{"wa_n":200,"wa_paid":195,"wa_ch_wa_n":164,"wa_ch_wa_v":160,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":36,"wa_ch_voz_v":6,"wa_ch_voz_nr":2,"wa_ch_voz_sr":26,"wa_ch_voz_o":2,"verif_n":166,"verif_p":162,"sinr_n":26,"sinr_p":25,"nrev_n":6,"nrev_p":6,"otro_n":2,"otro_p":2,"exitoso_n":172,"exitoso_p":168,"sinresp_n":28,"sinresp_p":27,"incidencias":4,"cartera":2311472.62,"cobrado":2258524.58,"cs_n":97,"cs_paid":95,"cs_contesto_n":37,"cs_contesto_p":37,"cs_nocontesto_n":60,"cs_nocontesto_p":58,"wa_1er":177,"cs_1er":92,"corte":15,"label":"15 Jul","dateLong":"15 Jul 2026"}};
+const BATCH_DATA = {"B1":{"wa_n":90,"wa_paid":85,"wa_ch_wa_n":60,"wa_ch_wa_v":58,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":30,"wa_ch_voz_v":5,"wa_ch_voz_nr":0,"wa_ch_voz_sr":25,"wa_ch_voz_o":0,"verif_n":63,"verif_p":60,"sinr_n":25,"sinr_p":23,"nrev_n":2,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":65,"exitoso_p":62,"sinresp_n":25,"sinresp_p":23,"incidencias":5,"cartera":968775.21,"cobrado":914354.41,"cs_n":220,"cs_paid":216,"cs_contesto_n":85,"cs_contesto_p":84,"cs_nocontesto_n":135,"cs_nocontesto_p":132,"wa_1er":78,"cs_1er":196,"corte":1,"label":"1 Abr","dateLong":"1 Abr 2026","fpd30_exitoso":0,"fpd30_sinresp":0,"fpd30_cscontesto":0,"fpd30_csnocontesto":1},"B2":{"wa_n":100,"wa_paid":95,"wa_ch_wa_n":77,"wa_ch_wa_v":75,"wa_ch_wa_nr":2,"wa_ch_wa_sr":0,"wa_ch_voz_n":23,"wa_ch_voz_v":2,"wa_ch_voz_nr":1,"wa_ch_voz_sr":20,"wa_ch_voz_o":0,"verif_n":77,"verif_p":75,"sinr_n":20,"sinr_p":18,"nrev_n":3,"nrev_p":2,"otro_n":0,"otro_p":0,"exitoso_n":80,"exitoso_p":77,"sinresp_n":20,"sinresp_p":18,"incidencias":3,"cartera":1113450.52,"cobrado":1022669.7,"cs_n":199,"cs_paid":190,"cs_contesto_n":60,"cs_contesto_p":57,"cs_nocontesto_n":139,"cs_nocontesto_p":133,"wa_1er":89,"cs_1er":177,"corte":1,"label":"1 May","dateLong":"1 May 2026","fpd30_exitoso":0,"fpd30_sinresp":0,"fpd30_cscontesto":0,"fpd30_csnocontesto":0},"B3":{"wa_n":203,"wa_paid":194,"wa_ch_wa_n":170,"wa_ch_wa_v":166,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":33,"wa_ch_voz_v":6,"wa_ch_voz_nr":0,"wa_ch_voz_sr":27,"wa_ch_voz_o":0,"verif_n":172,"verif_p":165,"sinr_n":27,"sinr_p":25,"nrev_n":4,"nrev_p":4,"otro_n":0,"otro_p":0,"exitoso_n":176,"exitoso_p":169,"sinresp_n":27,"sinresp_p":25,"incidencias":4,"cartera":2328421.74,"cobrado":2232218.14,"cs_n":20,"cs_paid":18,"cs_contesto_n":7,"cs_contesto_p":6,"cs_nocontesto_n":13,"cs_nocontesto_p":12,"wa_1er":176,"cs_1er":16,"corte":15,"label":"15 May","dateLong":"15 May 2026","fpd30_exitoso":0,"fpd30_sinresp":0,"fpd30_cscontesto":0,"fpd30_csnocontesto":0},"B4":{"wa_n":250,"wa_paid":241,"wa_ch_wa_n":192,"wa_ch_wa_v":187,"wa_ch_wa_nr":5,"wa_ch_wa_sr":0,"wa_ch_voz_n":58,"wa_ch_voz_v":13,"wa_ch_voz_nr":0,"wa_ch_voz_sr":45,"wa_ch_voz_o":0,"verif_n":200,"verif_p":193,"sinr_n":45,"sinr_p":43,"nrev_n":5,"nrev_p":5,"otro_n":0,"otro_p":0,"exitoso_n":205,"exitoso_p":198,"sinresp_n":45,"sinresp_p":43,"incidencias":5,"cartera":2740689.64,"cobrado":2640990.12,"cs_n":18,"cs_paid":18,"cs_contesto_n":6,"cs_contesto_p":6,"cs_nocontesto_n":12,"cs_nocontesto_p":12,"wa_1er":227,"cs_1er":16,"corte":1,"label":"1 Jun","dateLong":"1 Jun 2026","fpd30_exitoso":0,"fpd30_sinresp":1,"fpd30_cscontesto":0,"fpd30_csnocontesto":0},"B5":{"wa_n":200,"wa_paid":194,"wa_ch_wa_n":144,"wa_ch_wa_v":140,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":56,"wa_ch_voz_v":12,"wa_ch_voz_nr":2,"wa_ch_voz_sr":38,"wa_ch_voz_o":4,"verif_n":152,"verif_p":148,"sinr_n":38,"sinr_p":36,"nrev_n":6,"nrev_p":6,"otro_n":4,"otro_p":4,"exitoso_n":158,"exitoso_p":154,"sinresp_n":42,"sinresp_p":40,"incidencias":5,"cartera":2419658.32,"cobrado":2349028.08,"cs_n":119,"cs_paid":115,"cs_contesto_n":42,"cs_contesto_p":42,"cs_nocontesto_n":77,"cs_nocontesto_p":73,"wa_1er":176,"cs_1er":104,"corte":15,"label":"15 Jun","dateLong":"15 Jun 2026","fpd30_exitoso":0,"fpd30_sinresp":0,"fpd30_cscontesto":0,"fpd30_csnocontesto":1},"B6":{"wa_n":190,"wa_paid":187,"wa_ch_wa_n":148,"wa_ch_wa_v":148,"wa_ch_wa_nr":0,"wa_ch_wa_sr":0,"wa_ch_voz_n":42,"wa_ch_voz_v":7,"wa_ch_voz_nr":1,"wa_ch_voz_sr":33,"wa_ch_voz_o":1,"verif_n":155,"verif_p":153,"sinr_n":33,"sinr_p":32,"nrev_n":1,"nrev_p":1,"otro_n":1,"otro_p":1,"exitoso_n":156,"exitoso_p":154,"sinresp_n":34,"sinresp_p":33,"incidencias":1,"cartera":2179492.21,"cobrado":2146590.48,"cs_n":156,"cs_paid":151,"cs_contesto_n":57,"cs_contesto_p":56,"cs_nocontesto_n":99,"cs_nocontesto_p":95,"wa_1er":165,"cs_1er":134,"corte":1,"label":"1 Jul","dateLong":"1 Jul 2026","fpd30_exitoso":null,"fpd30_sinresp":null,"fpd30_cscontesto":null,"fpd30_csnocontesto":null},"B7":{"wa_n":200,"wa_paid":195,"wa_ch_wa_n":164,"wa_ch_wa_v":160,"wa_ch_wa_nr":4,"wa_ch_wa_sr":0,"wa_ch_voz_n":36,"wa_ch_voz_v":6,"wa_ch_voz_nr":2,"wa_ch_voz_sr":26,"wa_ch_voz_o":2,"verif_n":166,"verif_p":162,"sinr_n":26,"sinr_p":25,"nrev_n":6,"nrev_p":6,"otro_n":2,"otro_p":2,"exitoso_n":172,"exitoso_p":168,"sinresp_n":28,"sinresp_p":27,"incidencias":4,"cartera":2311472.62,"cobrado":2258524.58,"cs_n":97,"cs_paid":95,"cs_contesto_n":37,"cs_contesto_p":37,"cs_nocontesto_n":60,"cs_nocontesto_p":58,"wa_1er":177,"cs_1er":92,"corte":15,"label":"15 Jul","dateLong":"15 Jul 2026","fpd30_exitoso":null,"fpd30_sinresp":null,"fpd30_cscontesto":null,"fpd30_csnocontesto":null}};
 
 const BATCH_ORDER = ['B1','B2','B3','B4','B5','B6','B7'];
 let currentCorteFilter = 'todos';
@@ -2046,6 +2207,31 @@ function aggregate(batches) {
   a.wa_verif_pure_rate = a.wa_verif_pure_n/a.wa_n*100;
   a.signal_pval = chi2PValue(a.verif_p, a.verif_n-a.verif_p, a.sinr_p, a.sinr_n-a.sinr_p);
   a.signal_delta = a.verif_rate - a.sinr_rate;
+
+  // ── FPD a 30 días (solo batches con dato disponible; B6/B7 quedan fuera) ──
+  const fpd30Batches = batches.filter(b => BATCH_DATA[b].fpd30_exitoso !== null);
+  a.fpd30_n_batches = fpd30Batches.length;
+  a.fpd30_missing = batches.length - fpd30Batches.length;
+  const sumFpd30 = (nKey, fKey) => fpd30Batches.reduce((s,b) => s + BATCH_DATA[b][nKey], 0);
+  if (fpd30Batches.length > 0) {
+    const exN = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].exitoso_n,0);
+    const exF = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].fpd30_exitoso,0);
+    const srN = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].sinresp_n,0);
+    const srF = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].fpd30_sinresp,0);
+    const ccN = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].cs_contesto_n,0);
+    const ccF = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].fpd30_cscontesto,0);
+    const cnN = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].cs_nocontesto_n,0);
+    const cnF = fpd30Batches.reduce((s,b)=>s+BATCH_DATA[b].fpd30_csnocontesto,0);
+    a.fpd30_exitoso_n = exN; a.fpd30_exitoso_f = exF; a.fpd30_exitoso_rate = exN ? exF/exN*100 : 0;
+    a.fpd30_sinresp_n = srN; a.fpd30_sinresp_f = srF; a.fpd30_sinresp_rate = srN ? srF/srN*100 : 0;
+    a.fpd30_cscontesto_n = ccN; a.fpd30_cscontesto_f = ccF; a.fpd30_cscontesto_rate = ccN ? ccF/ccN*100 : 0;
+    a.fpd30_csnocontesto_n = cnN; a.fpd30_csnocontesto_f = cnF; a.fpd30_csnocontesto_rate = cnN ? cnF/cnN*100 : 0;
+    a.fpd30_wa_n = exN+srN; a.fpd30_wa_f = exF+srF; a.fpd30_wa_rate = a.fpd30_wa_n ? a.fpd30_wa_f/a.fpd30_wa_n*100 : 0;
+    a.fpd30_cs_n = ccN+cnN; a.fpd30_cs_f = ccF+cnF; a.fpd30_cs_rate = a.fpd30_cs_n ? a.fpd30_cs_f/a.fpd30_cs_n*100 : 0;
+  } else {
+    a.fpd30_exitoso_rate = null; a.fpd30_sinresp_rate = null; a.fpd30_cscontesto_rate = null; a.fpd30_csnocontesto_rate = null;
+    a.fpd30_wa_rate = null; a.fpd30_cs_rate = null;
+  }
   return a;
 }
 
@@ -2144,6 +2330,7 @@ function renderFilteredReport(filter) {
 
   // ── front chart section title ──
   setText('sec-recaud-title', `Recaudación por iniciativa — ${nb === 7 ? 'los 7 batches' : bRange}`);
+  setText('sec-agg1-title', `Resumen agregado — WA+ Call IA vs CS (${nb === 7 ? 'los 7 batches' : bRange})`);
 
   // ── batch grid ──
   setText('sec-batches-title', `Estado de ${nb === 7 ? 'los 7 batches' : (nb+' batch'+(nb===1?'':'es')+' ('+ (filter==='corte1'?'día 1':'día 15') +')')}`);
@@ -2209,6 +2396,7 @@ function renderFilteredReport(filter) {
 
   // ── Rodrigo section title ──
   setText('sec-rodrigo-title', `Recaudación según éxito de contacto — por batch${filter!=='todos' ? ' (corte '+(filter==='corte1'?'día 1':'día 15')+')' : ' (petición de Rodrigo)'}`);
+  setText('sec-agg2-title', `Resumen agregado — Recaudación según éxito de contacto (${nb === 7 ? 'los 7 batches' : bRange})`);
 
   // ── narrative callouts: show rich "todos" version only when unfiltered ──
   const isFiltered = filter !== 'todos';
@@ -2240,6 +2428,7 @@ function renderFilteredReport(filter) {
 function updateCharts(batches) {
   const labels = batches.map(b => `Batch ${b.slice(1)}\n${BATCH_DATA[b].label}`);
   const labelsRec = batches.map(b => `Batch ${b.slice(1)} · ${BATCH_DATA[b].label}`);
+  const a = aggregate(batches);
 
   if (window.recChartInstance) {
     const c = window.recChartInstance;
@@ -2251,6 +2440,33 @@ function updateCharts(batches) {
     c.data.datasets[4].data = batches.map(b => +(BATCH_DATA[b].wa_1er/BATCH_DATA[b].wa_n*100).toFixed(1));
     c.data.datasets[5].data = batches.map(b => +(BATCH_DATA[b].cs_1er/BATCH_DATA[b].cs_n*100).toFixed(1));
     c.update();
+  }
+  if (window.aggChart1Instance) {
+    const c = window.aggChart1Instance;
+    c.data.datasets[0].data = [+a.wa_rate.toFixed(1), +a.wa_1er_rate.toFixed(1)];
+    c.data.datasets[1].data = [+a.cs_rate.toFixed(1), +a.cs_1er_rate.toFixed(1)];
+    c.update();
+  }
+  setHTML('agg1-caption', `<b style="color:#1847b8">WA+ Call IA: ${fmtN(a.wa_n)} clientes</b> &nbsp;·&nbsp; <b style="color:#8c6000">CS: ${fmtN(a.cs_n)} clientes</b>`);
+  if (a.fpd30_wa_rate === null) {
+    setHTML('agg1-fpd30', `<span style="color:var(--muted)">FPD a 30 días no disponible en esta vista (los batches de este corte aún no cumplen 30 días o falta el archivo de cierre)</span>`);
+  } else {
+    const nota1 = a.fpd30_missing > 0 ? ` <span style="font-size:10px;opacity:.7">(${a.fpd30_n_batches} de ${batches.length} batches con dato)</span>` : '';
+    setHTML('agg1-fpd30', `<span style="color:var(--muted)">FPD a 30 días · <b style="color:#1847b8">WA+ Call IA: ${a.fpd30_wa_rate.toFixed(1)}%</b></span><span style="color:var(--muted)">FPD a 30 días · <b style="color:#8c6000">CS: ${a.fpd30_cs_rate.toFixed(1)}%</b></span>${nota1}`);
+  }
+  if (window.aggChart2Instance) {
+    const c = window.aggChart2Instance;
+    c.data.datasets[0].data = [+a.exitoso_rate.toFixed(1)]; c.data.datasets[0].customN = [a.exitoso_n];
+    c.data.datasets[1].data = [+a.sinresp_rate.toFixed(1)]; c.data.datasets[1].customN = [a.sinresp_n];
+    c.data.datasets[2].data = [+a.cs_contesto_rate.toFixed(1)]; c.data.datasets[2].customN = [a.cs_contesto_n];
+    c.data.datasets[3].data = [+a.cs_nocontesto_rate.toFixed(1)]; c.data.datasets[3].customN = [a.cs_nocontesto_n];
+    c.update();
+  }
+  if (a.fpd30_exitoso_rate === null) {
+    setHTML('agg2-fpd30', `<div style="text-align:center;font-size:12.5px;color:var(--muted)">FPD a 30 días no disponible en esta vista</div>`);
+  } else {
+    const nota2 = a.fpd30_missing > 0 ? ` <span style="font-size:10px;opacity:.7">(${a.fpd30_n_batches} de ${batches.length} batches con dato)</span>` : '';
+    setHTML('agg2-fpd30', `<div style="text-align:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">FPD a 30 días por segmento${nota2}</div><div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px 28px;font-size:12.5px"><span style="color:var(--muted)">WA éxito: <b style="color:var(--ink)">${a.fpd30_exitoso_rate.toFixed(1)}%</b></span><span style="color:var(--muted)">WA sin respuesta: <b style="color:var(--ink)">${a.fpd30_sinresp_rate.toFixed(1)}%</b></span><span style="color:var(--muted)">CS contestó: <b style="color:var(--ink)">${a.fpd30_cscontesto_rate.toFixed(1)}%</b></span><span style="color:var(--muted)">CS no contestó: <b style="color:var(--ink)">${a.fpd30_csnocontesto_rate.toFixed(1)}%</b></span></div>`);
   }
   if (window.contactChartInstance) {
     const c = window.contactChartInstance;
