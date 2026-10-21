@@ -105,6 +105,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .cip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
 .cip-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
 .cip-card.wide { grid-column: 1 / -1; }
+.cip-panel-lbl { margin: 6px 0 -4px; font-size: var(--cds-font-size-caption); font-weight: 600; color: var(--color-fg-muted); }
 .cip-row2 { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
 @media (min-width: 900px) { .cip-row2 { grid-template-columns: minmax(20rem, 1fr) 2fr; } }
 .cip-card h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
@@ -170,22 +171,23 @@ dash.calc('kpi_corte', {
       const s = (f) => g.filter(f).reduce((a, d) => a + d.monto, 0);
       const ver = c((d) => d.resultado === 'Verificada');
       const rev = c((d) => d.resultado === 'Necesita revisión');
+      const revI = c((d) => d.resultado === 'Necesita revisión' && d.incidencia !== '');
       const sr = c((d) => d.resultado === 'Sin respuesta');
       const esc = c((d) => d.escalado_llamada === 'Sí');
-      const rec = c((d) => d.canal_contacto === 'Llamada');
+      const rec = c((d) => d.canal_contacto === 'Llamada' && d.resultado === 'Verificada');
       const tot = s(() => true);
       return {
         corte, clientes: n, monto: Math.round(tot), ticket_promedio: Math.round(tot / n),
-        verificados: ver, en_revision: rev, sin_respuesta: sr, sin_registro: c((d) => d.resultado === 'Sin registro'),
+        verificados: ver, en_revision: revI, revision_sin_incidencia: rev - revI, sin_respuesta: sr, sin_registro: c((d) => d.resultado === 'Sin registro'),
         contactados: ver + rev, contactados_whatsapp: c((d) => d.canal_contacto === 'WhatsApp'),
         verificados_whatsapp: c((d) => d.resultado === 'Verificada' && d.canal_contacto === 'WhatsApp'),
         escalados_llamada: esc, recuperados_llamada: rec, esc_sin_respuesta: esc - rec,
         verificados_llamada: c((d) => d.resultado === 'Verificada' && d.canal_contacto === 'Llamada'),
         pct_contactados: r4((ver + rev) / n), pct_verificados: r4(ver / n), pct_sin_respuesta: r4(sr / n),
-        pct_revision: r4(rev / n), pct_escalados: r4(esc / n), pct_recuperacion_llamada: esc ? r4(rec / esc) : 0,
+        pct_revision: r4(revI / n), pct_escalados: r4(esc / n), pct_recuperacion_llamada: esc ? r4(rec / esc) : 0,
         pct_verif_de_contactados: ver + rev ? r4(ver / (ver + rev)) : 0,
         monto_sin_respuesta: Math.round(s((d) => d.resultado === 'Sin respuesta')),
-        monto_revision: Math.round(s((d) => d.resultado === 'Necesita revisión')),
+        monto_revision: Math.round(s((d) => d.resultado === 'Necesita revisión' && d.incidencia !== '')),
         incidencias: c((d) => d.incidencia !== ''),
         pct_nuevos: r4(c((d) => d.tipo_auto === 'Nuevo') / n),
       };
@@ -262,7 +264,7 @@ dash.calc('segmentos', {
     const stat = (corte, dimension, segmento, g) => {
       const n = g.length;
       const c = (r) => g.filter((d) => d.resultado === r).length;
-      out.push({ corte, dimension, segmento, clientes: n, pct_sin_respuesta: r4(c('Sin respuesta') / n), pct_verificados: r4(c('Verificada') / n), pct_revision: r4(c('Necesita revisión') / n) });
+      out.push({ corte, dimension, segmento, clientes: n, pct_sin_respuesta: r4(c('Sin respuesta') / n), pct_verificados: r4(c('Verificada') / n), pct_revision: r4(g.filter((d) => d.resultado === 'Necesita revisión' && d.incidencia !== '').length / n) });
     };
     const add = (corte, g) => {
       stat(corte, 'Total', 'Total', g);
@@ -307,9 +309,7 @@ dash.calc('segmentos', {
     <h2>Cartera de nuevos clientes</h2>
     <p>Cada corte es una fecha de primer pago. Ningún VIN se repite entre cortes. Toca una barra para ver ese corte.</p>
     <div class="cip-grid">
-      <div class="cip-card" id="card-clientes"><h3>Clientes por corte</h3><p class="note">Número de clientes contactados antes de su primer pago</p><div class="cip-chart" id="ch-clientes" data-source="kpi_corte"></div></div>
-      <div class="cip-card" id="card-monto"><h3>Monto a pagar por corte</h3><p class="note">Suma de la primera mensualidad, MXN</p><div class="cip-chart" id="ch-monto" data-source="kpi_corte"></div></div>
-      <div class="cip-card" id="card-mix"><h3>Mezcla de la cartera</h3><p class="note">Porcentaje de autos modelo 2026 o más reciente, y ticket promedio</p><div class="cip-chart" id="ch-mix" data-source="kpi_corte"></div><div class="cip-legend" id="lg-mix"></div></div>
+      <div class="cip-card wide" id="card-clientes"><h3>Clientes y tasas de contacto por corte</h3><p class="note">Arriba, los clientes nuevos de cada corte. Abajo, con las mismas fechas, qué % de esa cartera se contactó, verificó su información o no respondió.</p><p class="cip-panel-lbl">Clientes nuevos</p><div class="cip-chart" id="ch-clientes" data-source="kpi_corte" style="min-height:210px"></div><p class="cip-panel-lbl">% de la cartera del corte</p><div class="cip-chart" id="ch-clientes-r" data-source="kpi_corte" style="min-height:230px"></div><div class="cip-legend" id="lg-clientes"></div></div>
     </div>
   </section>
 
@@ -317,12 +317,9 @@ dash.calc('segmentos', {
     <h2>Contactabilidad</h2>
     <p>Contactado = el cliente respondió y confirmó o corrigió sus datos. El primer intento es por WhatsApp; si no responde, se escala a llamada.</p>
     <div class="cip-grid">
-      <div class="cip-row2">
-      <div class="cip-card" id="card-funnel"><h3>Embudo de contacto</h3><p class="note" id="funnel-note">Corte seleccionado</p><div class="cip-funnel" id="ch-funnel" data-source="kpi_corte"></div></div>
-      <div class="cip-card" id="card-tasas"><h3>Tasas de contacto por corte</h3><p class="note">Porcentaje de la cartera de cada corte</p><div class="cip-chart" id="ch-tasas" data-source="kpi_corte"></div><div class="cip-legend" id="lg-tasas"></div></div>
-      </div>
+      <div class="cip-card wide" id="card-funnel"><h3>Embudo de contacto</h3><p class="note" id="funnel-note">Corte seleccionado</p><div class="cip-funnel" id="ch-funnel" data-source="kpi_corte"></div></div>
       <div class="cip-card wide" id="card-funnel-t"><div class="cip-tools" style="justify-content:space-between"><h3>Embudo de contacto por corte</h3><div class="cip-seg" role="group" aria-label="Unidad"><button type="button" id="ft-n" aria-pressed="true">Clientes</button><button type="button" id="ft-p" aria-pressed="false">% de la cartera</button></div></div><p class="note">Las mismas etapas del embudo en cada corte. Toca un corte para verlo en el embudo de arriba.</p><div class="cip-chart" style="min-height:380px" id="ch-funnel-t" data-source="kpi_corte"></div><div class="cip-legend" id="lg-funnel-t"></div></div>
-      <div class="cip-card wide" id="card-escal"><h3>Escalamiento a llamada</h3><p class="note">Clientes que no respondieron WhatsApp y pasaron a llamada: cuántos se recuperaron por llamada y cuántos quedaron sin respuesta</p><div class="cip-chart" id="ch-escal" data-source="kpi_corte"></div><div class="cip-legend" id="lg-escal"></div></div>
+      <div class="cip-card wide" id="card-escal"><h3>Escalamiento a llamada</h3><p class="note">Clientes que no respondieron WhatsApp y pasaron a llamada: cuántos verificaron su información por llamada y cuántos no</p><div class="cip-chart" id="ch-escal" data-source="kpi_corte"></div><div class="cip-legend" id="lg-escal"></div></div>
     </div>
   </section>
 
@@ -330,8 +327,8 @@ dash.calc('segmentos', {
     <h2>Confirmación de información y monto en riesgo</h2>
     <p>Verificada = datos correctos. Necesita revisión = el cliente reportó un dato distinto (cuenta, fecha, monto, teléfono o vehículo).</p>
     <div class="cip-grid">
-      <div class="cip-card" id="card-calidad"><h3>Calidad de la confirmación</h3><p class="note">De los clientes contactados, cuántos confirmaron sin cambios, y la tasa de revisión sobre la cartera</p><div class="cip-chart" id="ch-calidad" data-source="kpi_corte"></div><div class="cip-legend" id="lg-calidad"></div></div>
-      <div class="cip-card" id="card-riesgo"><h3>Monto en riesgo por corte</h3><p class="note">Primera mensualidad de clientes sin respuesta o con datos por revisar, MXN</p><div class="cip-chart" id="ch-riesgo" data-source="kpi_corte"></div><div class="cip-legend" id="lg-riesgo"></div></div>
+      <div class="cip-card wide" id="card-calidad"><h3>Calidad de la confirmación</h3><p class="note">De los clientes contactados, cuántos confirmaron sin cambios, y la tasa de revisión sobre la cartera</p><div class="cip-chart" id="ch-calidad" data-source="kpi_corte"></div><div class="cip-legend" id="lg-calidad"></div></div>
+      <div class="cip-card wide" id="card-riesgo"><h3>Monto en riesgo por corte</h3><p class="note">Primera mensualidad de clientes sin respuesta o con datos por revisar, MXN</p><div class="cip-chart" id="ch-riesgo" data-source="kpi_corte"></div><div class="cip-legend" id="lg-riesgo"></div></div>
       <div class="cip-card wide" id="card-seg"><h3>¿Quién responde menos?</h3><p class="note" id="seg-note">Porcentaje sin respuesta por segmento, en el corte seleccionado</p><div class="cip-chart short" id="ch-seg" data-source="segmentos"></div></div>
     </div>
   </section>
@@ -389,7 +386,8 @@ dash.calc('segmentos', {
     <p>Clientes sin resultado capturado. Un campo de incidencia vacío significa que no hubo incidencia, así que no se cuenta como hueco. La hoja del corte del 15 de octubre venía vacía.</p>
     <div class="cip-card wide"><div class="cip-quality">
       <div class="q"><b data-source="kpi_corte" data-field="sin_registro">—</b><span>Clientes sin resultado capturado</span></div>
-      <div class="q"><b data-source="kpi_corte" data-field="en_revision">—</b><span>Clientes en revisión</span></div>
+      <div class="q"><b data-source="kpi_corte" data-field="en_revision">—</b><span>Necesita revisión con incidencia registrada</span></div>
+      <div class="q"><b data-source="kpi_corte" data-field="revision_sin_incidencia">—</b><span>Necesita revisión sin incidencia registrada (por corregir en el proceso; no se cuentan como incidencia)</span></div>
     </div></div>
   </section>
 </div>
@@ -457,7 +455,7 @@ dash.calc('segmentos', {
     const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
     const y0 = d3.scaleLinear().domain([0, yMax || 1]).nice();
     const ticks = y0.ticks(4);
-    const ml = Math.ceil(measure(svg, ticks.map(yFmt))) + 10;
+    const ml = opts.ml ?? Math.ceil(measure(svg, ticks.map(yFmt))) + 10;
     const mr = opts.mr || 8;
     const m = { t: 14, r: mr, b: 24, l: ml };
     const x = d3.scaleBand().domain(cortes).range([m.l, W - m.r]).padding(0.28);
@@ -485,7 +483,8 @@ dash.calc('segmentos', {
       .on('mouseleave', () => tip.hide())
       .on('click', (ev, r) => onPick && onPick(r.corte));
     const last = rows[rows.length - 1];
-    if (last && f.x.bandwidth() > 8) f.svg.append('text').attr('class', 'vlab').attr('x', f.x(last.corte) + f.x.bandwidth() / 2).attr('y', f.y(last[key]) - 4).attr('text-anchor', 'end').text(fmt(last[key]));
+    if (f.x.bandwidth() > 26) rows.forEach((d) => f.svg.append('text').attr('class', 'vlab').attr('x', f.x(d.corte) + f.x.bandwidth() / 2).attr('y', f.y(d[key]) - 5).attr('text-anchor', 'middle').style('font-weight', d.corte === sel ? 600 : 400).text(fmt(d[key])));
+    else if (last && f.x.bandwidth() > 8) f.svg.append('text').attr('class', 'vlab').attr('x', f.x(last.corte) + f.x.bandwidth() / 2).attr('y', f.y(last[key]) - 4).attr('text-anchor', 'end').text(fmt(last[key]));
   };
 
   const stacked = (el, rows, keys, sel, onPick, extraTip, opts = {}) => {
@@ -627,7 +626,7 @@ dash.calc('segmentos', {
     const cur = dash.params().corte || 'Todos';
     const kpiEls = document.querySelectorAll('#kpis .val, #takeaway, #calidad-datos b');
     if (k.status !== 'ok') {
-      if (k.status === 'error') ['ch-clientes','ch-monto','ch-mix','ch-tasas','ch-escal','ch-calidad','ch-riesgo','ch-funnel'].forEach((id) => C.fail(document.getElementById(id)));
+      if (k.status === 'error') ['ch-clientes','ch-escal','ch-calidad','ch-riesgo','ch-funnel'].forEach((id) => C.fail(document.getElementById(id)));
       return;
     }
     kpiEls.forEach((e) => e.classList.remove('dash-skeleton'));
@@ -662,14 +661,53 @@ dash.calc('segmentos', {
     // takeaway
     const t = document.getElementById('takeaway');
     t.textContent = C.isAgg(r.corte)
-      ? `${r.corte === 'Selección' ? C.lbl(r.corte) + ':' : C.lbl(r.corte) + ': en ' + C.int(rows.filter((x) => C.match(r.corte, x.corte)).length) + ' cortes'} se contactó a ${C.int(r.clientes)} clientes nuevos. ${C.pct(r.pct_verificados)} confirmó su información, ${C.pct(r.pct_sin_respuesta)} no respondió y la llamada recupera solo ${C.pct(r.pct_recuperacion_llamada)} de los escalados.`
-      : `Corte del ${C.fcLong(r.corte)}: ${C.int(r.clientes)} clientes nuevos. ${C.pct(r.pct_verificados)} confirmó su información y ${C.int(r.sin_respuesta)} no respondieron (${C.mxnC(r.monto_sin_respuesta)} de primer pago en riesgo). La llamada recuperó ${C.pct(r.pct_recuperacion_llamada)} de los escalados.`;
+      ? `${r.corte === 'Selección' ? C.lbl(r.corte) + ':' : C.lbl(r.corte) + ': en ' + C.int(rows.filter((x) => C.match(r.corte, x.corte)).length) + ' cortes'} se contactó a ${C.int(r.clientes)} clientes nuevos. ${C.pct(r.pct_verificados)} confirmó su información, ${C.pct(r.pct_sin_respuesta)} no respondió y solo ${C.pct(r.pct_recuperacion_llamada)} de los escalados se verificó por llamada.`
+      : `Corte del ${C.fcLong(r.corte)}: ${C.int(r.clientes)} clientes nuevos. ${C.pct(r.pct_verificados)} confirmó su información y ${C.int(r.sin_respuesta)} no respondieron (${C.mxnC(r.monto_sin_respuesta)} de primer pago en riesgo). Por llamada se verificó ${C.pct(r.pct_recuperacion_llamada)} de los escalados.`;
 
     // Cartera
-    C.bars(document.getElementById('ch-clientes'), rows, 'clientes', C.int, col[0], r.corte, pick, (x) => [[col[0], 'Clientes', C.int(x.clientes)], [null, null, 'Verificados ' + C.int(x.verificados)]]);
-    C.bars(document.getElementById('ch-monto'), rows, 'monto', C.mxnC, col[1], r.corte, pick, (x) => [[col[1], 'Monto', C.mxn(x.monto)], [null, null, 'Ticket promedio ' + C.mxn(x.ticket_promedio)]]);
-    C.lines(document.getElementById('ch-mix'), rows, [{ key: 'pct_nuevos', name: 'Autos nuevos', color: col[2] }], (v) => d3.format('.0%')(v), 1, r.corte, pick);
-    C.legend(document.getElementById('lg-mix'), [[col[2], 'Autos modelo 2026 o más reciente']]);
+    (() => {
+      const elB = document.getElementById('ch-clientes'), elL = document.getElementById('ch-clientes-r');
+      const crit2 = 'var(--cds-chart-status-critical)';
+      const ser = [
+        { key: 'pct_contactados', name: 'Contactados exitosamente', color: col[0], dy: -8 },
+        { key: 'pct_verificados', name: 'Confirmó sin cambios', color: col[2], dy: 16 },
+        { key: 'pct_sin_respuesta', name: 'Sin respuesta', color: crit2, dy: -8 },
+        { key: 'pct_revision', name: 'Necesita revisión (Incidencia)', color: col[4], dy: -8 },
+      ];
+      const p0 = (v) => d3.format('.0%')(v);
+      const last = rows[rows.length - 1];
+      const cortes = rows.map((x) => x.corte);
+      const tmp = d3.select(elB).append('svg');
+      const endW = C.measure(tmp, ser.map((s) => s.name));
+      const ml = Math.ceil(Math.max(C.measure(tmp, ['500']), C.measure(tmp, ['100%']))) + 10;
+      tmp.remove();
+      const mr = Math.ceil(endW + 18);
+      const fb = C.frame(elB, cortes, d3.max(rows, (x) => x.clientes) * 1.15, C.int, { h: 210, mr, ml });
+      C.highlightBand(fb, r.corte);
+      const bw = fb.x.bandwidth();
+      const cx = (c) => fb.x(c) + bw / 2;
+      fb.svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (x) => fb.x(x.corte)).attr('width', bw).attr('y', (x) => fb.y(x.clientes)).attr('height', (x) => fb.y(0) - fb.y(x.clientes)).attr('rx', 4).attr('fill', col[5]).attr('opacity', (x) => (C.match(r.corte, x.corte) ? 0.85 : 0.3));
+      if (bw > 26) rows.forEach((x) => fb.svg.append('text').attr('class', 'vlab').attr('x', cx(x.corte)).attr('y', fb.y(x.clientes) - 5).attr('text-anchor', 'middle').style('font-weight', r.corte !== 'Todos' && C.match(r.corte, x.corte) ? 600 : 400).text(C.int(x.clientes)));
+      const fl = C.frame(elL, cortes, 1, p0, { h: 240, mr, ml });
+      C.highlightBand(fl, r.corte);
+      ser.forEach((s) => {
+        fl.svg.append('path').datum(rows).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2.5).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round').attr('d', d3.line().x((x) => cx(x.corte)).y((x) => fl.y(x[s.key])));
+        fl.svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', (x) => cx(x.corte)).attr('cy', (x) => fl.y(x[s.key])).attr('r', (x) => (r.corte !== 'Todos' && C.match(r.corte, x.corte) ? 5 : 3.5)).attr('fill', s.color).attr('stroke', 'var(--color-panel)').attr('stroke-width', 1.5);
+        if (bw > 34) rows.forEach((x) => fl.svg.append('text').attr('class', 'lab').attr('x', cx(x.corte)).attr('y', fl.y(x[s.key]) + s.dy).attr('text-anchor', 'middle').style('fill', s.color).style('font-weight', 600).style('stroke', 'var(--color-panel)').style('stroke-width', 3).style('paint-order', 'stroke').style('stroke-linejoin', 'round').text(p0(x[s.key])));
+      });
+      const labs = ser.map((s) => ({ y: fl.y(last[s.key]), t: s.name, c: s.color })).sort((a, b) => a.y - b.y);
+      for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 13) labs[i].y = labs[i - 1].y + 13;
+      labs.forEach((l) => fl.svg.append('text').attr('class', 'lab').attr('x', cx(last.corte) + bw / 2 + 8).attr('y', l.y + 4).style('fill', l.c).text(l.t));
+      const tipRows = (x) => [[col[5], 'Clientes nuevos', C.int(x.clientes)]].concat(ser.map((s) => [s.color, s.name, C.pct(x[s.key])]));
+      [[fb, elB], [fl, elL]].forEach(([f, el]) => {
+        const tip = C.tipFor(el);
+        f.svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (x) => f.x(x.corte) - f.x.step() * f.x.padding() / 2).attr('width', f.x.step()).attr('y', f.m.t).attr('height', f.H - f.m.t - f.m.b).attr('fill', 'transparent').style('cursor', 'pointer')
+          .on('mousemove', (ev, x) => tip.show(ev, C.fcLong(x.corte), tipRows(x)))
+          .on('mouseleave', () => tip.hide())
+          .on('click', (ev, x) => pick(x.corte));
+      });
+      C.legend(document.getElementById('lg-clientes'), [[col[5], 'Clientes nuevos']].concat(ser.map((s) => [s.color, s.name])));
+    })();
 
     // Funnel
     const fn = document.getElementById('ch-funnel');
@@ -677,11 +715,12 @@ dash.calc('segmentos', {
     document.getElementById('funnel-note').textContent = C.lbl(r.corte);
     const steps = [
       ['Cartera del corte', r.clientes, 'var(--cds-chart-reference)'],
-      ['Verificado por WhatsApp', r.verificados_whatsapp, col[0]],
+      ['Confirmó por WhatsApp', r.verificados_whatsapp, col[0]],
       ['Escalado a llamada', r.escalados_llamada, 'var(--cds-chart-muted)'],
-      ['Recuperado por llamada', r.recuperados_llamada, col[3]],
+      ['Confirmó por llamada', r.recuperados_llamada, col[3]],
       ['Sin respuesta', r.sin_respuesta, 'var(--cds-chart-status-critical)'],
-      ['Información verificada', r.verificados, col[2]],
+      ['Confirmó sin cambios', r.verificados, col[2]],
+      ['Necesita revisión (Incidencia)', r.en_revision, col[4]],
     ];
     steps.forEach(([lab, v, c]) => {
       const row = document.createElement('div'); row.className = 'cip-frow';
@@ -695,7 +734,7 @@ dash.calc('segmentos', {
     // Embudo en el tiempo
     const asPct = ftUnit === 'p';
     const fkeys = steps.map(([lab, , c], i) => {
-      const field = ['clientes', 'verificados_whatsapp', 'escalados_llamada', 'recuperados_llamada', 'sin_respuesta', 'verificados'][i];
+      const field = ['clientes', 'verificados_whatsapp', 'escalados_llamada', 'recuperados_llamada', 'sin_respuesta', 'verificados', 'en_revision'][i];
       return { name: lab, color: c, val: (x) => (asPct ? x[field] / x.clientes : x[field]), tip: (x) => C.int(x[field]) + ' · ' + C.pct(x[field] / x.clientes) };
     });
     C.grouped(document.getElementById('ch-funnel-t'), rows, fkeys, asPct ? (v) => d3.format('.0%')(v) : C.int, asPct ? 1 : null, r.corte, pick);
@@ -703,32 +742,26 @@ dash.calc('segmentos', {
 
     // Tasas
     const crit = 'var(--cds-chart-status-critical)';
-    C.lines(document.getElementById('ch-tasas'), rows, [
-      { key: 'pct_contactados', name: 'Contactados', color: col[0] },
-      { key: 'pct_verificados', name: 'Verificados', color: col[2] },
-      { key: 'pct_sin_respuesta', name: 'Sin respuesta', color: crit },
-    ], (v) => d3.format('.0%')(v), 1, r.corte, pick);
-    C.legend(document.getElementById('lg-tasas'), [[col[0], 'Contactados'], [col[2], 'Información verificada'], [crit, 'Sin respuesta']]);
 
     // Escalamiento
     C.stacked(document.getElementById('ch-escal'), rows, [
-      { key: 'recuperados_llamada', name: 'Recuperados por llamada', color: col[3], fmt: C.int },
-      { key: 'esc_sin_respuesta', name: 'Sin respuesta o sin registro', color: 'var(--cds-chart-muted)', fmt: C.int },
-    ], r.corte, pick, (x) => [[null, null, 'Recuperación ' + C.pct(x.pct_recuperacion_llamada) + ' · escalados ' + C.pct(x.pct_escalados) + ' de la cartera']]);
-    C.legend(document.getElementById('lg-escal'), [[col[3], 'Recuperados por llamada'], ['var(--cds-chart-muted)', 'Sin respuesta o sin registro']]);
+      { key: 'recuperados_llamada', name: 'Verificado por llamada', color: col[3], fmt: C.int },
+      { key: 'esc_sin_respuesta', name: 'No verificado (sin respuesta, revisión o sin registro)', color: 'var(--cds-chart-muted)', fmt: C.int },
+    ], r.corte, pick, (x) => [[null, null, 'Verificado por llamada ' + C.pct(x.pct_recuperacion_llamada) + ' de los escalados' + ' · escalados ' + C.pct(x.pct_escalados) + ' de la cartera']]);
+    C.legend(document.getElementById('lg-escal'), [[col[3], 'Verificado por llamada'], ['var(--cds-chart-muted)', 'No verificado (sin respuesta, revisión o sin registro)']]);
 
     // Calidad
     C.lines(document.getElementById('ch-calidad'), rows, [
-      { key: 'pct_verif_de_contactados', name: 'Verificado de contactados', color: col[2] },
-      { key: 'pct_revision', name: 'En revisión', color: col[4] },
+      { key: 'pct_verif_de_contactados', name: 'Confirmó sin cambios', color: col[2] },
+      { key: 'pct_revision', name: 'Necesita revisión (Incidencia)', color: col[4] },
     ], (v) => d3.format('.0%')(v), 1, r.corte, pick);
-    C.legend(document.getElementById('lg-calidad'), [[col[2], 'Confirmó sin cambios (de los contactados)'], [col[4], 'Necesita revisión (de la cartera)']]);
+    C.legend(document.getElementById('lg-calidad'), [[col[2], 'Confirmó sin cambios'], [col[4], 'Necesita revisión (Incidencia)']]);
 
     // Riesgo
     C.stacked(document.getElementById('ch-riesgo'), rows, [
       { key: 'monto_sin_respuesta', name: 'Sin respuesta', color: crit, fmt: C.mxnC },
       { key: 'monto_revision', name: 'Necesita revisión', color: col[4], fmt: C.mxnC },
-    ], r.corte, pick);
+    ], r.corte, pick, null, { total: true, hideZero: true });
     C.legend(document.getElementById('lg-riesgo'), [[crit, 'Sin respuesta'], [col[4], 'Necesita revisión']]);
 
     // Resultado del contacto por corte
